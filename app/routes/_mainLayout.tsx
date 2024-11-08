@@ -31,15 +31,16 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function MainLayout() {
-    const { titulo, menuItem, nombre } = useLoaderData<{ items: any[] }>();
+    const { titulo, menuItem, text,  nombre } = useLoaderData<{ items: any[] }>();
     const navigate = useNavigate();
     const [menuSelected, setMenuSelected] = useState<any>();
 
     const handleSelectMenu = (event: any) => {
         const processName = event.item.processName;
+        const text = event.item.text;
         if(processName != ""){
             navigate(processName)
-            setMenuSelected(processName)
+            setMenuSelected(text)
         }
     }
 

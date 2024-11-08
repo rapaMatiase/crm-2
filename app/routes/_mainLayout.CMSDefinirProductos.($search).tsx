@@ -6,6 +6,7 @@ import { LoaderFunction, json } from "@remix-run/node";
 import { Outlet, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
 import { getSession } from "~/session.server";
 import { useEffect, useState } from "react";
+import { Button } from "@progress/kendo-react-buttons";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const session = await getSession(request.headers.get("Cookie"));
@@ -31,12 +32,12 @@ export default function CMSDefinirProductos() {
     const [filterData, setFilterData] = useState<any>(productosData);
     const fetcher = useFetcher();
     const navigate = useNavigate();
-    
+    const [producto, setProducto] = useState<any>();
     useEffect(() => {
-        if (search){
+        if (search) {
             fetcher.load(`/CMSDefinirProductos/${search}`);
         }
-    }, [search]) 
+    }, [search])
 
     useEffect(() => {
         if (fetcher.data) {
@@ -51,27 +52,51 @@ export default function CMSDefinirProductos() {
 
     const handleSelectProduct = (event: ComboBoxChangeEvent) => {
         const producto = event.target.value;
-        const {codigo, codigoNombre} = producto;
+        const { codigo, codigoNombre } = producto;
         console.log(producto);
-        navigate(`/CMSDefinirProductos/search/producto/20190/${codigoNombre}`);
+        setProducto(producto);
+        //navigate(`/CMSDefinirProductos/search/producto/20190/${codigoNombre}`);
         //navigate(`/CMSDefinirProductos/${producto.idProductoBase}`);
+    }
+
+
+    const handleOpen = () => {
+        navigate(`/CMSDefinirProductos/search/producto/20190/${producto.codigoNombre}`);
+        //window.open(`vista/${vista}/menu/1`, '_blank');
     }
 
     return (
         <>
-            <div style={{width : "100%", textAlign : "center"}}>
-                <ComboBox
-                    name={"productos"}
-                    textField="codigoNombre"
-                    filterable={true}
-                    label={"Productos"}
-                    data={filterData}
-                    onFilterChange={handleFilter}
-                    onChange={handleSelectProduct}
-                    style={{ width: "50%"}}
-                />
-            </div>
-                <br></br>
+            <div style={{ width: "100%", textAlign: "center" }}>
+                
+                <Form
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                    }}
+                    render={(formRenderProps) => (
+                        <FormElement style={{ width: "500px", margin: "auto" }}>
+                            <FieldWrapper>
+                                <ComboBox
+                                    name={"vista"}
+                                    textField="codigoNombre"
+                                    filterable={true}
+                                    label={"Vistas"}
+                                    data={filterData}
+                                    onFilterChange={handleFilter}
+                                    onChange={handleSelectProduct}
+                                />
+                            </FieldWrapper>
+                            <FieldWrapper>
+                                <Button
+                                    onClick={handleOpen}
+                                >
+                                    Entrar
+                                </Button>
+                            </FieldWrapper>
+                        </FormElement>
+                    )} />
+            
+        </div >
             <Outlet />
         </>
     )

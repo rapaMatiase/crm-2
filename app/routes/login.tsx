@@ -4,10 +4,32 @@ import { DropDownList, MultiSelect } from "@progress/kendo-react-dropdowns";
 import { Button } from "@progress/kendo-react-buttons";
 
 
-import { ActionFunction, json, redirect } from "@remix-run/node";
-import { useSubmit } from "@remix-run/react";
+import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
+import { useLoaderData, useSubmit } from "@remix-run/react";
 import { sessionStorage } from "~/session.server";
 
+
+// export const loader: LoaderFunction = async ({ request }) => {
+
+//     const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Contexto/Contexto/GetPreLoginInfo`,
+//         {
+//             method: "GET",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Accept": "application/json"
+//             }
+//         }
+//     );
+
+//     const result = await response.json();
+
+//     if (!response.ok) {
+//         throw new Error("Failed to fetch pre-login info");
+//     }
+
+//     return (result);
+
+// }
 
 export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData();
@@ -45,9 +67,10 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Login() {
     const submit = useSubmit();
-
+    // const {titulo} = useLoaderData();
     return (
         <>
+            {/* <h1>{titulo}</h1> */}
             <h2> Login </h2>
             <Form
                 onSubmit={(dataItem, event) => {
