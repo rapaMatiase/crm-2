@@ -128,7 +128,25 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     });
 
 
-    return { atributosDataFormat, unidadesDeMedidaCodigoNombre };
+    const response3 = await fetch("https://apptesting.leiten.dnscheck.com.ar/Atributos/GetAtributos", {
+        method: "GET",
+        headers: {
+            "Authorization": token
+        }
+    });
+
+    if (!response3.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    const todosAtributosData = await response3.json();
+    
+    const todosAtributosDataNombre = todosAtributosData.map((atributo: { codigo: string }) => {
+        return atributo.nombre;
+    });
+
+
+    return { atributosDataFormat, unidadesDeMedidaCodigoNombre, todosAtributosDataNombre };
 };
 
 interface Atributo {
@@ -144,7 +162,7 @@ interface Atributo {
 
 
 const App = () => {
-    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
+    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosDataNombre } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
     const {idProducto, codigoNombreProducto} = useParams();
     const Atributos = [...atributosData];
 
@@ -163,6 +181,7 @@ const App = () => {
 
     const enterEdit = (item: Atributo) => {
         setOpenFormEdit(true);
+        console.log(item);
         setEditItem(item);
     }
 
@@ -242,7 +261,7 @@ const App = () => {
                         </GridToolbar>
 
                 <Column field="idAtributo" title="Id" width="50px" editable={false} />
-                <Column field="nombre" title="Nombre" />
+                <Column field="nombre" title="Nombre atributo" />
                 <Column field="tipoValor" title="Tipo de valor" editor="text" />
                 <Column field="valorTexto" title="Valor de texto" editor="text" />
                 <Column field="strUniMed" title="Unidades de medida" editor="text" />
@@ -254,6 +273,7 @@ const App = () => {
                 onSubmit={handleSubmitEdit}
                 item={editItem}
                 data={unidadesDeMedidaCodigoNombre}
+                dataAtributos={todosAtributosDataNombre}
             />}
 
             {openFormDelete && <DeleteForm

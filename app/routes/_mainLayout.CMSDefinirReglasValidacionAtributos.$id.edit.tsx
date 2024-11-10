@@ -192,7 +192,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                                 name={"idReglaValidacion"}
                                 component={Input}
                                 type={"number"}
-                                label={"idReglaValidacion"}
+                                label={"id"}
                                 readOnly
                             />
                         </FieldWrapper>
@@ -211,7 +211,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                                 name={"strTipoProducto"}
                                 component={ComboBox}
                                 filterable={true}
-                                label={"Tipo de procurto"}
+                                label={"Tipo de producto"}
                                 onFilterChange={(event: ComboBoxFilterChangeEvent) => {
                                     setDataTiposProducto(filterBy(tiposProductoCodigoNombre, event.filter));
                                 }}

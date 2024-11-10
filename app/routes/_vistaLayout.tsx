@@ -30,14 +30,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     );
 
     const menus = await response.json();
-
+    console.log(menus);
     const title = menus.title;
     const menuItems = menus.menuItems.map((item: any) => {
         return {
             text: item.title,
+            id : item.id,
             items: item.menuItems.map((subItem: any) => {
                 return {
                     text: subItem.title,
+                    id : subItem.id
                 }
             })
         }
@@ -97,13 +99,14 @@ export default function vistaLayout() {
 
                 <AppBarSection>
                     <Menu>
-                        {menuItems.map(({ text, items }, index) => {
+                        {menuItems.map(({ text, id, items }, index) => {
+                            console.log(items);
                             return (
                                 <MenuItem
                                     key={index}
                                     text={text}
                                     render={() => {
-                                        return (<Link to="/vista/3/menu/1/filtros/" >
+                                        return (<Link to={`/vista/3/menu/1/filtros/producto/${id}`} >
                                             {text}
                                         </Link>
                                         )

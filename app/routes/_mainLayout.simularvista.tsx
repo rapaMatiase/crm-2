@@ -68,7 +68,7 @@ export default function SimularVista() {
                             <Button
                                 onClick={handleOpen}
                             >
-                                Entrar
+                                simular
                             </Button>
                         </FieldWrapper>
                     </FormElement>

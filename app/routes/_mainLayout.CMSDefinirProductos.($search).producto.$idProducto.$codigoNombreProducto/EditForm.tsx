@@ -15,10 +15,11 @@ import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { filterBy, FilterDescriptor } from "@progress/kendo-data-query";
 
 export default function EditForm(props){
-    const { cancelEdit, onSubmit, item, data, ...other } = props;
-
-    const [unidadesMedida, setUnidadesMedida] = useState(data);
+    const { cancelEdit, onSubmit, item, data, dataAtributos, ...other } = props;
     
+    const [unidadesMedida, setUnidadesMedida] = useState(data);
+    const [todosAtributos, setTodosAtributos] = useState(dataAtributos);
+
     const filterData = (filter: FilterDescriptor) => {
         const data = unidadesMedida.slice();
         return filterBy(data, filter);
@@ -28,6 +29,16 @@ export default function EditForm(props){
         setUnidadesMedida(filterData(event.filter));
     };
 
+    const filterDataAtributo = (filter: FilterDescriptor) => {
+        const data = todosAtributos.slice();
+        return filterBy(data, filter);
+    };
+
+    const filterChangeAtributo = (event: ComboBoxFilterChangeEvent) => {
+        setTodosAtributos(filterDataAtributo(event.filter));
+    };
+
+    console.log("edit",item);
     return (
         <Form
             initialValues={item}
@@ -39,7 +50,7 @@ export default function EditForm(props){
                     width={400}
                     height={600}               >
                     <FormElement>
-                        <FieldWrapper>
+                        {/* <FieldWrapper>
                             <Field
                                 name={"idAtributo"}
                                 component={Input}
@@ -47,13 +58,23 @@ export default function EditForm(props){
                                 type="number"
                                 readOnly
                             />
-                        </FieldWrapper>
+                        </FieldWrapper> */}
                         <FieldWrapper>
-                            <Field
+                            {/* <Field
                                 name={"nombre"}
                                 component={Input}
                                 label={"Nombre"}
                                 type="text"
+                                validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
+                            /> */}
+
+                            <Field
+                                data={todosAtributos}
+                                name={"nombre"}
+                                component={ComboBox}
+                                filterable={true}
+                                label={"Atributo"}
+                                onFilterChange={filterChangeAtributo}
                                 validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
                             />
                         </FieldWrapper>

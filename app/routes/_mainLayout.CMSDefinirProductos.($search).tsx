@@ -77,7 +77,7 @@ export default function CMSDefinirProductos() {
                         <FormElement style={{ width: "500px", margin: "auto" }}>
                             <FieldWrapper>
                                 <ComboBox
-                                    name={"vista"}
+                                    name={"Producto"}
                                     textField="codigoNombre"
                                     filterable={true}
                                     label={"Vistas"}
@@ -90,7 +90,7 @@ export default function CMSDefinirProductos() {
                                 <Button
                                     onClick={handleOpen}
                                 >
-                                    Entrar
+                                    Procesar
                                 </Button>
                             </FieldWrapper>
                         </FormElement>
