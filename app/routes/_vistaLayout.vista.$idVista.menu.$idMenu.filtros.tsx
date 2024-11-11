@@ -12,10 +12,20 @@ import { LoaderFunction } from "@remix-run/node";
 
 export const loader = async ({ request, params }: LoaderFunction) => {
   const { idVista, idMenu, } = params;
-  const url = new URL(request.url);
-
+  
   const session = await getSession(request.headers.get("Cookie"));
   const token = session.get("user")?.token;
+  
+  const url = new URL(request.url);
+  
+  const mainJsonStraight = url.searchParams.get("menu");
+  const filtroJsonStraight = url.searchParams.get("filtro");
+
+  const mainObject = mainJsonStraight ? JSON.parse(mainJsonStraight) : null;
+  const filtroObject = filtroJsonStraight ? JSON.parse(filtroJsonStraight) : null;
+
+  const arrayFilter = [ ...mainObject, ...filtroObject ];
+  const arrayFilterJson = JSON.stringify(arrayFilter);
 
   const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetAtributosCMS?IdVista=${idVista}&Id=${idMenu}`,
     {
@@ -24,16 +34,16 @@ export const loader = async ({ request, params }: LoaderFunction) => {
         "Content-Type": "application/json",
         Authorization: token
       },
-      body: url.searchParams.getAll("producto")[0]
+      body: arrayFilterJson
     }
   );
 
-  const urlProducto = JSON.parse(url.searchParams.getAll("producto")[0]);
   if (!response.ok) {
     throw new Error("Failed to fetch data");
   }
+  
   const data = await response.json();
-  return { data, urlProducto };
+  return { data, urlProducto : {menu : mainObject, filtros : filtroObject} };
 };
 
 
@@ -44,15 +54,15 @@ const App = () => {
   const navigate = useNavigate();
   const [opcionSelected, setOpcionSelected] = React.useState(null);
 
-  const handleChange = (e) => {
-      console.log("antes", urlProducto)
-      urlProducto.pop()
-      console.log("al medio", urlProducto)
-      const newParams = [...urlProducto, { key: e.value, value: "" }]
-      console.log("despues", newParams)
+  const handleChange = (event) => {
+    const itemFilterSelected = event.value;
+    console.log(itemFilterSelected);
+    const urlParam = new URLSearchParams({
+      menu : JSON.stringify(urlProducto.menu),
+      filtro : JSON.stringify([{key : `${itemFilterSelected}`, value : ""}])
+    });
 
-      const jsonParam = new URLSearchParams({ producto: JSON.stringify(newParams) })
-      navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${jsonParam.toString()}`)
+      navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${urlParam.toString()}`)
   };
 
   return (

@@ -20,31 +20,42 @@ export const loader: LoaderFunction = async ({ request }) => {
             }
         }
     );
-    const vistas = await response.json();
-    return vistas;
+    const vistasData = await response.json();
+    return {vistasData};
 }
 
 export default function SimularVista() {
-    const vistas = useLoaderData<any[]>();
-    const [filterData, setFilterData] = useState<any>(vistas);
-    const [vista, setVista] = useState<any>();
-    const handleFilter = (event: ComboBoxFilterChangeEvent) => {
+    //REMIX-HOOKS
+    const {vistasData} = useLoaderData<{ vistasData: any[] }>();
+   
+    //REACT-HOOKS
+    const [vistasFilter, setVistaFilter] = useState<any>(vistasData); 
+    const [vistaSelected, setVistaSelected] = useState<any>();
+    
+    //FUNCTIONS
+    const handleVistaFilter = (event: ComboBoxFilterChangeEvent) => {
         const value = event.filter.value;
-        const filteredVistas = vistas.filter((vista) =>
+        const filteredVistas = vistasData.filter((vista) =>
             vista.codigoNombre.toLowerCase().includes(value.toLowerCase())
         );
-        setFilterData(filteredVistas);
+        setVistaFilter(filteredVistas);
     }
 
-    const handleSelectVista = (event) => {
-        const producto = event.target.value;
-        setVista(producto);
+    const handleVistaSelected = (event) => {
+        const itemMenu = event.target.value;
+        setVistaSelected(itemMenu);
     }
 
-    const handleOpen = () => {
-        console.log(vista);
-        const jsonParam = new URLSearchParams({ producto: JSON.stringify([{key : `${vista.codigoNombre}`, value : ""}]) })
-        window.open(`vista/${vista.codigo}/menu/1/filtros/producto?${jsonParam}`, '_blank');
+    const handleOpenVistaNewTab = () => {
+        const urlParam = new URLSearchParams({
+            menu : JSON.stringify([{key : "string", value : ""}]),
+            filtro : JSON.stringify([{key : "string", value : ""}])
+        });
+        
+        
+        window.open(`vista/${vistaSelected.codigo}/menu/1/filtros/producto?${urlParam.toString()}`, '_blank');
+       
+        // window.open(`vista/${vista.codigo}/menu/1/filtros/producto?${jsonParam}`, '_blank');
     }
 
     return (
@@ -61,16 +72,14 @@ export default function SimularVista() {
                                 textField="codigoNombre"
                                 filterable={true}
                                 label={"Vistas"}
-                                data={filterData}
-                                onFilterChange={handleFilter}
-                                onChange={handleSelectVista}
+                                data={vistasFilter}
+                                onFilterChange={handleVistaFilter}
+                                onChange={handleVistaSelected}
                             />
                         </FieldWrapper>
                         <FieldWrapper>
-                            <Button
-                                onClick={handleOpen}
-                            >
-                                simular
+                            <Button onClick={handleOpenVistaNewTab}>
+                                Simular
                             </Button>
                         </FieldWrapper>
                     </FormElement>

@@ -14,12 +14,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const token = session.get("user")?.token;
   
-  const url = new URL(request.url);
-  const urlParams = url.searchParams.getAll("producto")[0];
-  const urlParamObject = JSON.parse(urlParams);
   const idVista = params.idVista;
 
-  const jsonBody = JSON.stringify(urlParamObject);
+  const url = new URL(request.url);
+  
+  const mainJsonStraight = url.searchParams.get("menu");
+  const filtroJsonStraight = url.searchParams.get("filtro");
+
+  const mainObject = mainJsonStraight ? JSON.parse(mainJsonStraight) : null;
+  const filtroObject = filtroJsonStraight ? JSON.parse(filtroJsonStraight) : null;
+
+  const arrayFilter = [ ...mainObject, ...filtroObject ];
+  const arrayFilterJson = JSON.stringify(arrayFilter);
+
+  
   const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetItems?IdVista=${idVista}`, {
     method: "POST",
     headers: {
@@ -27,7 +35,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       "Authorization": token
     }
   ,
-  body: jsonBody
+  body: arrayFilterJson
   });
 
   if (!response.ok) {
