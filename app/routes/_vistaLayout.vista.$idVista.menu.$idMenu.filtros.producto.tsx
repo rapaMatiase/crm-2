@@ -258,30 +258,31 @@ const productosJson = [
   }
 ]
 
-// export const loader: LoaderFunction = async ({ request, params }) => {
-//   const session = await getSession(request.headers.get("Cookie"));
-//   const token = session.get("token");
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = session.get("token");
 
-//   const idVista = params.idVista;
+  const idVista = params.idVista;
 
-//   const jsonBody = JSON.stringify([{ key: "string", value: "string" }]);
-//   const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetItems?IdVista=2`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Authorization": token
-//     }
-//   ,
-//   body: jsonBody
-//   });
+  // const jsonBody = JSON.stringify([{ key: "string", value: "string" }]);
+  // const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetItems?IdVista=2`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Authorization": token
+  //   }
+  // ,
+  // body: jsonBody
+  // });
 
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch data");
-//   }
+  // if (!response.ok) {
+  //   throw new Error("Failed to fetch data");
+  // }
 
-//   const data = await response.json();
-//   return data;
-// };
+  // const data = await response.json();
+  // return data;
+  return {};
+};
 
 
 
