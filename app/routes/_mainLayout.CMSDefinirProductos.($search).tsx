@@ -52,17 +52,13 @@ export default function CMSDefinirProductos() {
 
     const handleSelectProduct = (event: ComboBoxChangeEvent) => {
         const producto = event.target.value;
-        const { codigo, codigoNombre } = producto;
         console.log(producto);
         setProducto(producto);
-        //navigate(`/CMSDefinirProductos/search/producto/20190/${codigoNombre}`);
-        //navigate(`/CMSDefinirProductos/${producto.idProductoBase}`);
     }
 
 
     const handleOpen = () => {
-        navigate(`/CMSDefinirProductos/search/producto/20190/${producto.codigoNombre}`);
-        //window.open(`vista/${vista}/menu/1`, '_blank');
+        navigate(`/CMSDefinirProductos/producto/${producto.idProductoBase}/${producto.codigoNombre}`);
     }
 
     return (
@@ -80,7 +76,7 @@ export default function CMSDefinirProductos() {
                                     name={"Producto"}
                                     textField="codigoNombre"
                                     filterable={true}
-                                    label={"Vistas"}
+                                    placeholder="Escriba para buscar un producto"
                                     data={filterData}
                                     onFilterChange={handleFilter}
                                     onChange={handleSelectProduct}
@@ -90,7 +86,7 @@ export default function CMSDefinirProductos() {
                                 <Button
                                     onClick={handleOpen}
                                 >
-                                    Procesar
+                                    Editar
                                 </Button>
                             </FieldWrapper>
                         </FormElement>

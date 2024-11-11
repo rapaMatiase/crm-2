@@ -2,7 +2,7 @@ import * as React from "react";
 
 
 import { Label } from "@progress/kendo-react-labels";
-import { Input, Checkbox, RadioGroup  } from "@progress/kendo-react-inputs";
+import { Input, Checkbox, RadioGroup } from "@progress/kendo-react-inputs";
 
 
 import { Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
@@ -11,7 +11,7 @@ import { Form, Field, FieldWrapper, FormElement } from "@progress/kendo-react-fo
 import { LoaderFunction } from "@remix-run/node";
 
 export const loader = async ({ request, params }: LoaderFunction) => {
-  const { idVista, idMenu,  } = params;
+  const { idVista, idMenu, } = params;
   const url = new URL(request.url);
 
   const session = await getSession(request.headers.get("Cookie"));
@@ -24,7 +24,7 @@ export const loader = async ({ request, params }: LoaderFunction) => {
         "Content-Type": "application/json",
         Authorization: token
       },
-      body : url.searchParams.getAll("producto")[0]
+      body: url.searchParams.getAll("producto")[0]
     }
   );
 
@@ -34,81 +34,89 @@ export const loader = async ({ request, params }: LoaderFunction) => {
   }
   const data = await response.json();
   console.log(data)
-  return {data, urlProducto};
+  return { data, urlProducto };
 };
 
 
 
 const App = () => {
   const { idVista, idMenu } = useParams();
-  const {data, urlProducto} = useLoaderData();
+  const { data, urlProducto } = useLoaderData();
   const navigate = useNavigate();
-  const handleChange = (e) => {
-     console.log("Lo seleccionado",e.value);
-     console.log("Lo que vino",urlProducto)    
-    const newParams = [...urlProducto, {key: e.value, value : ""}]
-    const jsonParam = new URLSearchParams({producto : JSON.stringify(newParams)})
+  const [opcionSelected, setOpcionSelected] = React.useState(null);
 
-    console.log("La fusion",newParams.toString())
-    navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${jsonParam.toString()}`)
+  const handleChange = (e) => {
+    if (opcionSelected != e.value) {
+      setOpcionSelected(e.value);
+      debugger
+      const newParams = [...urlProducto, { key: e.value, value: "" }]
+      const jsonParam = new URLSearchParams({ producto: JSON.stringify(newParams) })
+      console.log("newParams", newParams)
+      console.log("json",jsonParam)
+      navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${jsonParam.toString()}`)
+    } else {
+      setOpcionSelected(null);
+    }
   };
 
   return (
     <>
-    <div style={{display : "flex", flexDirection : "row"}}>
-      {data.nombre}
-      <Form
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
-        render={(formRenderProps) => (
-          <FormElement style={{ width: "500px", margin: "auto" }}>
-            {data.map((item: any) => {
-              return (
-                <FieldWrapper>
-                  <Label>{item.nombre}</Label>
+      <div style={{ display: "flex", flexDirection: "row", alignItems : "start", paddingTop: 30 }}>
+        {data.nombre}
+        <Form
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+          render={(formRenderProps) => (
+            <FormElement style={{ width: "500px" }}>
+              {data.map((item: any) => {
+                return (
+                  <FieldWrapper>
+                    <Label>{item.nombre}</Label>
 
-                  {item.accion == "SeleccionMultiple" &&
-                    item.opciones.map((subitem) => {
-                      console.log(subitem.texto)
-                      return (
-                        <>
-                          <Checkbox
-                            key={subitem.id}
-                            id={subitem.id}
-                            name={subitem.id}
-                            label={subitem.texto}
-                          />
-                        </>
-                      )
-                    })
-                  }
+                    {item.accion == "SeleccionMultiple" &&
+                      item.opciones.map((subitem) => {
+                        console.log(subitem.texto)
+                        return (
+                          <>
+                            <Checkbox
+                              key={subitem.id}
+                              id={subitem.id}
+                              name={subitem.id}
+                              label={subitem.texto}
+                            />
+                          </>
+                        )
+                      })
+                    }
 
 
-                  {item.accion == "SeleccionUnica" &&
+                    {item.accion == "SeleccionUnica" &&
+
+                      (()=>{
+                        console.log(item);
+                        const data = item.opciones.map((subitem) => {
+                          return { label: subitem.texto, value: subitem.id }
+                        }) 
+                        return (
+                          <RadioGroup value={opcionSelected} onChange={handleChange} data={data}  />
+                        )
+                      })()
+                      }
+
+
                     
-                    (()=>{
-                      console.log(item);
-                      const data = item.opciones.map((subitem) => {
-                        return { label: subitem.texto, value: subitem.id }
-                      }) 
-                      return (
-                        <RadioGroup onChange={handleChange} data={data}  />
-                      )
-                    })()
-               
-                  }
 
-                </FieldWrapper>
-              );
-            })}
+                  </FieldWrapper>
+                );
+              })}
 
 
-          </FormElement>
-        )} />
+            </FormElement>
+          )} />
         <Outlet />
 
-        </div>
+      </div>
 
     </>
   );

@@ -10,7 +10,7 @@ import CreateForm from './CreateForm';
 
 import { LoaderFunction } from "@remix-run/node";
 import { getSession } from "~/session.server";
-import { useLoaderData, useParams, useSubmit } from "@remix-run/react";
+import { useLoaderData, useNavigate, useParams, useSubmit } from "@remix-run/react";
 import { useState } from "react";
 
 
@@ -53,10 +53,10 @@ export const action = async ({ request }) => {
         idProductoBase: Number(idProducto),
         atributos: atributos.map((atributo: any) => {
             return {
-                idAtributoProducto : Number(idProducto),
+                idAtributoProducto: Number(idProducto),
                 idAtributo: atributo.idAtributo,
                 strUniMed: atributo.strUniMed,
-                strValor : atributo.strValor,
+                strValor: atributo.strValor,
             }
         })
     }
@@ -140,7 +140,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 
     const todosAtributosData = await response3.json();
-    
+
     const todosAtributosDataNombre = todosAtributosData.map((atributo: { codigo: string }) => {
         return atributo.nombre;
     });
@@ -163,9 +163,9 @@ interface Atributo {
 
 const App = () => {
     const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosDataNombre } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
-    const {idProducto, codigoNombreProducto} = useParams();
+    const { idProducto, codigoNombre } = useParams();
     const Atributos = [...atributosData];
-
+    const navigate = useNavigate();
     const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
     const [openFormDelete, setOpenFormDelete] = useState<boolean>(false);
     const [openFormCreate, setOpenFormCreate] = useState<boolean>(false);
@@ -229,36 +229,45 @@ const App = () => {
         <EditCommandCell {...props} enterEdit={enterEdit} enterDelete={enterDelete} />
     );
 
-    const handleSubmitGrilla = () =>{
+    const handleSubmitGrilla = () => {
         console.log(data);
         const formData = new FormData();
         formData.append("idProductoBase", idProducto || "");
         formData.append("atributos", JSON.stringify(data));
         submit(formData, { method: 'POST' });
-    } 
+        navigate("/CMSDefinirProductos");
+    }
 
     return (
         <>
-            <h2>{codigoNombreProducto}</h2>
+
+            <h2>{codigoNombre}</h2>
             <Grid style={{ height: "500px" }} data={data}>
                 <GridToolbar>
-                        <div >
-                            <Button
-                                type="button"
-                                onClick={enterCreate}
-                            >
-                                Agregar atributo
-                            </Button>
-                            <Button
-                                title="Add new"
-                                themeColor={"primary"}
-                                type="button"
-                                onClick={handleSubmitGrilla}
-                            >
-                                Guardar todo
-                            </Button>
-                        </div>
-                        </GridToolbar>
+                    <div >
+                        <Button
+                            type="button"
+                            onClick={enterCreate}
+                        >
+                            Agregar atributo
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                navigate("/CMSDefinirProductos");
+                            }}
+                        >
+                            Cancelar y volver
+                        </Button>
+                        <Button
+                            title="Add new"
+                            themeColor={"primary"}
+                            type="button"
+                            onClick={handleSubmitGrilla}
+                        >
+                            Guardar todo
+                        </Button>
+                    </div>
+                </GridToolbar>
 
                 <Column field="idAtributo" title="Id" width="50px" editable={false} />
                 <Column field="nombre" title="Nombre atributo" />
@@ -268,6 +277,7 @@ const App = () => {
                 <Column cell={MyEditCommandCell} />
 
             </Grid>
+
             {openFormEdit && <EditForm
                 cancelEdit={handleCancelEdit}
                 onSubmit={handleSubmitEdit}

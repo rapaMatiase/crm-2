@@ -5,6 +5,7 @@ import { Link, Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/
 import { getSession } from "~/session.server";
 //telerik
 import { Menu, AppBar, AppBarSection, AppBarSpacer, MenuItem, CardBody } from '@progress/kendo-react-layout';
+import { redirect } from "@remix-run/node";
 
 import { useRef, useState } from "react";
 import { ListView, ListViewHeader } from "@progress/kendo-react-listview";
@@ -31,15 +32,36 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const menus = await response.json();
     const title = menus.title;
+
+    const actionAnalisis = (action: string) => {
+            if (action === "") {
+                return "";
+            }
+
+            if (action.startsWith("URL:")) {
+                const [actionType, url] = action.split(":");
+                return { actionType, url  };
+            }
+
+            if (action.startsWith("Vista:")) {
+                const [actionType, vista] = action.split(":");
+                return { actionType, vista };
+            }
+
+            return { action };
+    }
+
     const menuItems = menus.menuItems.map((item: any) => {
         return {
             text: item.title,
             id: item.id,
+            action :  actionAnalisis(item.action),
             items: item.menuItems.map((subItem: any) => {
                 return {
                     text: subItem.title,
                     idFather: item.id,
-                    id: subItem.id
+                    id: subItem.id,
+                    action : subItem.action
                 }
             })
         }
@@ -82,16 +104,24 @@ export default function vistaLayout() {
     const [menuSelected, setMenuSelected] = useState<any>();
     const [paramsUrl, setParamsUrl] = useState<any>({});
     const navigate = useNavigate();
-    const handleSelectMenu = (event) => {
-        const itemMenu = event.item;
-        let params = "";
-        if (itemMenu.idFather) {
-            params = new URLSearchParams({ producto: JSON.stringify([{ key: itemMenu.id, value: "" }, { key: itemMenu.idFather, value: "" }]) });
-        } else {
-            params = new URLSearchParams({ producto: JSON.stringify([{ key: itemMenu.id, value: "" }]) });
 
+    const handleSelectMenu = (event) => {
+        debugger
+        const itemMenu = event.item;
+        if(itemMenu.action === ""){
+            let params = "";
+            if (itemMenu.idFather) {
+                params = new URLSearchParams({ producto: JSON.stringify([{ key: itemMenu.id, value: "" }, { key: itemMenu.idFather, value: "" }]) });
+            } else {
+                params = new URLSearchParams({ producto: JSON.stringify([{ key: itemMenu.id, value: "" }]) });
+
+            }
+            navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${params.toString()}`)
+        }else if(itemMenu.action.actionType === "URL"){
+            window.open(`/redirect/${itemMenu.action.url}`, '_blank');
+        }else if(itemMenu.action.actionType === "Vista"){
+            navigate(`vista/${itemMenu.action.vista}/menu/1`);
         }
-        navigate(`/vista/${idVista}/menu/${idMenu}/filtros?${params.toString()}`)
     }
 
 

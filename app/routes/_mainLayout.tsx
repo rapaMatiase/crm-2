@@ -47,7 +47,7 @@ export default function MainLayout() {
     return (
         <>
             <h1 className="title">{titulo} </h1>
-            <AppBar>
+            <AppBar >
 
                 <AppBarSpacer style={{ width: 4 }} />
 
