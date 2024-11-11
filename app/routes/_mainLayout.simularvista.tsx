@@ -38,11 +38,13 @@ export default function SimularVista() {
 
     const handleSelectVista = (event) => {
         const producto = event.target.value;
-        setVista(producto.codigo);
+        setVista(producto);
     }
 
     const handleOpen = () => {
-        window.open(`vista/${vista}/menu/1`, '_blank');
+        console.log(vista);
+        const jsonParam = new URLSearchParams({ producto: JSON.stringify([{key : `${vista.codigoNombre}`, value : ""}]) })
+        window.open(`vista/${vista.codigo}/menu/1/filtros/producto?${jsonParam}`, '_blank');
     }
 
     return (

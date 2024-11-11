@@ -78,20 +78,9 @@ const MyItemRender = (props) => {
   );
 };
 const App = () => {
-  //const [data, setData] = React.useState(availableData.splice(0, 12));
+
   const data = useLoaderData<any[]>();
-  // const scrollHandler = (event) => {
-  //   const e = event.nativeEvent;
-  //   if (
-  //     e.target.scrollTop + 10 >=
-  //     e.target.scrollHeight - e.target.clientHeight
-  //   ) {
-  //     const moreData = availableData.splice(0, 6);
-  //     if (moreData.length > 0) {
-  //       setData(data.concat(moreData));
-  //     }
-  //   }
-  // };
+
   return (
     <>
     <br />

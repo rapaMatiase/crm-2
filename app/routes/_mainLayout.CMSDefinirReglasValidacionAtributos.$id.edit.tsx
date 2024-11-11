@@ -46,7 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
         },
         body: jsonReglaValidacionAtributos
     });
-    console.log(response);
+
     if (!response.ok) {
         throw new Response("Failed to update regla de validacion", { statusText: response.statusText });
     }

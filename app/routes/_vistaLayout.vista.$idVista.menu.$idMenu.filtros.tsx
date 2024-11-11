@@ -33,7 +33,6 @@ export const loader = async ({ request, params }: LoaderFunction) => {
     throw new Error("Failed to fetch data");
   }
   const data = await response.json();
-  console.log(data)
   return { data, urlProducto };
 };
 
@@ -46,13 +45,13 @@ const App = () => {
   const [opcionSelected, setOpcionSelected] = React.useState(null);
 
   const handleChange = (e) => {
-    console.log("antes", urlProducto);
-    urlProducto.pop();
-    console.log("despues", urlProducto);
+      console.log("antes", urlProducto)
+      urlProducto.pop()
+      console.log("al medio", urlProducto)
       const newParams = [...urlProducto, { key: e.value, value: "" }]
+      console.log("despues", newParams)
+
       const jsonParam = new URLSearchParams({ producto: JSON.stringify(newParams) })
-      console.log("newParams", newParams)
-      console.log("json",jsonParam)
       navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${jsonParam.toString()}`)
   };
 
@@ -71,27 +70,11 @@ const App = () => {
                   <FieldWrapper>
                     <Label>{item.nombre}</Label>
 
-                    {item.accion == "SeleccionMultiple" &&
-                      item.opciones.map((subitem) => {
-                        console.log(subitem.texto)
-                        return (
-                          <>
-                            <Checkbox
-                              key={subitem.id}
-                              id={subitem.id}
-                              name={subitem.id}
-                              label={subitem.texto}
-                            />
-                          </>
-                        )
-                      })
-                    }
-
+                 
 
                     {item.accion == "SeleccionUnica" &&
 
                       (()=>{
-                        console.log(item);
                         const data = item.opciones.map((subitem) => {
                           return { label: subitem.texto, value: subitem.id }
                         }) 

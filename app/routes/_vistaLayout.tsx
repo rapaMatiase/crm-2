@@ -120,7 +120,8 @@ export default function vistaLayout() {
         }else if(itemMenu.action.actionType === "URL"){
             window.open(`/redirect/${itemMenu.action.url}`, '_blank');
         }else if(itemMenu.action.actionType === "Vista"){
-            navigate(`vista/${itemMenu.action.vista}/menu/1`);
+            let params = new URLSearchParams({ producto: JSON.stringify([{ key: itemMenu.id, value: "" }]) });
+            window.open(`/vista/${itemMenu.action.vista}/menu/${idMenu}/filtros/producto?${params.toString()}`, "_blank");
         }
     }
 

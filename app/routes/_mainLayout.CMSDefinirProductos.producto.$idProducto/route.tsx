@@ -10,7 +10,7 @@ import CreateForm from './CreateForm';
 
 import { LoaderFunction } from "@remix-run/node";
 import { getSession } from "~/session.server";
-import { useLoaderData, useNavigate, useParams, useSubmit } from "@remix-run/react";
+import { useLoaderData, useNavigate, useParams, useSearchParams, useSubmit } from "@remix-run/react";
 import { useState } from "react";
 
 
@@ -141,12 +141,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const todosAtributosData = await response3.json();
 
-    const todosAtributosDataNombre = todosAtributosData.map((atributo: { codigo: string }) => {
-        return atributo.nombre;
+    const todosAtributosDataNombre = todosAtributosData.map((atributo) => {
+        return {nombre : atributo.nombre, idAtributo: atributo.idAtributo};
     });
 
 
-    return { atributosDataFormat, unidadesDeMedidaCodigoNombre, todosAtributosDataNombre };
+    return { atributosDataFormat, unidadesDeMedidaCodigoNombre, todosAtributosData };
 };
 
 interface Atributo {
@@ -162,8 +162,12 @@ interface Atributo {
 
 
 const App = () => {
-    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosDataNombre } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
-    const { idProducto, codigoNombre } = useParams();
+    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
+    const { idProducto } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const serchJson = searchParams.get("search");
+    const codigoNombre = JSON.parse(serchJson).codigoNombre
     const Atributos = [...atributosData];
     const navigate = useNavigate();
     const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
@@ -181,7 +185,6 @@ const App = () => {
 
     const enterEdit = (item: Atributo) => {
         setOpenFormEdit(true);
-        console.log(item);
         setEditItem(item);
     }
 
@@ -230,7 +233,6 @@ const App = () => {
     );
 
     const handleSubmitGrilla = () => {
-        console.log(data);
         const formData = new FormData();
         formData.append("idProductoBase", idProducto || "");
         formData.append("atributos", JSON.stringify(data));
@@ -283,7 +285,7 @@ const App = () => {
                 onSubmit={handleSubmitEdit}
                 item={editItem}
                 data={unidadesDeMedidaCodigoNombre}
-                dataAtributos={todosAtributosDataNombre}
+                dataAtributos={todosAtributosData}
             />}
 
             {openFormDelete && <DeleteForm
@@ -295,6 +297,7 @@ const App = () => {
                 cancelEdit={handleCancelCreate}
                 onSubmit={handleSubmitCreate}
                 data={unidadesDeMedidaCodigoNombre}
+                dataAtributos={todosAtributosData}
             />}
 
             <style>

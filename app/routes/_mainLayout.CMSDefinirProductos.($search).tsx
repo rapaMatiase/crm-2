@@ -52,13 +52,13 @@ export default function CMSDefinirProductos() {
 
     const handleSelectProduct = (event: ComboBoxChangeEvent) => {
         const producto = event.target.value;
-        console.log(producto);
         setProducto(producto);
     }
 
 
     const handleOpen = () => {
-        navigate(`/CMSDefinirProductos/producto/${producto.idProductoBase}/${producto.codigoNombre}`);
+        const urlParam = new URLSearchParams({ search: JSON.stringify({codigoNombre : producto.codigoNombre}) });
+        navigate(`/CMSDefinirProductos/producto/${producto.idProductoBase}?${urlParam.toString()}`);
     }
 
     return (

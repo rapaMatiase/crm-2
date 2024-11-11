@@ -9,18 +9,17 @@ import {
     FieldWrapper,
 } from "@progress/kendo-react-form";
 import { Input } from "@progress/kendo-react-inputs";
-import { ComboBox, ComboBoxFilterChangeEvent, DropDownList } from "@progress/kendo-react-dropdowns";
+import { ComboBox, ComboBoxFilterChangeEvent} from "@progress/kendo-react-dropdowns";
 import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { filterBy, FilterDescriptor } from "@progress/kendo-data-query";
 
-export default function CreateForm(props){
-    //TELERIK-HOOKS
-    const { cancelEdit, onSubmit, item, data, ...other } = props;
-    const [tipoValor, setTipoValor] = useState("");
+export default function EditForm(props){
+    const { cancelEdit, onSubmit, item, data, dataAtributos, ...other } = props;
+    
     const [unidadesMedida, setUnidadesMedida] = useState(data);
+    const [todosAtributos, setTodosAtributos] = useState(dataAtributos);
 
-    //FUNCTIONS
     const filterData = (filter: FilterDescriptor) => {
         const data = unidadesMedida.slice();
         return filterBy(data, filter);
@@ -30,19 +29,27 @@ export default function CreateForm(props){
         setUnidadesMedida(filterData(event.filter));
     };
 
+    const filterDataAtributo = (filter: FilterDescriptor) => {
+        const data = todosAtributos.slice();
+        return filterBy(data, filter);
+    };
+
+    const filterChangeAtributo = (event: ComboBoxFilterChangeEvent) => {
+        setTodosAtributos(filterDataAtributo(event.filter));
+    };
+
     return (
         <Form
-            initialValues={{ ...item, idAtributo: 0 }}
+            initialValues={item}
             onSubmit={onSubmit}
             render={(renderProps) => (
                 <Dialog
-                    title={`Crear atributo`}
+                    title={`Editar atributo`}
                     onClose={cancelEdit}
                     width={400}
-                    height={600}
-                >
+                    height={600}               >
                     <FormElement>
-                        <FieldWrapper>
+                        {/* <FieldWrapper>
                             <Field
                                 name={"idAtributo"}
                                 component={Input}
@@ -50,28 +57,37 @@ export default function CreateForm(props){
                                 type="number"
                                 readOnly
                             />
-                        </FieldWrapper>
+                        </FieldWrapper> */}
                         <FieldWrapper>
-                            <Field
+                            {/* <Field
                                 name={"nombre"}
                                 component={Input}
                                 label={"Nombre"}
                                 type="text"
                                 validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
-                            />
-                        </FieldWrapper>
-                        <FieldWrapper>
+                            /> */}
+
                             <Field
-                                name={"tipoDato"}
-                                component={DropDownList}
-                                label={"Tipo de dato"}
-                                data={["Texto", "Numero", "Fecha", "Entero"]}
-                                onChange={(event)=>{setTipoValor(event.target.value)}}
+                                data={todosAtributos}
+                                name={"nombre"}
+                                component={ComboBox}
+                                filterable={true}
+                                label={"Atributo"}
+                                onFilterChange={filterChangeAtributo}
                                 validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
                             />
                         </FieldWrapper>
                         <FieldWrapper>
-                            {tipoValor === "Texto" && (
+                            <Field
+                                name={"tipoValor"}
+                                component={Input}
+                                type="text"
+                                label={"Tipo de dato"}
+                                readOnly
+                            />
+                        </FieldWrapper>
+                        <FieldWrapper>
+                            {item.tipoValor === "Texto" && (
                                 <Field
                                     name={"valorTexto"}
                                     component={Input}
@@ -80,7 +96,7 @@ export default function CreateForm(props){
                                     validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
                                 />
                             )}
-                            {tipoValor === "Numero" && (
+                            {item.tipoValor === "Numero" && (
                                 <Field
                                     name={"valorTexto"}
                                     component={Input}
@@ -89,7 +105,7 @@ export default function CreateForm(props){
                                     validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
                                 />
                             )}
-                            {tipoValor === "Fecha" && (
+                            {item.tipoValor === "Fecha" && (
                                 <Field
                                     name={"valorTexto"}
                                     component={Input}
@@ -98,7 +114,7 @@ export default function CreateForm(props){
                                     validator={(value)=>{return !value ? "El campo nombre es requerido" : ""}}
                                 />
                             )}
-                            {tipoValor === "Entero" && (
+                            {item.tipoValor === "Entero" && (
                                 <Field
                                     name={"valorTexto"}
                                     component={Input}
@@ -134,6 +150,7 @@ export default function CreateForm(props){
                         >
                             Guardar
                         </Button>
+
                     </DialogActionsBar>
                 </Dialog>
             )}
