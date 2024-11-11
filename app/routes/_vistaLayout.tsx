@@ -106,7 +106,7 @@ export default function vistaLayout() {
     const navigate = useNavigate();
 
     const handleSelectMenu = (event) => {
-        debugger
+        
         const itemMenu = event.item;
         if(itemMenu.action === ""){
             let params = "";

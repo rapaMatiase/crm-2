@@ -46,17 +46,14 @@ const App = () => {
   const [opcionSelected, setOpcionSelected] = React.useState(null);
 
   const handleChange = (e) => {
-    if (opcionSelected != e.value) {
-      setOpcionSelected(e.value);
-      debugger
+    console.log("antes", urlProducto);
+    urlProducto.pop();
+    console.log("despues", urlProducto);
       const newParams = [...urlProducto, { key: e.value, value: "" }]
       const jsonParam = new URLSearchParams({ producto: JSON.stringify(newParams) })
       console.log("newParams", newParams)
       console.log("json",jsonParam)
       navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${jsonParam.toString()}`)
-    } else {
-      setOpcionSelected(null);
-    }
   };
 
   return (
