@@ -20,7 +20,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
     const {id} = params;
 
-    const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Atributos/DeleteAtributo/IdAtributo/${id}`, {
+    const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Atributos/DeleteReglaValidacionAtributo/IdReglaValidacion/${id}`, {
         method: 'DELETE',
         headers: {
             'Authorization': token,

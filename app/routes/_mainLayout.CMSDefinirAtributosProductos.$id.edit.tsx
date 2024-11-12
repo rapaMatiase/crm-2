@@ -82,9 +82,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     return unidadesDeMedidaCodigoNombre;
 };
 
-
-
-
 export default function CMSDefinirAtributosProductosFormEdit(){
 
     //REMIX-HOOKS

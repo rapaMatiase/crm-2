@@ -80,7 +80,7 @@ export default function vistaLayout() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const [dataBreadcrumb, setDataBreadcrumb] = useState<any[]>([]);
-    
+
     const handleSelectMenu = (event) => {
         const itemMenuSelected = event.item;
         console.log(itemMenuSelected);
@@ -144,11 +144,10 @@ export default function vistaLayout() {
             </AppBar>
             
             <div  style={{ marginTop: "20px" }}>
-                <Breadcrumb 
+                <Breadcrumb
                     data={dataBreadcrumb}
                 />
                 </div>
-       
             <Outlet />
         </>
     )
