@@ -5,13 +5,13 @@ import { Link, Outlet, useLoaderData, useNavigate, useParams, useSearchParams } 
 import { getSession } from "~/session.server";
 //telerik
 import { Menu, AppBar, AppBarSection, AppBarSpacer, MenuItem, CardBody } from '@progress/kendo-react-layout';
-import { redirect } from "@remix-run/node";
+import { Breadcrumb } from "@progress/kendo-react-layout";
 
 import { useRef, useState } from "react";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { idVista, idMenu } = params;
-    
+
     const session = await getSession(request.headers.get("Cookie"));
     const token = session.get("user")?.token;
 
@@ -25,8 +25,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     );
 
     const menus = await response.json();
-    
-    
+
+
     const title = menus.title;
 
     const actionAnalisis = (action: string) => {
@@ -51,15 +51,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return {
             text: item.title,
             id: item.id,
-            urlParam : [{ key: item.id, value: "" }],
+            urlParam: [{ key: item.id, value: "" }],
+            breadcrumb : [{ text: item.title, id: item.id }],
             action: actionAnalisis(item.action),
             items: item.menuItems.map((subItem: any) => {
                 return {
                     text: subItem.title,
                     idFather: item.id,
                     id: subItem.id,
-                    urlParam : [{ key: item.id, value: "" }, { key: subItem.id, value: "" }],
-                    action: actionAnalisis(subItem.action)
+                    urlParam: [{ key: item.id, value: "" }, { key: subItem.id, value: "" }],
+                    action: actionAnalisis(subItem.action),
+                    breadcrumb : [{ text: item.title, id: item.id }, { text: subItem.title, id: subItem.id }]
                 }
             })
         }
@@ -77,57 +79,54 @@ export default function vistaLayout() {
     const [paramsUrl, setParamsUrl] = useState<any>({});
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-
-    // const handleSelectMenu = (event) => {
-
-    //     const itemMenu = event.item;
-    //     if(itemMenu.action === ""){
-    //         let params = "";
-    //         if (itemMenu.idFather) {
-    //             params = new URLSearchParams({
-    //                  main: JSON.stringify([{ key: itemMenu.id, value: "" }, { key: itemMenu.idFather, value: "" }]),
-    //                  second : ""
-    //                 });
-    //         } else {
-    //             params = new URLSearchParams({
-    //                  main: JSON.stringify([{ key: itemMenu.id, value: "" }]),
-    //                  second : ""
-    //                 });
-    //         }
-    //         navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${params.toString()}`)
-    //     }else if(itemMenu.action.actionType === "URL"){
-    //         window.open(`/redirect/${itemMenu.action.url}`, '_blank');
-    //     }else if(itemMenu.action.actionType === "Vista"){
-    //         let params = new URLSearchParams({ main: JSON.stringify([{ key: itemMenu.id, value: "" }]), second : "" });
-    //         window.open(`/vista/${itemMenu.action.vista}/menu/${idMenu}/filtros/producto?${params.toString()}`, "_blank");
-    //     }
-    // }
-
+    const [dataBreadcrumb, setDataBreadcrumb] = useState<any[]>([]);
+    
     const handleSelectMenu = (event) => {
         const itemMenuSelected = event.item;
         console.log(itemMenuSelected);
 
-        if(itemMenuSelected.action === ""){
+        setDataBreadcrumb(itemMenuSelected.breadcrumb);
+
+
+        if (itemMenuSelected.action === "") {
             const urlParam = new URLSearchParams({
-                menu : JSON.stringify(itemMenuSelected.urlParam),
-                filtro : JSON.stringify([])
+                menu: JSON.stringify(itemMenuSelected.urlParam),
+                filtro: JSON.stringify([])
             });
             navigate(`/vista/${idVista}/menu/${idMenu}/filtros/producto?${urlParam.toString()}`);
         }
 
-        if(itemMenuSelected.action.actionType === "URL"){
+        if (itemMenuSelected.action.actionType === "URL") {
             window.open(`/redirect/${itemMenuSelected.action.url}`, '_blank');
         }
 
-        if(itemMenuSelected.action.actionType === "Vista"){
+        if (itemMenuSelected.action.actionType === "Vista") {
             const urlParam = new URLSearchParams({
-                menu : JSON.stringify(itemMenuSelected.urlParam),
-                filtro : JSON.stringify([])
+                menu: JSON.stringify(itemMenuSelected.urlParam),
+                filtro: JSON.stringify([])
             });
-            window.open(`/vista/${itemMenuSelected.action.vista}/menu/${idMenu}/filtros/producto?${urlParam.toString()}`, "_blank");       
+            window.open(`/vista/${itemMenuSelected.action.vista}/menu/${idMenu}/filtros/producto?${urlParam.toString()}`, "_blank");
         }
 
     }
+
+    const handleItemSelect = (event) => {
+        // const itemIndex = data.findIndex((curValue) => curValue.id === event.id);
+        // const newData = data.slice(0, itemIndex + 1);
+        // setData(newData);
+    };
+    const handleButtonClick = (event) => {
+        // if (event) {
+        //     setData(items);
+        // }
+    };
+    const handleKeyDown = (event) => {
+        // if (event.nativeEvent.keyCode === 13) {
+        //     const itemIndex = data.findIndex((curValue) => curValue.id === event.id);
+        //     const newData = data.slice(0, itemIndex + 1);
+        //     setData(newData);
+        // }
+    };
 
     return (
         <>
@@ -140,53 +139,16 @@ export default function vistaLayout() {
 
                 </AppBarSection>
 
-
-
-                {/* <AppBarSection>
-                    <Menu>
-                        {menuItems.map(({ text, id, items }, index) => {
-                            return (
-                                <MenuItem
-                                    key={index}
-                                    text={text}
-                                    render={() => {
-                                        return (<Link to={`/vista/3/menu/1/filtros/producto/${id}`} >
-                                            {text}
-                                        </Link>
-                                        )
-                                    }}
-                                >
-                                    {items.map((subItem, index) => {
-                                        return (
-                                            <MenuItem
-                                                key={index}
-                                                text={subItem.text}
-                                                render={() => {
-                                                    return (
-                                                        <ListView
-                                                            data={[subItem]}
-                                                            item={ListViewItemRender}
-                                                            style={{
-                                                                width: '100%',
-                                                            }}
-                                                        />
-                                                    )
-                                                }}
-                                            />
-                                        )
-                                    })}
-                                   
-                                </MenuItem>
-                            )
-                        })}
-                    </Menu>
-
-                </AppBarSection> */}
-
                 <AppBarSpacer />
 
             </AppBar>
-
+            
+            <div  style={{ marginTop: "20px" }}>
+                <Breadcrumb 
+                    data={dataBreadcrumb}
+                />
+                </div>
+       
             <Outlet />
         </>
     )

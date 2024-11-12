@@ -10,7 +10,7 @@ import CreateForm from './CreateForm';
 
 import { LoaderFunction } from "@remix-run/node";
 import { getSession } from "~/session.server";
-import { useLoaderData, useNavigate, useParams, useSearchParams, useSubmit } from "@remix-run/react";
+import { Form, useLoaderData, useNavigate, useParams, useSearchParams, useSubmit } from "@remix-run/react";
 import { useState } from "react";
 
 
@@ -41,7 +41,9 @@ const EditCommandCell = (props: EditCommandCellProps) => {
 };
 
 
-export const action = async ({ request }) => {
+import { ActionFunction } from "@remix-run/node";
+
+export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData();
     const session = await getSession(request.headers.get("Cookie"));
     const token = session.get("user")?.token;
@@ -142,7 +144,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const todosAtributosData = await response3.json();
 
     const todosAtributosDataNombre = todosAtributosData.map((atributo) => {
-        return {nombre : atributo.nombre, idAtributo: atributo.idAtributo};
+        return { nombre: atributo.nombre, idAtributo: atributo.idAtributo };
     });
 
 
@@ -180,7 +182,7 @@ const App = () => {
 
     const enterCreate = () => {
         setOpenFormCreate(true);
-        setEditItem(item);
+        //setEditItem(item);
     }
 
     const enterEdit = (item: Atributo) => {
@@ -233,10 +235,12 @@ const App = () => {
     );
 
     const handleSubmitGrilla = () => {
+        debugger
         const formData = new FormData();
         formData.append("idProductoBase", idProducto || "");
         formData.append("atributos", JSON.stringify(data));
         submit(formData, { method: 'POST' });
+        console.log("Guardado")
         navigate("/CMSDefinirProductos");
     }
 
@@ -260,14 +264,18 @@ const App = () => {
                         >
                             Cancelar y volver
                         </Button>
-                        <Button
-                            title="Add new"
-                            themeColor={"primary"}
-                            type="button"
-                            onClick={handleSubmitGrilla}
+                        <Form
+                            onSubmit={handleSubmitGrilla}
                         >
-                            Guardar todo
-                        </Button>
+                            <Button
+                                title="Add new"
+                                themeColor={"primary"}
+                                type="submit"
+                            >
+                                Guardar todo
+                            </Button>
+                        </Form>
+
                     </div>
                 </GridToolbar>
 

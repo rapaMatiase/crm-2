@@ -15,7 +15,7 @@ import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { filterBy, FilterDescriptor } from "@progress/kendo-data-query";
 import { atRule } from "postcss";
 
-export default function CreateForm(props){
+export default function CreateForm(props) {
     //TELERIK-HOOKS
     const { cancelEdit, onSubmit, item, data, dataAtributos, ...other } = props;
     const [tipoValor, setTipoValor] = useState("");
@@ -43,7 +43,125 @@ export default function CreateForm(props){
     };
 
     return (
-        <Form
+        <>
+            <Dialog
+                title={`Crear atributo`}
+                onClose={cancelEdit}
+                width={400}
+                height={600}
+            >
+                <FormElement>
+                    <FieldWrapper>
+                        <Input
+                            label={"ID Atributo"}
+                            value={atibutoSelected.idAtributo}
+                            readOnly
+                        />
+                    </FieldWrapper>
+                    <FieldWrapper>
+                        <ComboBox
+                            data={todosAtributos}
+                            name={"nombre"}
+                            filterable={true}
+                            textField="nombre"
+                            label={"Atributo"}
+                            onChange={(event) => {
+                                setAtributoSelected(event.target.value)
+                                console.log(atibutoSelected)
+                            }}
+                            onFilterChange={filterChangeAtributo}
+                        />
+                    </FieldWrapper>
+                    <FieldWrapper>
+                        <Input
+                            label={"Tipo de dato"}
+                            value={atibutoSelected.tipoValor}
+                            readOnly
+                        />
+                    </FieldWrapper>
+                    <FieldWrapper>
+                        {atibutoSelected.tipoValor === "Texto" && (
+                            <Input
+                                name={"valorTexto"}
+                                type="text"
+                                label={"Valor Texto"}
+                                onChange={(event) => {
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                }}
+                            />
+                        )}
+                        {atibutoSelected.tipoValor === "Numerico" && (
+                            <Input
+                                name={"valorTexto"}
+                                type="number"
+                                label={"Valor Numero"}
+                                onChange={(event) => {
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                }}
+                            />
+                        )}
+                        {atibutoSelected.tipoValor === "Fecha" && (
+                            <Input
+                                name={"valorTexto"}
+                                type="date"
+                                label={"Valor Fecha"}
+                                onChange={(event) => {
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                }}
+                            />
+                        )}
+                        {atibutoSelected.tipoValor === "Entero" && (
+                            <Input
+                                name={"valorTexto"}
+                                type="number"
+                                label={"Valor Entero"}
+                                onChange={(event) => {
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                }}
+                            />
+                        )}
+                    </FieldWrapper>
+                    <FieldWrapper>
+                        <ComboBox
+                            data={unidadesMedida}
+                            name={"strUniMed"}
+                            filterable={true}
+                            value={atibutoSelected.strUniMed}
+                            label={"Unidades de medida"}
+                            onFilterChange={filterChange}
+                            onChange={(event) => {
+                                setAtributoSelected({ ...atibutoSelected, strUniMed: event.target.value })
+                            }}
+                        />
+                    </FieldWrapper>
+                </FormElement>
+                <DialogActionsBar layout="end">
+                        <Button onClick={cancelEdit} icon="cancel" svgIcon={cancelIcon}>
+                            Cancel
+                        </Button>
+                        <Button
+                            type={"submit"}
+                            themeColor={"primary"}
+                            onClick={(event)=>{
+                                event.preventDefault();
+                                onSubmit(atibutoSelected)
+                            }}
+                            icon="save"
+                            svgIcon={saveIcon}
+                        >
+                            Guardar
+                        </Button>
+                    </DialogActionsBar>
+            </Dialog>
+        </>
+    );
+};
+
+
+/*
+
+
+ <Form
             initialValues={{ 
                 idAtributo : atibutoSelected.idAtributo, 
                 nombre : atibutoSelected.nombre, 
@@ -60,16 +178,6 @@ export default function CreateForm(props){
                     height={600}
                 >
                     <FormElement>
-                        {/* <FieldWrapper>
-                            <Field
-                                name={"idAtributo"}
-                                component={Input}
-                                label={"idAtributo"}
-                                value={atibutoSelected.idAtributo}
-                                type="number"
-                                readOnly
-                            />
-                        </FieldWrapper> */}
                         <FieldWrapper>
                              <Field
                                 data={todosAtributos}
@@ -166,5 +274,4 @@ export default function CreateForm(props){
             )}
             {...other}
         />
-    );
-};
+*/

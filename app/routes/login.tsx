@@ -4,6 +4,7 @@ import { DropDownList, MultiSelect } from "@progress/kendo-react-dropdowns";
 import { Button } from "@progress/kendo-react-buttons";
 
 
+import { useActionData } from "@remix-run/react";
 import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import { sessionStorage } from "~/session.server";
@@ -49,7 +50,12 @@ export const action: ActionFunction = async ({ request }) => {
 
     const result = await response.json();
 
+    if (response.status === 401) {
+        return json({ error: "Unauthorized: Invalid username or password" }, { status: 401 });
+    }
+
     if (!response.ok) {
+        return json({ error: "Usuario no encontrado. Revice sus credenciales." }, { status: 401 });
         throw new Error("Failed to fetch unidades de medida");
     }
 
@@ -65,13 +71,20 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 
+
+
+
+
 export default function Login() {
     const submit = useSubmit();
+    const actionData = useActionData();
+
     // const {titulo} = useLoaderData();
     return (
         <>
             {/* <h1>{titulo}</h1> */}
             <h2> Login </h2>
+            {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
             <Form
                 onSubmit={(dataItem, event) => {
                     event?.preventDefault();
