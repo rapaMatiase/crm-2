@@ -6,7 +6,7 @@ import { Input, Checkbox, RadioGroup } from "@progress/kendo-react-inputs";
 
 
 import { Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
-import { commitSession, getSession } from "~/session.server";
+import { commitSession, getSession } from "~/servicies/session.server";
 import { Form, Field, FieldWrapper, FormElement } from "@progress/kendo-react-form";
 import { LoaderFunction } from "@remix-run/node";
 

@@ -2,7 +2,7 @@
 import { LoaderFunction } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useNavigate, useParams, useSearchParams } from "@remix-run/react";
 //SERVICE
-import { getSession } from "~/session.server";
+import { getSession } from "~/servicies/session.server";
 //telerik
 import { Menu, AppBar, AppBarSection, AppBarSpacer, MenuItem, CardBody } from '@progress/kendo-react-layout';
 import { Breadcrumb } from "@progress/kendo-react-layout";

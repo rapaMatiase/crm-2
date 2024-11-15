@@ -5,7 +5,7 @@ import {
   CardTitle,
   CardImage,
 } from "@progress/kendo-react-layout";
-import { getSession } from "~/session.server";
+import { getSession } from "~/servicies/session.server";
 import { useLoaderData } from "@remix-run/react";
 import { LoaderFunction } from "@remix-run/node";
 

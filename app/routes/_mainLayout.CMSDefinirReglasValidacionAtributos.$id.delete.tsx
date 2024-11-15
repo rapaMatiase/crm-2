@@ -8,11 +8,13 @@ import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, trashIcon } from "@progress/kendo-svg-icons";
 import { Label } from "@progress/kendo-react-labels";
 //REMIX
-import { useOutletContext, useParams, useSubmit } from "@remix-run/react";
+import { useNavigate, useOutletContext, useParams, useSubmit } from "@remix-run/react";
 import { ActionFunction,  redirect } from "@remix-run/node";
 //SERVICES
-import { getSession } from "~/session.server";
-
+import { getSession } from "~/servicies/session.server";
+//CONFIG
+import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from "~/config/routesConfig";
+import { API_ENDPOINTS_REGLAS_VALIDACION_ATRIBUTOS } from "~/config/apiConfig";
 export const action: ActionFunction = async ({ request, params }) => {
 
     const session = await getSession(request.headers.get("Cookie"));
@@ -20,7 +22,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
     const {id} = params;
 
-    const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Atributos/DeleteReglaValidacionAtributo/IdReglaValidacion/${id}`, {
+    const response = await fetch(`${API_ENDPOINTS_REGLAS_VALIDACION_ATRIBUTOS.DELETE}/IdReglaValidacion/${id}`, {
         method: 'DELETE',
         headers: {
             'Authorization': token,
@@ -29,20 +31,21 @@ export const action: ActionFunction = async ({ request, params }) => {
     });
 
     if (!response.ok) {
-        throw ("Failed to update atributo");
+        throw ("Failed to delete atributo");
     }
 
-    return redirect(`/CMSDefinirReglasValidacionAtributos`);
+    return redirect(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}`);
 };
 
 
 export default function CMSDefinirReglasValidacionAtributosDelete() {
     
     //REMIX-HOOKS
-    const {reglaValidacionAtributosSeleccionado, closeForm} = useOutletContext();
+    const {reglaValidacionAtributosSeleccionado} = useOutletContext();
     const {id} = useParams();
     const submit = useSubmit();
-
+    const navigate = useNavigate();
+    
     const [reglaValidacionAtributos, setReglaValidacionAtributos] = useState<any>();
     const [loading, setLoading] = useState(true);
 
@@ -75,7 +78,7 @@ export default function CMSDefinirReglasValidacionAtributosDelete() {
             render={(renderProps: FormRenderProps) => (
                 <Dialog
                     title={"Eliminar regla de validación"}
-                    onClose={closeForm}
+                    onClose={()=>navigate(-1)}
                     width={500}
                     >
                     <FormElement>
@@ -136,7 +139,7 @@ export default function CMSDefinirReglasValidacionAtributosDelete() {
                     </FormElement>
                     <DialogActionsBar layout="end">
                         <Button
-                            onClick={closeForm}
+                            onClick={()=>navigate(-1)}
                             icon="cancel"
                             svgIcon={cancelIcon}
                         >

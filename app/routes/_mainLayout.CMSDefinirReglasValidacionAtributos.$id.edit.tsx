@@ -10,23 +10,58 @@ import { Button } from "@progress/kendo-react-buttons";
 import { filterBy } from "@progress/kendo-data-query";
 import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 //REMIX
-import { useOutletContext, useParams, useSubmit, useLoaderData } from "@remix-run/react";
+import { useOutletContext, useParams, useSubmit, useLoaderData, useNavigate } from "@remix-run/react";
 import { ActionFunction, redirect } from "@remix-run/node";
-//SERVICES
-import { getSession } from "~/session.server";
+import { LoaderFunction } from "@remix-run/node";
+//CONFIG
+import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
+//API
+import { postReglaDeValidacionAtributos } from "~/api/apiReglaDeValidacion";
+import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
+import { getAtributos } from "~/api/apiAtributos";
+import { getGruposProducto } from "~/api/apiGruposProducto";
+import { getTiposProducto } from "~/api/apiTiposProducto";
 
-//INTERFACE
-type OutletContextType = {
-    reglaValidacionAtributosSeleccionado: any;
-    closeForm: () => void;
+export const loader: LoaderFunction = async ({ request }) => {
+    
+    //TIPOS DE PRODUCTO
+    const responseTiposProducto = await getTiposProducto({ request });
+    const {tiposProductoData} = await responseTiposProducto.json();
+    
+    const tiposProductoCodigoNombreData = tiposProductoData.map((producto) => {
+        return producto.codigoNombre;
+    });
+    
+    //PRODUCTOS
+    const responseGruposProducto = await getGruposProducto({request});
+    const {gruposProductosData} = await responseGruposProducto.json();
+    const gruposProductoNombreData = gruposProductosData.map((producto) => {
+        return producto.codigoNombre;
+    });
+    
+    //ATRIBUTOS
+    const responseAtributos = await getAtributos({request});
+    const {atributosData} = await responseAtributos.json();
+    const atributosNombresData = atributosData.map((atributo) => {
+        return atributo.nombre;
+    });
+    
+    //UNIDADES DE MEDIDA
+    const responseUnidadesMedida = await getUnidadesMedida({request});
+    const {unidadesMedidaData} = await responseUnidadesMedida.json();
+    const unidadesDeMedidaCodigoNombreData = unidadesMedidaData.map((unidad: { codigo: string }) => {
+        return unidad.codigoNombre;
+    });
+    
+    return { tiposProductoCodigoNombreData, gruposProductoNombreData, atributosNombresData, unidadesDeMedidaCodigoNombreData };
+    
 };
 
 export const action: ActionFunction = async ({ request }) => {
-    const formData = await request.formData();
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
 
-    const relgaValidacionAtributos = {
+    const formData = await request.formData();
+    
+    const reglaValidacionAtributo = {
         idReglaValidacion: Number(formData.get("idReglaValidacion")),
         nombre: String(formData.get("nombre")),
         strTipoProducto: String(formData.get("strTipoProducto")),
@@ -36,122 +71,27 @@ export const action: ActionFunction = async ({ request }) => {
         comentario: String(formData.get("comentario"))
     }
 
-    const jsonReglaValidacionAtributos = JSON.stringify(relgaValidacionAtributos);
+    await postReglaDeValidacionAtributos({ request, reglaValidacionAtributo });
 
-    const response = await fetch("https://apptesting.leiten.dnscheck.com.ar/Atributos/ActualizarReglaValidacionAtributo", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": token
-        },
-        body: jsonReglaValidacionAtributos
-    });
-
-    if (!response.ok) {
-        throw new Response("Failed to update regla de validacion", { statusText: response.statusText });
-    }
-
-    return redirect(`/CMSDefinirReglasValidacionAtributos`);
+    return redirect(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}`);
 };
-
-export const ErrorBoundary = (error) => {
-    console.error(error);
-    return (
-        <div>
-            <h1>Something went wrong</h1>
-            <pre>{error.message}</pre>
-        </div>
-    );
-};
-
-export const loader = async ({ request }) => {
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
-
-    const responseTiposProducto = await fetch("https://apptesting.leiten.dnscheck.com.ar/TiposProducto/GetTiposProducto", {
-        headers: {
-            "Authorization": token
-        }
-    });
-
-    if (!responseTiposProducto.ok) {
-        throw ("Failed to fetch unidades de medida");
-    }
-
-    const tiposProducto = await responseTiposProducto.json();
-
-    const tiposProductoCodigoNombre = tiposProducto.map((producto) => {
-        return producto.codigoNombre;
-    });
-
-
-    const responseGruposProducto = await fetch("https://apptesting.leiten.dnscheck.com.ar/GruposProductos/GetGruposProducto", {
-        headers: {
-            "Authorization": token
-        }
-    });
-
-    if (!responseTiposProducto.ok) {
-        throw ("Failed to fetch unidades de medida");
-    }
-
-    const gruposProducto = await responseGruposProducto.json();
-
-    const gruposProductoNombre = gruposProducto.map((producto) => {
-        return producto.codigoNombre;
-    });
-
-    const responseAtributos = await fetch("https://apptesting.leiten.dnscheck.com.ar/Atributos/GetAtributos", {
-        headers: {
-            "Authorization": token
-        }
-    });
-
-    if (!responseTiposProducto.ok) {
-        throw ("Failed to fetch unidades de medida");
-    }
-
-    const atributos = await responseAtributos.json();
-
-    const atributosNombres = atributos.map((atributo) => {
-        return atributo.nombre;
-    });
-
-    const responseUnidadesMedida = await fetch("https://apptesting.leiten.dnscheck.com.ar/UnidadesMedida/GetUnidadesMedida", {
-        headers: {
-            "Authorization": token
-        }
-    });
-
-    if (!responseUnidadesMedida.ok) {
-        throw ("Failed to fetch unidades de medida");
-    }
-
-    const unidadesMedida = await responseUnidadesMedida.json();
-
-    const unidadesDeMedidaCodigoNombre = unidadesMedida.map((unidad: { codigo: string }) => {
-        return unidad.codigoNombre;
-    });
-    return { tiposProductoCodigoNombre, gruposProductoNombre, atributosNombres, unidadesDeMedidaCodigoNombre };
-
-};
-
 
 export default function EditFormReglaValidacionAtributosSeleccionado() {
     
     //REMIX-HOOKS
-    const { tiposProductoCodigoNombre, gruposProductoNombre, atributosNombres, unidadesDeMedidaCodigoNombre } = useLoaderData<{ tiposProductoCodigoNombre: string[], gruposProductoNombre: string[], atributosNombres: string[], unidadesDeMedidaCodigoNombre: string[] }>();
-    const { reglaValidacionAtributosSeleccionado, closeForm } = useOutletContext<OutletContextType>();
+    const {  tiposProductoCodigoNombreData, gruposProductoNombreData,  atributosNombresData, unidadesDeMedidaCodigoNombreData } = useLoaderData<{ tiposProductoCodigoNombreData: string[], gruposProductoNombre: string[], atributosNombres: string[], unidadesDeMedidaCodigoNombre: string[] }>();
+    const { reglaValidacionAtributosSeleccionado } = useOutletContext<any>();
     const { id } = useParams();
     const submit = useSubmit();
     const [reglaValidacionAtributos, setReglaValidacionAtributos] = useState<any>();
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     //TELERIK-FILTERS
-    const [dataUnidadMedida, setDataUnidadMedida] = useState(unidadesDeMedidaCodigoNombre);
-    const [dataAtributos, setDataAtributos] = useState(atributosNombres);
-    const [dataGruposProducto, setDataGruposProducto] = useState(gruposProductoNombre);
-    const [dataTiposProducto, setDataTiposProducto] = useState(tiposProductoCodigoNombre);
+    const [dataUnidadMedida, setDataUnidadMedida] = useState(unidadesDeMedidaCodigoNombreData);
+    const [dataAtributos, setDataAtributos] = useState(atributosNombresData);
+    const [dataGruposProducto, setDataGruposProducto] = useState(gruposProductoNombreData);
+    const [dataTiposProducto, setDataTiposProducto] = useState(tiposProductoCodigoNombreData);
 
     useEffect(() => {
         setReglaValidacionAtributos(reglaValidacionAtributosSeleccionado);
@@ -183,7 +123,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
             render={(renderProps: FormRenderProps) => (
                 <Dialog
                     title={`${Number(id) === 0 ? "Nueva Regla de validacion" : "Editar Regla de validacion"}`}
-                    onClose={closeForm}
+                    onClose={()=>navigate(-1)}
                     width={500}
                 >
                     <FormElement>
@@ -213,7 +153,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                                 filterable={true}
                                 label={"Tipo de producto"}
                                 onFilterChange={(event: ComboBoxFilterChangeEvent) => {
-                                    setDataTiposProducto(filterBy(tiposProductoCodigoNombre, event.filter));
+                                    setDataTiposProducto(filterBy(tiposProductoCodigoNombreData, event.filter));
                                 }}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
@@ -226,7 +166,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                                 filterable={true}
                                 label={"Grupo de producto"}
                                 onFilterChange={(event: ComboBoxFilterChangeEvent) => {
-                                    setDataGruposProducto(filterBy(gruposProductoNombre, event.filter));
+                                    setDataGruposProducto(filterBy(gruposProductoNombreData, event.filter));
                                 }}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
@@ -239,7 +179,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                                 filterable={true}
                                 label={"Atributos"}
                                 onFilterChange={(event: ComboBoxFilterChangeEvent) => {
-                                    setDataAtributos(filterBy(atributosNombres, event.filter));
+                                    setDataAtributos(filterBy(atributosNombresData, event.filter));
                                 }}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
@@ -252,7 +192,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                                 filterable={true}
                                 label={"Unidades de medida"}
                                 onFilterChange={(event: ComboBoxFilterChangeEvent) => {
-                                    setDataUnidadMedida(filterBy(unidadesDeMedidaCodigoNombre, event.filter));
+                                    setDataUnidadMedida(filterBy(unidadesDeMedidaCodigoNombreData, event.filter));
                                 }}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
@@ -269,7 +209,7 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                     </FormElement>
                     <DialogActionsBar layout="end">
                         <Button
-                            onClick={closeForm}
+                            onClick={()=>navigate(-1)}
                             icon="cancel"
                             svgIcon={cancelIcon}
                         >

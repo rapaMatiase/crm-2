@@ -1,18 +1,21 @@
-import * as React from "react";
-import { Grid, GridColumn as Column, GridCellProps, GridToolbar } from "@progress/kendo-react-grid";
-
+//REACT
+import { useState } from "react";
+//REMIX
+import { ActionFunction, json, MetaFunction } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
+import { Form, useLoaderData, useNavigate, useParams, useSearchParams, useSubmit } from "@remix-run/react";
+//TELERIK
 import { Button } from "@progress/kendo-react-buttons";
-
+import { Grid, GridColumn as Column, GridCellProps, GridToolbar } from "@progress/kendo-react-grid";
+//COMPONENTS 
 import EditForm from './EditForm';
 import DeleteForm from './DeleteForm';
 import CreateForm from './CreateForm';
-
-
-import { LoaderFunction } from "@remix-run/node";
-import { getSession } from "~/session.server";
-import { Form, useLoaderData, useNavigate, useParams, useSearchParams, useSubmit } from "@remix-run/react";
-import { useState } from "react";
-
+//SESION
+import { getSession } from "~/servicies/session.server";
+//CONFIG
+import { API_ENDPOINTS_PRODUCTOS, API_ENDPOINTS_UNIDADES_MEDIDA, API_ENDPOINTS_ATRIBUTOS } from "~/config/apiConfig";
+import { ROUTE_BASE_PRODUCTOS } from "~/config/routesConfig";
 
 interface EditCommandCellProps extends GridCellProps {
     enterEdit: (item: Atributo) => void;
@@ -41,52 +44,16 @@ const EditCommandCell = (props: EditCommandCellProps) => {
 };
 
 
-import { ActionFunction } from "@remix-run/node";
 
-export const action: ActionFunction = async ({ request }) => {
-    const formData = await request.formData();
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
-
-    const idProducto = formData.get("idProductoBase");
-    const atributos = JSON.parse(formData.get("atributos"));
-
-    const productoAtributos = {
-        idProductoBase: Number(idProducto),
-        atributos: atributos.map((atributo: any) => {
-            return {
-                idAtributoProducto: Number(idProducto),
-                idAtributo: atributo.idAtributo,
-                strUniMed: atributo.strUniMed,
-                strValor: atributo.strValor,
-            }
-        })
-    }
-
-    const jsonProductoAtributos = JSON.stringify(productoAtributos);
-
-    const response = await fetch("https://apptesting.leiten.dnscheck.com.ar/Productos/ActualizarProductoAtributos", {
-        method: "POST",
-        headers: {
-            "Authorization": token,
-            "Content-Type": "application/json"
-        },
-        body: jsonProductoAtributos
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch data");
-    }
-
-    return response;
-};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+
     const session = await getSession(request.headers.get("Cookie"));
     const token = session.get("user")?.token;
+
     const { idProducto } = params;
 
-    const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Productos/GetAtributosPorProducto/IdProductobase/${idProducto}`, {
+    const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.GET}/IdProductobase/${idProducto}`, {
         method: "GET",
         headers: {
             "Authorization": token
@@ -113,7 +80,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     });
 
     //Lista de unidades 
-    const response2 = await fetch("https://apptesting.leiten.dnscheck.com.ar/UnidadesMedida/GetUnidadesMedida", {
+    const response2 = await fetch(`${API_ENDPOINTS_UNIDADES_MEDIDA.GET}`, {
         headers: {
             "Authorization": token
         }
@@ -130,7 +97,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     });
 
 
-    const response3 = await fetch("https://apptesting.leiten.dnscheck.com.ar/Atributos/GetAtributos", {
+    const response3 = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}`, {
         method: "GET",
         headers: {
             "Authorization": token
@@ -143,12 +110,46 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const todosAtributosData = await response3.json();
 
-    const todosAtributosDataNombre = todosAtributosData.map((atributo) => {
-        return { nombre: atributo.nombre, idAtributo: atributo.idAtributo };
+    return json({ atributosDataFormat, unidadesDeMedidaCodigoNombre, todosAtributosData });
+};
+
+export const action: ActionFunction = async ({ request }) => {
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const {token} = session.get("user");
+    
+    const formData = await request.formData();
+    const idProducto = formData.get("idProductoBase");
+    const atributos = JSON.parse(formData.get("atributos") as string);
+
+    const productoAtributos = {
+        idProductoBase: Number(idProducto),
+        atributos: atributos.map((atributo: any) => {
+            return {
+                idAtributoProducto: Number(idProducto),
+                idAtributo: atributo.idAtributo,
+                strUniMed: atributo.strUniMed,
+                strValor: atributo.strValor,
+            }
+        })
+    }
+
+    const jsonProductoAtributos = JSON.stringify(productoAtributos);
+
+    const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.POST}`, {
+        method: "POST",
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        },
+        body: jsonProductoAtributos
     });
 
+    if (!response.ok) {
+        throw new Error("Failed to fetch data");
+    }
 
-    return { atributosDataFormat, unidadesDeMedidaCodigoNombre, todosAtributosData };
+    return response;
 };
 
 interface Atributo {
@@ -163,26 +164,29 @@ interface Atributo {
 }
 
 
-const App = () => {
-    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
-    const { idProducto } = useParams();
-    const [searchParams, setSearchParams] = useSearchParams();
+export default function CMSDefinirProductosGrillaAtributos() {
 
+    //REMIX-HOOK
+    const [searchParams, setSearchParams] = useSearchParams();
+    const { idProducto } = useParams();
+    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
     const serchJson = searchParams.get("search");
+    const navigate = useNavigate();
+    const submit = useSubmit();
+
+
     const codigoNombre = JSON.parse(serchJson).codigoNombre
     const Atributos = [...atributosData];
-    const navigate = useNavigate();
+    
     const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
     const [openFormDelete, setOpenFormDelete] = useState<boolean>(false);
     const [openFormCreate, setOpenFormCreate] = useState<boolean>(false);
 
     const [editItem, setEditItem] = useState<Atributo>({ idAtributo: 0 });
     const [data, setData] = useState<Array<Atributo>>(Atributos);
-    const submit = useSubmit();
 
     const enterCreate = () => {
         setOpenFormCreate(true);
-        //setEditItem(item);
     }
 
     const enterEdit = (item: Atributo) => {
@@ -234,49 +238,29 @@ const App = () => {
         <EditCommandCell {...props} enterEdit={enterEdit} enterDelete={enterDelete} />
     );
 
-    const handleSubmitGrilla = () => {
-        debugger
+    const handleSubmit = () => {
         const formData = new FormData();
         formData.append("idProductoBase", idProducto || "");
         formData.append("atributos", JSON.stringify(data));
         submit(formData, { method: 'POST' });
-        console.log("Guardado")
-        navigate("/CMSDefinirProductos");
+        navigate(`${ROUTE_BASE_PRODUCTOS}`);
     }
 
     return (
         <>
-
             <h2>{codigoNombre}</h2>
             <Grid style={{ height: "500px" }} data={data}>
                 <GridToolbar>
-                    <div >
-                        <Button
-                            type="button"
-                            onClick={enterCreate}
-                        >
-                            Agregar atributo
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                navigate("/CMSDefinirProductos");
-                            }}
-                        >
-                            Cancelar y volver
-                        </Button>
-                        <Form
-                            onSubmit={handleSubmitGrilla}
-                        >
-                            <Button
-                                title="Add new"
-                                themeColor={"primary"}
-                                type="submit"
-                            >
-                                Guardar todo
-                            </Button>
-                        </Form>
 
-                    </div>
+                    <Button type="button"  onClick={enterCreate}> Agregar atributo </Button>
+
+                    <Button
+                        onClick={() => {
+                            navigate(`${ROUTE_BASE_PRODUCTOS}`);
+                        }}> Cancelar y volver </Button>
+
+                    <Button  themeColor={"primary"} onClick={handleSubmit}> Guardar todo </Button>
+
                 </GridToolbar>
 
                 <Column field="idAtributo" title="Id" width="50px" editable={false} />
@@ -301,6 +285,7 @@ const App = () => {
                 onSubmit={handleSubmitDelete}
                 item={editItem}
             />}
+
             {openFormCreate && <CreateForm
                 cancelEdit={handleCancelCreate}
                 onSubmit={handleSubmitCreate}
@@ -308,13 +293,6 @@ const App = () => {
                 dataAtributos={todosAtributosData}
             />}
 
-            <style>
-                {`.k-animation-container {
-                    z-index: 10003;
-                }`}
-            </style>
         </>
     );
 }
-
-export default App;

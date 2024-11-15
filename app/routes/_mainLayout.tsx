@@ -4,7 +4,7 @@ import { Menu, AppBar, AppBarSection, AppBarSpacer } from '@progress/kendo-react
 
 
 import { json, LoaderFunction } from "@remix-run/node";
-import { getSession } from "~/session.server";
+import { getSession } from "~/servicies/session.server";
 import { useState } from "react";
 
 export const loader: LoaderFunction = async ({ request }) => {

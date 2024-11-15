@@ -8,60 +8,45 @@ import { ExcelExport } from "@progress/kendo-react-excel-export";
 import { Button } from '@progress/kendo-react-buttons';
 //REMIX
 import { Outlet, useLoaderData, useNavigate } from '@remix-run/react';
-import { LoaderFunction } from '@remix-run/node';
-//SESION
-import { getSession } from "~/session.server";
+import { LoaderFunction, MetaFunction } from '@remix-run/node';
 //COMPONENTS
 import { ColumnMenu } from './columnMenu';
+//CONFIG
+import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
+//API
+import { getReglasDeValidacionAtributos } from '~/api/apiReglaDeValidacion';
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+    if (!data) {
+      return [{ title: "User not found!" }];
+    }
+    return [{ title: "BackOffice - Reglas de validación" }];
+};
 
 export const loader: LoaderFunction = async ({request}) => {
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
-
-    const response = await fetch("https://apptesting.leiten.dnscheck.com.ar/Atributos/GetReglaValidacionAtributos", {
-        method: "GET",
-        headers: {
-            "Authorization": token
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch data");
-    }
-
-    const reglasDeValidacionAtributosData = await response.json();
-    return reglasDeValidacionAtributosData;
+    const response = await getReglasDeValidacionAtributos({request});
+    const {reglasValidacionAtributoData} = await response.json();
+    
+    return {reglasValidacionAtributoData};
 };
 
 export default function CMSDefinirRelgasValidacionAtributos() {
 
     //REMIX-HOOOKS
-    const reglaValidacionAtributosData = useLoaderData<any[]>();
+    const { reglasValidacionAtributoData } = useLoaderData<{ reglasValidacionAtributoData: any[] }>();
     const navigate = useNavigate();
 
     //TELERIK-HOOKS
-    const [form, setForm] = useState(false);
     const [reglaValidacionAtributosSeleccionado, setReglaValidacionAtributos] = useState<any>();
 
-    //TELERIK - FUNCTIONS
-    const openForm = () => {
-        setForm(true);
-    }
-
-    const closeForm = () => {
-        setForm(false);
-    }
-
     const handleEditReglaValidacionAtributos = (item) => {
-        openForm();
         setReglaValidacionAtributos(item);
-        navigate(`/CMSDefinirReglasValidacionAtributos/${item.idReglaValidacion}/edit`);
+        navigate(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}/${item.idReglaValidacion}/edit`);
     };
 
     const handleDeleteReglaValidacionAtributos = (item) => {
-        openForm();
         setReglaValidacionAtributos(item);
-        navigate(`/CMSDefinirReglasValidacionAtributos/${item.idReglaValidacion}/delete`);
+        navigate(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}/${item.idReglaValidacion}/delete`);
     };
 
     const CustomCellAction = (props) => {
@@ -74,7 +59,7 @@ export default function CMSDefinirRelgasValidacionAtributos() {
     }
 
     const handleNuevaReglaDeValidacionAtributos = () => {
-        openForm();
+        // openForm();
         setReglaValidacionAtributos({
             idReglaValidacion: 0,
             nombre: "",
@@ -84,7 +69,7 @@ export default function CMSDefinirRelgasValidacionAtributos() {
             strUniMed : "",
             comentario: ""
         });
-        navigate(`/CMSDefinirReglasValidacionAtributos/0/edit`);
+        navigate(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}/0/edit`);
     }
 
     //TELERIK - EXPORT EXCEL
@@ -106,13 +91,13 @@ export default function CMSDefinirRelgasValidacionAtributos() {
     const initialState = createDataState({
         take: 8,
         skip: 0
-    }, reglaValidacionAtributosData);
+    }, reglasValidacionAtributoData);
 
     const [result, setResult] = useState<DataResult>(initialState.result);
     const [dataState, setDataState] = useState<State>(initialState.dataState);
 
     const dataStateChange = (event: GridDataStateChangeEvent) => {
-        let updatedState = createDataState(event.dataState, reglaValidacionAtributosData);
+        let updatedState = createDataState(event.dataState, reglasValidacionAtributoData);
         setResult(updatedState.result);
         setDataState(updatedState.dataState);
     }
@@ -122,7 +107,7 @@ export default function CMSDefinirRelgasValidacionAtributos() {
             <ExcelExport data={result} ref={_export}>
                 <Grid
                     style={{ height: "500px" }}
-                    data={process(reglaValidacionAtributosData, dataState)}
+                    data={process(reglasValidacionAtributoData, dataState)}
                     {...dataState}
                     onDataStateChange={dataStateChange}
                     sortable={true}
@@ -157,7 +142,7 @@ export default function CMSDefinirRelgasValidacionAtributos() {
                     <Column cell={CustomCellAction} title='Actiones' width="200px" />
                 </Grid>
             </ExcelExport>
-            {form && <Outlet context={{ reglaValidacionAtributosSeleccionado, closeForm }} />}
+            <Outlet context={{ reglaValidacionAtributosSeleccionado }} />
         </>
     );
 };

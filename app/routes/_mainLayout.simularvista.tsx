@@ -1,7 +1,7 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import { getSession } from "~/session.server";
+import { getSession } from "~/servicies/session.server";
 import { ComboBoxFilterChangeEvent, ComboBox } from "@progress/kendo-react-dropdowns";
 import { Button } from "@progress/kendo-react-buttons";
 import { FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";

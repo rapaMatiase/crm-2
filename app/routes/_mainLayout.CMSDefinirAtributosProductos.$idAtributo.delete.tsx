@@ -8,49 +8,24 @@ import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, trashIcon } from "@progress/kendo-svg-icons";
 import { Label } from "@progress/kendo-react-labels";
 //REMIX
-import { useOutletContext, useParams, useSubmit } from "@remix-run/react";
+import { useNavigate, useOutletContext, useSubmit } from "@remix-run/react";
 import { ActionFunction,  redirect } from "@remix-run/node";
-//SERVICIES
-import { getSession } from "~/session.server";
-
-//CONSTANTS
-const tipoDeValores = ["Texto", "Numerico", "Fecha", "Entero"];
-
-//INTERFACES
-type OutletContextType = {
-    atributoSeleccionado: any;
-    closeForm: () => void;
-};
+//CONFIG
+import { ROUTE_BASE_ATRIBUTOS } from "~/config/routesConfig";
+import { deleteAtributo } from "~/api/apiAtributos";
 
 export const action: ActionFunction = async ({ request, params }) => {
-
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
-
-    const {id} = params;
-
-    const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Atributos/DeleteAtributo/IdAtributo/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json'
-        }
-    });
-
-    if (!response.ok) {
-        throw ("Failed to update atributo");
-    }
-
-    return redirect(`/CMSDefinirAtributosProductos`);
+    const {idAtributo} = params;
+    await deleteAtributo({request, idAtributo});
+    return redirect(`${ROUTE_BASE_ATRIBUTOS}`);
 };
 
-
-export default function CMSDefinirAtributosProductosFormDelete(){
+export default function CMSDefinirAtributosProductosDelete(){
     
     //REMIX-HOOKS
-    const {atributoSeleccionado, closeForm} = useOutletContext<OutletContextType>();
-    const {id} = useParams();
+    const {atributoSeleccionado} = useOutletContext<{atributoSeleccionado: any}>();
     const submit = useSubmit();
+    const navigate = useNavigate();
 
     //TELERIK-HOOKS
     const [atributo, setAtributo] = useState<any>();
@@ -85,7 +60,7 @@ export default function CMSDefinirAtributosProductosFormDelete(){
             render={(renderProps: FormRenderProps) => (
                 <Dialog
                     title={`Eliminar atributo`}
-                    onClose={closeForm}
+                    onClose={()=>navigate(-1)}
                     width={500}
                     >
                     <FormElement>
@@ -98,7 +73,6 @@ export default function CMSDefinirAtributosProductosFormDelete(){
                                 readOnly
                             />
                         </FieldWrapper>
-
                         <FieldWrapper>
                             <Field
                                 name={"nombre"}
@@ -138,7 +112,7 @@ export default function CMSDefinirAtributosProductosFormDelete(){
                     </FormElement>
                     <DialogActionsBar layout="end">
                         <Button
-                            onClick={closeForm}
+                            onClick={()=>navigate(-1)}
                             icon="cancel"
                             svgIcon={cancelIcon}
                         >

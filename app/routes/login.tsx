@@ -1,43 +1,44 @@
-import { Form, Field, FormElement, FieldWrapper } from "@progress/kendo-react-form";
-import { Input, NumericTextBox, Checkbox, TextArea } from "@progress/kendo-react-inputs";
-import { DropDownList, MultiSelect } from "@progress/kendo-react-dropdowns";
-import { Button } from "@progress/kendo-react-buttons";
-
-
-import { useActionData } from "@remix-run/react";
+//REMIX
+import { isRouteErrorResponse, Outlet, useActionData, useRouteError } from "@remix-run/react";
 import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
+//TELERIK
 import { useLoaderData, useSubmit } from "@remix-run/react";
-import { sessionStorage } from "~/session.server";
+import { Form, Field, FormElement, FieldWrapper, FormRenderProps } from "@progress/kendo-react-form";
+import { Input } from "@progress/kendo-react-inputs";
+import { Button } from "@progress/kendo-react-buttons";
+//SESION
+import { sessionStorage } from "~/servicies/session.server";
+//CONFIG
+import { API_ENDPOINTS_LOGIN } from "~/config/apiConfig";
+import {ROUTE_MAIN_LAYOUT} from "~/config/routesConfig";
 
+export const loader: LoaderFunction = async () => {
 
-// export const loader: LoaderFunction = async ({ request }) => {
+    const response = await fetch(`${API_ENDPOINTS_LOGIN.GET}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        }
+    );
+   
+    if (!response.ok) {
+        throw new Error("Failed to fetch pre-login info");
+    }
+    
+    const {titulo} = await response.json();
 
-//     const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/Contexto/Contexto/GetPreLoginInfo`,
-//         {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "application/json"
-//             }
-//         }
-//     );
-
-//     const result = await response.json();
-
-//     if (!response.ok) {
-//         throw new Error("Failed to fetch pre-login info");
-//     }
-
-//     return (result);
-
-// }
+    return {titulo};
+}
 
 export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData();
     const name = formData.get("name");
     const password = formData.get("password");
 
-    const response = await fetch("https://apptesting.leiten.dnscheck.com.ar/Contexto/Contexto/Login", {
+    const response = await fetch(`${API_ENDPOINTS_LOGIN.POST}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -50,39 +51,33 @@ export const action: ActionFunction = async ({ request }) => {
 
     const result = await response.json();
 
-    if (response.status === 401) {
-        return json({ error: "Unauthorized: Invalid username or password" }, { status: 401 });
-    }
+    // throw new Response("Oh no! Something went wrong!", {
+    //     status: 500,
+    //     statusText : "nada"
+    //   })
+    
 
     if (!response.ok) {
         return json({ error: "Usuario no encontrado. Revice sus credenciales." }, { status: 401 });
-        throw new Error("Failed to fetch unidades de medida");
     }
 
     const session = await sessionStorage.getSession(request.headers.get("Cookie"));
-
-    // Set some session data
     session.set("user", { name: result.nomUsr, token: result.sessionId });
-
-    // Commit the session data to the store
     const cookieHeader = await sessionStorage.commitSession(session);
 
-    return redirect("/index", { headers: { "Set-Cookie": cookieHeader } });
+    return redirect(` ${ROUTE_MAIN_LAYOUT}`, { headers: { "Set-Cookie": cookieHeader } });
 };
 
-
-
-
-
-
 export default function Login() {
+    
+    //REMIX-HOOKS
     const submit = useSubmit();
     const actionData = useActionData();
-
-    // const {titulo} = useLoaderData();
+    const { titulo } = useLoaderData<{titulo: string}>();
+    
     return (
         <>
-            {/* <h1>{titulo}</h1> */}
+            <h1>{titulo}</h1>
             <h2> Login </h2>
             {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
             <Form
@@ -118,6 +113,18 @@ export default function Login() {
                     </FormElement>
                 )}
             />
+            <Outlet />
         </>
     );
 };
+
+
+// export function ErrorBoundary(){
+//     const error = useRouteError();
+
+//     if(isRouteErrorResponse(error)){
+//         return <div>{error.status} - {error.statusText}</div>
+//     }
+
+//     return <div> Fallaste </div>
+// }
