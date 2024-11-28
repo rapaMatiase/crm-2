@@ -1,26 +1,19 @@
+//REACT
+import { useState } from "react";
+//REMIX
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { useState } from "react";
-import { getSession } from "~/servicies/session.server";
+//TELERIK
 import { ComboBoxFilterChangeEvent, ComboBox } from "@progress/kendo-react-dropdowns";
-import { Button } from "@progress/kendo-react-buttons";
 import { FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";
+import { Button } from "@progress/kendo-react-buttons";
+//API
+import { getVistas } from "~/api/apiContentSettings";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
-
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
-
-    const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/ContentSettings/GetVistas`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: token
-            }
-        }
-    );
-    const vistasData = await response.json();
+    const response = await getVistas({ request });
+    const vistasData = response;
     return {vistasData};
 }
 
@@ -47,15 +40,7 @@ export default function SimularVista() {
     }
 
     const handleOpenVistaNewTab = () => {
-        const urlParam = new URLSearchParams({
-            menu : JSON.stringify([{key : "string", value : ""}]),
-            filtro : JSON.stringify([{key : "string", value : ""}])
-        });
-        
-        
-        window.open(`vista/${vistaSelected.codigo}/menu/1/filtros/producto?${urlParam.toString()}`, '_blank');
-       
-        // window.open(`vista/${vista.codigo}/menu/1/filtros/producto?${jsonParam}`, '_blank');
+        window.open(`templateBasic/vista/${vistaSelected.codigo}/menu/1/Breadcrumb/chipts/filters/products`, '_blank');
     }
 
     return (
