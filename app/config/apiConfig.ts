@@ -39,12 +39,4 @@ export const API_ENDPOINTS_LOGIN = {
     POST : `${API_BASE_URL}/Contexto/Contexto/Login`,
     GET : `${API_BASE_URL}/Contexto/Contexto/GetPreLoginInfo`
 };
-
-export const API_ENDPOINTS_CONTENT_SETTEINGS = {
-    IMAGE : `${API_BASE_URL}/ContentSettings/GetImagen`,
-    MENU : `${API_BASE_URL}/ContentSettings/ContentSettings/GetMenu`, 
-    VISTA : `${API_BASE_URL}/ContentSettings/ContentSettings/GetVistas`,
-    GET_ATRIBUTOS_CMS : `${API_BASE_URL}/ContentSettings/GetAtributosCMS`,
-}
-
 export const API_ENDPOINTS_GET_MAIN_MENU = `${API_BASE_URL}/Contexto/Contexto/GetMainMenu`;
