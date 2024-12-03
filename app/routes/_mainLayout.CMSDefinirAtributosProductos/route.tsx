@@ -14,8 +14,7 @@ import { ColumnMenu } from './columnMenu';
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from '~/config/routesConfig';
 //API
-import { getAtributos } from '~/api/ApiAtributos';
-
+import { getAtributos } from '~/api/apiAtributos';
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
     if (!data) {
         return [{ title: "User not found!" }];
