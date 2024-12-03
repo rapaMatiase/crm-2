@@ -8,7 +8,7 @@ import { ComboBoxFilterChangeEvent, ComboBox } from "@progress/kendo-react-dropd
 import { FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";
 import { Button } from "@progress/kendo-react-buttons";
 //API
-import { getVistas } from "~/api/ApiContentSettings";
+import { getVistas } from "~/api/apiContentSettings";
 
 
 export const loader: LoaderFunction = async ({ request }) => {

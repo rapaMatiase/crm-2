@@ -18,7 +18,7 @@ import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { postReglaDeValidacionAtributos } from "~/api/apiReglaDeValidacion";
 import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
-import { getAtributos } from "~/api/apiAtributos";
+import { getAtributos } from "~/api/ApiAtributos";
 import { getGruposProducto } from "~/api/apiGruposProducto";
 import { getTiposProducto } from "~/api/apiTiposProducto";
 

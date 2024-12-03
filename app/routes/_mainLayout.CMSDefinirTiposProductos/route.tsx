@@ -5,7 +5,7 @@ import { Input } from '@progress/kendo-react-inputs';
 import { LoaderFunction, useLoaderData } from 'react-router-dom';
 import { getSession } from '~/servicies/session.server';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
-import { GetTiposProductos } from '~/api/apiAtributos';
+import { GetTiposProductos } from '~/api/ApiAtributos';
 
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await GetTiposProductos({ request });

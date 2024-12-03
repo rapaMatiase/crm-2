@@ -7,8 +7,8 @@ import { getSession } from '~/servicies/session.server';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
 
 
-import { getAtributoMarcas } from '~/api/apiAtributos';
-import { postSetImagen } from '~/api/ApiContentSettings';
+import { getAtributoMarcas } from '~/api/ApiAtributos';
+//import { postSetImagen } from '~/api/ApiContentSettings';
 
 
 
