@@ -69,15 +69,19 @@ export default function CMSDefinirProductos() {
     }
 
     const handleSelectProduct = (event: ComboBoxChangeEvent) => {
+        debugger;
         const producto = event.target.value;
         setProducto(producto);
     }
 
-    const handleSubmit = (event) => {
-        console.log("hea")
-        event.preventDefault();
+    const handleSubmit = (values: { [name: string]: any }, event?: React.SyntheticEvent) => {
+        if (event) {
+            event.preventDefault();
+        }
         const urlParam = new URLSearchParams({ search: JSON.stringify({ codigoNombre: producto.codigoNombre }) });
-        navigate(`${ROUTE_BASE_PRODUCTOS}/producto/${producto.idProductoBase}?${urlParam.toString()}`);
+        navigate(`${ROUTE_BASE_PRODUCTOS}/productos/${producto.idProductoBase}?${urlParam.toString()}`);
+        
+        //navigate(`${ROUTE_BASE_PRODUCTOS}/producto/${producto.idProductoBase}?${urlParam.toString()}`);
     }
 
     return (
@@ -88,7 +92,8 @@ export default function CMSDefinirProductos() {
                     render={(formRenderProps: FormRenderProps) => (
                         <FormElement style={{ width: "500px", margin: "auto" }}>
                             <FieldWrapper>
-                                <ComboBox
+                                <Field 
+                                    component={ComboBox}
                                     name={"Producto"}
                                     textField="codigoNombre"
                                     filterable={true}
@@ -96,8 +101,18 @@ export default function CMSDefinirProductos() {
                                     data={filterData}
                                     onFilterChange={handleFilter}
                                     onChange={handleSelectProduct}
-                                    validationMessage={"Producto requerido"}
                                 />
+                                {/* <ComboBox
+                                    name={"Producto"}
+
+                                    textField="codigoNombre"
+                                    filterable={true}
+                                    placeholder="Escriba para buscar un producto"
+                                    data={filterData}
+                                    onFilterChange={handleFilter}
+                                    onChange={handleSelectProduct}
+
+                                /> */}
                             </FieldWrapper>
                             <FieldWrapper>
                                 <Button
@@ -112,21 +127,7 @@ export default function CMSDefinirProductos() {
                     )} />
             </div >
 
-           {/*  <Form 
-                onSubmit={()=>{console.log("submit")}}
-                render={(formRenderProps: FormRenderProps) => (
-                    <FormElement>
-                        <FieldWrapper>
-                            <Field name="codigoNombre" component="input" />
-                        </FieldWrapper>
-                        <FieldWrapper>
-                            <button
-                            disabled={!formRenderProps.allowSubmit}
-                            onClick={formRenderProps.onSubmit}
-                                type="submit"> mandar</button>
-                        </FieldWrapper>
-                    </FormElement>
-                )}/> */}
+      
         </>
     )
 }

@@ -29,6 +29,7 @@ export const SingleSeleccion = (props : any) => {
             <RadioGroup 
                 data={item.data} 
                 onChange={(event)=>handleChange(event)} 
+                defaultValue={null}
                 />
             }
         </FieldWrapper>

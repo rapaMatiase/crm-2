@@ -1,44 +1,32 @@
-import { Outlet, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
+import { isRouteErrorResponse, Outlet, useLoaderData, useParams, useRouteError, useSearchParams } from "@remix-run/react";
 import { Card, CardImage, CardTitle, GridLayoutItem } from '@progress/kendo-react-layout';
 import { urlSearchParamsToObject } from "~/utils/URLSearchParams";
 import { getSession } from "~/servicies/session.server";
-import { LoaderFunction } from "@remix-run/node";
-import { getImage } from "~/api/apiContentSettings";
+import { data, LoaderFunction } from "@remix-run/node";
+import { getImage, getItems, getContenidoFichaItem } from "~/api/ApiContentSettings";
 import { ListView } from "@progress/kendo-react-listview";
-import React from "react";
-
+import { createComponent } from "~/utils/ParseHtmlInjeccion";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const token = session.get("user")?.token;
 
-  const idVista = params.idVista;
-
+  const idView = params.idView;
 
   const url = new URL(request.url);
   const searchParams = url.searchParams;
   const urlParamsSearch = urlSearchParamsToObject(searchParams);
-  const filters = urlParamsSearch.filters;
+  const filters = urlParamsSearch.filters || [{key : "", value : ""}];
+
   const filterArray = Object.keys(filters).map((key) => {
     return { key: filters[key].id, value: "" };
   });
 
   const paramSearch = [...urlParamsSearch.menu, ...filterArray]
 
-  const response = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetItems?IdVista=${idVista}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": token
-    },
-    body: JSON.stringify(paramSearch)
-  });
+  const paramJson = JSON.stringify(paramSearch);
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  const data = await response.json();
+  const response = await getItems( request, idView, paramJson );
+  
+  const data = await response;
 
   const dataWithImages = await Promise.all(
     data.map(async (item: any) => {
@@ -46,21 +34,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       const image = await getImage({ request, id });
       return { ...item, image };
     })
-
   );
 
-
-  // const responseHtml = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetContenidoFichaItem?IdVista=3`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Authorization": token
-  //   }
-  // })
-
-  // const dataHtml = await responseHtml.json();
-
-  return { dataWithImages };
+  const responseHtml = await getContenidoFichaItem(request, idView);
+  return { dataWithImages, dataHtml : responseHtml };
 };
 
 
@@ -75,7 +52,8 @@ const MyItemRender = (props, dataHtml) => {
           boxShadow: "none",
           flex: "0 0 25.33%",
           margin: 25,
-          border: "none",
+          padding : 10,
+          border : "1px solid black",
         }}
       >
         <CardImage
@@ -95,8 +73,8 @@ const MyItemRender = (props, dataHtml) => {
               fontSize: 14,
             }}
           >
-            {/* {createComponent(dataHtml, props.dataItem)} */}
-            {props.dataItem.nombre}
+            {createComponent(dataHtml.body[0], props.dataItem)}
+           
           </CardTitle>
         </div>
       </Card>
@@ -105,24 +83,35 @@ const MyItemRender = (props, dataHtml) => {
 };
 
 export default function Products() {
-  const { dataWithImages } = useLoaderData();
+  const { dataWithImages, dataHtml } = useLoaderData();
   const [url] = useSearchParams();
-
+  
   return (
     <>
       <GridLayoutItem row={2} col={4} colSpan={7} rowSpan={7}>
         <ListView
           data={dataWithImages}
-          item={(props) => MyItemRender(props)}
+          item={(props) => MyItemRender(props, dataHtml)}
           style={{ height: 850 }}
         />
         <style>
           {`.k-listview-content {
                     display: flex;
                     flex-wrap: wrap;
-                }`}
+                }
+                `}
         </style>
       </GridLayoutItem>
     </>
   )
+}
+
+export function ErrorBoundary(){
+    const error = useRouteError();
+
+    if(isRouteErrorResponse(error)){
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <GridLayoutItem row={2} col={4} colSpan={7} rowSpan={7} style={{placeContent : "center"}} ><div> Algo fallo </div> </GridLayoutItem>
 }

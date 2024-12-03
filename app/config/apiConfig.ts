@@ -2,13 +2,18 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const API_BASE_URL = process.env.API_BASE_URL;
+export const API_BASE_URL = process.env.API_BASE_URL;
 
 
 export const API_ENDPOINTS_ATRIBUTOS = {
     GET : `${API_BASE_URL}/Atributos/GetAtributos`,
     POST : `${API_BASE_URL}/Atributos/ActualizarAtributo`,
-    DELETE : `${API_BASE_URL}/Atributos/DeleteAtributo`
+    DELETE : `${API_BASE_URL}/Atributos/DeleteAtributo`,
+    GET_MARCAS : `${API_BASE_URL}/Atributos/GetMarcas`,
+    POST_MARCAS : `${API_BASE_URL}/Atributos/ActualizarMarca`,
+    GET_GRUPOS_PRODUCTOS : `${API_BASE_URL}/Atributos/GetGruposProductos`,
+    GET_SEGMENTOS : `${API_BASE_URL}/Atributos/GetSegmentos`,
+    GET_TIPOS_PRODUCTOS : `${API_BASE_URL}/Atributos/GetTiposProducto`,
 };
 
 export const API_ENDPOINTS_UNIDADES_MEDIDA = {
@@ -45,6 +50,15 @@ export const API_ENDPOINTS_CONTENT_SETTEINGS = {
     MENU : `${API_BASE_URL}/ContentSettings/ContentSettings/GetMenu`, 
     VISTA : `${API_BASE_URL}/ContentSettings/ContentSettings/GetVistas`,
     GET_ATRIBUTOS_CMS : `${API_BASE_URL}/ContentSettings/GetAtributosCMS`,
+    SET_IMAGEN : `${API_BASE_URL}ContentSettings/SetImagen`,
+    GET_ITEMS: `${API_BASE_URL}/ContentSettings/GetItems`,
+    GET_CONTENIDO_FICHA_ITEM: `${API_BASE_URL}/ContentSettings/GetContenidoFichaItem`,
 }
 
+
+
 export const API_ENDPOINTS_GET_MAIN_MENU = `${API_BASE_URL}/Contexto/Contexto/GetMainMenu`;
+
+export const API_ENDPOINT_STYLES = {
+    GET : `${API_BASE_URL}/Styles/GetStyle`
+}

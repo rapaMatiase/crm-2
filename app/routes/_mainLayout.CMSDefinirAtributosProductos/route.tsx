@@ -1,23 +1,24 @@
 //REACT
-import {  useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 //REMIX
-import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { LoaderFunction, MetaFunction } from '@remix-run/node';
+import { Button, Chip, ChipList, ChipProps } from '@progress/kendo-react-buttons';
+import { Outlet, useLoaderData, useNavigate } from '@remix-run/react';
 //TELERIK
 import { Grid, GridColumn as Column, GridToolbar, GridDataStateChangeEvent } from '@progress/kendo-react-grid';
 import { DataResult, process, State } from '@progress/kendo-data-query';
-import { Outlet, useLoaderData, useNavigate } from '@remix-run/react';
-import { Button } from '@progress/kendo-react-buttons';
 import { ExcelExport } from "@progress/kendo-react-excel-export";
 import { filterIcon } from '@progress/kendo-svg-icons';
 //COMPONENTS
 import { ColumnMenu } from './columnMenu';
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from '~/config/routesConfig';
-import { getAtributos } from '~/api/apiAtributos';
+//API
+import { getAtributos } from '~/api/ApiAtributos';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
     if (!data) {
-      return [{ title: "User not found!" }];
+        return [{ title: "User not found!" }];
     }
     return [{ title: "BackOffice - Atributos" }];
 };
@@ -25,13 +26,27 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getAtributos({ request });
     const { atributosData } = await response.json();
-    return {atributosData};
+    return { atributosData };
 }
 
-export default function CMSDefinirAtributosProductosHome(){
+const cellUnidadMedida = (props: any) => {
+    const data = props.dataItem.strUniMeds.map((item: any) => {return {label : item, value : ""}});
+    return (
+        <td>
+            <ChipList
+                data={data}
+                selection="none"
+                textField='label'
+                chip={(props: ChipProps) => <Chip  {...props} />}
+            />
+        </td>
+    )
+}
+
+export default function CMSDefinirAtributosProductosHome() {
 
     //REMIX-HOOOKS
-    const {atributosData} = useLoaderData<{atributosData: any[]}>();
+    const { atributosData } = useLoaderData<{ atributosData: any[] }>();
     const navigate = useNavigate();
 
     //TELERIK-HOOKS
@@ -40,22 +55,22 @@ export default function CMSDefinirAtributosProductosHome(){
     //TELERIK - FUNCTIONS
     const CustomCellAction = (props: any) => {
         return (
-            <td style={{display : "flex", justifyContent : "space-evenly"}}>
-                <Button 
+            <td style={{ display: "flex", justifyContent: "space-evenly", }}>
+                <Button
                     onClick={() => {
                         const dataItem = props.dataItem;
                         setAtributoSeleccionado(dataItem);
-                        navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/edit`); 
+                        navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/edit`);
                     }}>
-                        Editar
+                    Editar
                 </Button>
-                <Button 
-                    onClick={() => { 
+                <Button
+                    onClick={() => {
                         const dataItem = props.dataItem;
-                        setAtributoSeleccionado(dataItem); 
+                        setAtributoSeleccionado(dataItem);
                         navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/delete`);
                     }}>
-                        Eliminar
+                    Eliminar
                 </Button>
             </td>
         )
@@ -106,7 +121,7 @@ export default function CMSDefinirAtributosProductosHome(){
 
     return (
         <>
-            <ExcelExport data={result.data} ref={_export}>   
+            <ExcelExport data={result.data} ref={_export}>
                 <Grid
                     style={{ height: "500px" }}
                     data={process(atributosData, dataState)}
@@ -120,10 +135,10 @@ export default function CMSDefinirAtributosProductosHome(){
                         <Button themeColor={"primary"} onClick={handleNuevoAtributo}> Nuevo atributo </Button>
                     </GridToolbar>
 
-                    <Column columnMenu={ColumnMenu} field="idAtributo" title="id" width={75} filter={'numeric'}  />
-                    <Column columnMenu={ColumnMenu} field="nombre" title="Nombre" width={250} filter={'text'}  />
-                    <Column columnMenu={ColumnMenu} field="nombreCorto" width={150} title="Nombre corto" filter={'text'}  />
-                    <Column columnMenu={ColumnMenu} field="strUniMeds" title="Unidadades de medida" />
+                    <Column columnMenu={ColumnMenu} field="idAtributo" title="id" width={75} filter={'numeric'} />
+                    <Column columnMenu={ColumnMenu} field="nombre" title="Nombre" width={250} filter={'text'} />
+                    <Column columnMenu={ColumnMenu} field="nombreCorto" width={150} title="Nombre corto" filter={'text'} />
+                    <Column columnMenu={ColumnMenu} cell={cellUnidadMedida} width={200} /* field="strUniMeds" */ title="Unidadades de medida" />
                     <Column columnMenu={ColumnMenu} field="activo" width={100} title="Activo" filter={'boolean'} />
                     <Column columnMenu={ColumnMenu} field="tipoValor" width={125} title="Tipo de valor" filter={'text'} />
                     <Column field="valorMinimo" width={125} title="Valor minimo" />
@@ -133,7 +148,7 @@ export default function CMSDefinirAtributosProductosHome(){
                 </Grid>
             </ExcelExport>
 
-             <Outlet context={{ atributoSeleccionado }} />
+            <Outlet context={{ atributoSeleccionado }} />
         </>
     );
 };

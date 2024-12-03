@@ -12,7 +12,7 @@ import { useNavigate, useOutletContext, useSubmit } from "@remix-run/react";
 import { ActionFunction,  redirect } from "@remix-run/node";
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from "~/config/routesConfig";
-import { deleteAtributo } from "~/api/apiAtributos";
+import { deleteAtributo } from "~/api/ApiAtributos";
 
 export const action: ActionFunction = async ({ request, params }) => {
     const {idAtributo} = params;

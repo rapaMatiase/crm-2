@@ -5,8 +5,9 @@ import { useState } from "react";
 import { AppBar, AppBarSection, AppBarSpacer, Drawer, DrawerContent, DrawerSelectEvent, GridLayout, Menu } from '@progress/kendo-react-layout';
 import { Button } from "@progress/kendo-react-buttons";
 import { LoaderFunction } from "@remix-run/node";
-import { getMenu } from "~/api/apiContentSettings";
+import { getMenu } from "~/api/ApiContentSettings";
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
+import { Grid } from "@progress/kendo-react-grid";
 
 const items = [
     { text: 'Inbox', selected: true },
@@ -19,9 +20,9 @@ const items = [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const { idVista, idMenu } = params;
+    const { idView, idMenu } = params;
 
-    const menus = await getMenu({ request, idVista, idMenu });
+    const menus = await getMenu({ request, idView, idMenu });
 
     const title = menus.title;
 
@@ -30,7 +31,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
             text: item.title,
             id: item.id,
             urlParam: [{ key: item.id, value: "" }],
-            url2:  [{ key: item.id, value: "" }] ,
+            url2: [{ key: item.id, value: "" }],
             breadcrumb: [{ label: item.title, id: item.id }],
             action: item.action,
             items: item.menuItems.map((subItem: any) => {
@@ -55,13 +56,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function TemplateBasic() {
     //REMIX
-    const { idVista, idMenu } = useParams();
+    const { idView, idMenu } = useParams();
     const { title, menuItems } = useLoaderData<{ title: string, menuItems: any[] }>();
     const navigate = useNavigate();
     //DRAWER
     const [expanded, setExpanded] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number>(items.findIndex(x => x.selected === true));
-    
+
     //FUNTIONS - DRAWER
     const handleClick = () => { setExpanded(prevState => !prevState); };
     const handleSelect = (ev: DrawerSelectEvent) => {
@@ -77,11 +78,11 @@ export default function TemplateBasic() {
         const url = new URLSearchParams({
             menu: JSON.stringify(itemMenuSelected.url2),
             breadcrumb: JSON.stringify(itemMenuSelected.breadcrumb),
-            chipts : JSON.stringify([]),
-            filters : JSON.stringify({})
+            chipts: JSON.stringify([]),
+            filters: JSON.stringify({})
         });
-        
-        actionAnalyzer.analyze(itemMenuSelected.action, navigate, url, idVista, idMenu);
+
+        actionAnalyzer.analyze(itemMenuSelected.action, navigate, url, idView, idMenu);
     }
 
     return (
@@ -96,8 +97,11 @@ export default function TemplateBasic() {
                 onSelect={handleSelect}
             >
                 <DrawerContent>
-                    <h1> {title} </h1>
-                    
+                    <div style={{ display: "flex" }}>
+                        <div className="logo" style={{ height: 120, width: 860 }}></div>
+                        <h1> {title} </h1>
+                    </div>
+
                     <AppBar style={{ marginBottom: 20 }} >
                         <AppBarSpacer style={{ width: 4 }} />
                         <AppBarSection>
@@ -105,15 +109,17 @@ export default function TemplateBasic() {
                         </AppBarSection>
                         <Button onClick={handleClick}> Carrito</Button>
                     </AppBar>
-
                     <GridLayout
                         style={{ placeContent: "center" }}
+                        className="colorRojo"
                         gap={{ rows: 10, cols: 10 }}
                         rows={[{ height: 50 }, { height: 150 }, { height: 650 }]}
                         cols={[{ width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }]}
                     >
+
                         <Outlet />
                     </GridLayout>
+
 
                 </DrawerContent>
             </Drawer>

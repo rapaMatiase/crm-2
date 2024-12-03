@@ -8,7 +8,7 @@ import { ComboBoxFilterChangeEvent, ComboBox } from "@progress/kendo-react-dropd
 import { FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";
 import { Button } from "@progress/kendo-react-buttons";
 //API
-import { getVistas } from "~/api/apiContentSettings";
+import { getVistas } from "~/api/ApiContentSettings";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -40,7 +40,7 @@ export default function SimularVista() {
     }
 
     const handleOpenVistaNewTab = () => {
-        window.open(`templateBasic/vista/${vistaSelected.codigo}/menu/1/Breadcrumb/chipts/filters/products`, '_blank');
+        window.open(`view/${vistaSelected.codigo}/menu/1/template/listProduct/filters/products`, '_blank');
     }
 
     return (
