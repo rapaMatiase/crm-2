@@ -3,7 +3,7 @@ import { Card, CardImage, CardTitle, GridLayoutItem } from '@progress/kendo-reac
 import { urlSearchParamsToObject } from "~/utils/URLSearchParams";
 import { getSession } from "~/servicies/session.server";
 import { data, LoaderFunction } from "@remix-run/node";
-import { getImage, getItems, getContenidoFichaItem } from "~/api/apiContentSettings";
+import { getImage, getItems, getContenidoFichaItem } from "~/api/ApiContentSettings";
 import { ListView } from "@progress/kendo-react-listview";
 import { createComponent } from "~/utils/ParseHtmlInjeccion";
 

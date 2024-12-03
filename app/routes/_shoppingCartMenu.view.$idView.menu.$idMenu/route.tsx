@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AppBar, AppBarSection, AppBarSpacer, Drawer, DrawerContent, DrawerSelectEvent, GridLayout, Menu } from '@progress/kendo-react-layout';
 import { Button } from "@progress/kendo-react-buttons";
 import { LoaderFunction } from "@remix-run/node";
-import { getMenu } from "~/api/apiContentSettings";
+import { getMenu } from "~/api/ApiContentSettings";
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
 import { Grid } from "@progress/kendo-react-grid";
 
