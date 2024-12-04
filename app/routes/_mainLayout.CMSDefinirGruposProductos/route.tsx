@@ -26,7 +26,7 @@ export default function CMSDefinirGruposProductos() {
     let data = useLoaderData() as any[];
 
     const handleSubmit = (data: any) => {
-        console.log('Form submitted with data:', data);
+        //console.log('Form submitted with data:', data);
     };
 
     const handleChange = (event: any) => {
@@ -39,12 +39,12 @@ export default function CMSDefinirGruposProductos() {
 
     const handleEdit = (item: any) => {
         // Implement edit functionality
-        console.log('Edit item:', item);
+        //console.log('Edit item:', item);
     };
 
     const handleDelete = (item: any) => {
         // Implement delete functionality
-        console.log('Delete item:', item);
+        //console.log('Delete item:', item);
     };
 
     return (

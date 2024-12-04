@@ -7,7 +7,7 @@ import {
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
-import '@progress/kendo-theme-default/dist/all.css';
+import '@progress/kendo-theme-default/dist/default-green.css';
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

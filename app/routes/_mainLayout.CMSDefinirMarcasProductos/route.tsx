@@ -45,12 +45,12 @@ export default function CMSDefinirMarcasProductos() {
 
     const handleEdit = (item: any) => {
         // Implement edit functionality
-        console.log('Edit item:', item);
+        //console.log('Edit item:', item);
     };
 
     const handleDelete = (item: any) => {
         // Implement delete functionality
-        console.log('Delete item:', item);
+        //console.log('Delete item:', item);
     };
 
     return (

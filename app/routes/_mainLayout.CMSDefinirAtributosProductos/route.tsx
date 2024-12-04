@@ -30,7 +30,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const cellUnidadMedida = (props: any) => {
-    const data = props.dataItem.strUniMeds.map((item: any) => {return {label : item, value : ""}});
+    const data = props.dataItem.strUniMeds.map((item: any) => { return { label: item, value: "" } });
     return (
         <td>
             <ChipList
@@ -55,23 +55,25 @@ export default function CMSDefinirAtributosProductosHome() {
     //TELERIK - FUNCTIONS
     const CustomCellAction = (props: any) => {
         return (
-            <td style={{ display: "flex", justifyContent: "space-evenly", }}>
-                <Button
-                    onClick={() => {
-                        const dataItem = props.dataItem;
-                        setAtributoSeleccionado(dataItem);
-                        navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/edit`);
-                    }}>
-                    Editar
-                </Button>
-                <Button
-                    onClick={() => {
-                        const dataItem = props.dataItem;
-                        setAtributoSeleccionado(dataItem);
-                        navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/delete`);
-                    }}>
-                    Eliminar
-                </Button>
+            <td {...props.tdProps}  >
+                <div style={{ display: "flex", justifyContent: "space-around" }}>
+                    <Button
+                        onClick={() => {
+                            const dataItem = props.dataItem;
+                            setAtributoSeleccionado(dataItem);
+                            navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/edit`);
+                        }}>
+                        Editar
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            const dataItem = props.dataItem;
+                            setAtributoSeleccionado(dataItem);
+                            navigate(`${ROUTE_BASE_ATRIBUTOS}/${dataItem.idAtributo}/delete`);
+                        }}>
+                        Eliminar
+                    </Button>
+                </div>
             </td>
         )
     }
@@ -138,7 +140,7 @@ export default function CMSDefinirAtributosProductosHome() {
                     <Column columnMenu={ColumnMenu} field="idAtributo" title="id" width={75} filter={'numeric'} />
                     <Column columnMenu={ColumnMenu} field="nombre" title="Nombre" width={250} filter={'text'} />
                     <Column columnMenu={ColumnMenu} field="nombreCorto" width={150} title="Nombre corto" filter={'text'} />
-                    <Column columnMenu={ColumnMenu} cell={cellUnidadMedida} width={200} /* field="strUniMeds" */ title="Unidadades de medida" />
+                    <Column columnMenu={ColumnMenu} cell={cellUnidadMedida}  title="Unidadades de medida" />
                     <Column columnMenu={ColumnMenu} field="activo" width={100} title="Activo" filter={'boolean'} />
                     <Column columnMenu={ColumnMenu} field="tipoValor" width={125} title="Tipo de valor" filter={'text'} />
                     <Column field="valorMinimo" width={125} title="Valor minimo" />
