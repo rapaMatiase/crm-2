@@ -15,10 +15,9 @@ export default function TemplateBasic() {
     return (
         <>
             <Outlet />
-            <style dangerouslySetInnerHTML={{ __html: stylessData }} />
-            <footer>
-                Este es el footer
-            </footer>
+            <style>
+                {`${stylessData}`}
+            </style>
         </>
     )
 }

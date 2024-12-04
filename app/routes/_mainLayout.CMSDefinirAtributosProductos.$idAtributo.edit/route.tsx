@@ -70,13 +70,14 @@ export default function CMSDefinirAtributosProductosEditCreate() {
     const [atributo, setAtributo] = useState<any>();
     const [loading, setLoading] = useState(true);
     const [tipoValor, setTipoValor] = useState("");
-    const [readOnly, setReadOnly] = useState(Number(idAtributo) === 0 ? false : true);
+    const [readOnly, setReadOnly] = useState(false);
 
     //FUNCTIONS
     useEffect(() => {
         setAtributo(atributoSeleccionado);
         setTipoValor(atributoSeleccionado.tipoValor);
         setLoading(false);
+        setReadOnly(atributoSeleccionado.id === 0 ? true : false);
     }, [atributoSeleccionado, loading]);
 
     const handleSubmit = (dataItem: { [name: string]: any }, event?: React.SyntheticEvent<any, Event>) => {
@@ -154,7 +155,7 @@ export default function CMSDefinirAtributosProductosEditCreate() {
                                 component={FormDropDownList}
                                 label="Tipo de valor"
                                 data={tipoDeValores}
-                                disabled={readOnly}
+                                readOnly={Number(idAtributo) !== 0}
                                 onChange={(e) => setTipoValor(e.target.value)}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
@@ -260,5 +261,3 @@ export default function CMSDefinirAtributosProductosEditCreate() {
         </>
     );
 };
-
-

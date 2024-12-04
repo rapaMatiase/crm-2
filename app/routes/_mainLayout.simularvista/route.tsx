@@ -69,8 +69,6 @@ export default function SimularVista() {
                         </FieldWrapper>
                     </FormElement>
                 )} />
-
-                
         </>
     )
 }

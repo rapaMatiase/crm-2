@@ -67,6 +67,7 @@ export default function CreateForm(props) {
                             label={"Atributo"}
                             onChange={(event) => {
                                 setAtributoSelected(event.target.value)
+                                console.log(atibutoSelected)
                             }}
                             onFilterChange={filterChangeAtributo}
                         />
