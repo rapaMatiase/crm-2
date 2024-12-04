@@ -2,7 +2,7 @@
 import { useState } from "react";
 //REMIX
 import { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 //TELERIK
 import { ComboBoxFilterChangeEvent, ComboBox } from "@progress/kendo-react-dropdowns";
 import { FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";
@@ -69,6 +69,8 @@ export default function SimularVista() {
                         </FieldWrapper>
                     </FormElement>
                 )} />
+        <Outlet />
+                
         </>
     )
 }

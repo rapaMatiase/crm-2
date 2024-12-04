@@ -9,7 +9,7 @@ import {
     useSearchParams
 } from "@remix-run/react";
 //TELERIK
-import { Breadcrumb, GridLayoutItem } from '@progress/kendo-react-layout';
+import { Breadcrumb, GridLayout, GridLayoutItem } from '@progress/kendo-react-layout';
 import {
     Chip,
     ChipList,
@@ -110,7 +110,15 @@ export default function Chipts() {
     }
 
     return (
-        <>
+        <><GridLayout
+            style={{ placeContent: "center" }}
+            className="colorRojo"
+            gap={{ rows: 10, cols: 10 }}
+            rows={[{ height: 50 }, { height: 150 }, { height: 650 }]}
+            cols={[{ width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }]}
+        >
+
+
 
             <GridLayoutItem row={1} col={1} colSpan={10}  >
                 <Breadcrumb
@@ -126,7 +134,7 @@ export default function Chipts() {
                     textField="label"
                     chip={ChiptFilter}
                     onDataChange={handleDataChange}
-                    //chip={(props: ChipProps) => <Chip removable={true} {...props} />}
+                //chip={(props: ChipProps) => <Chip removable={true} {...props} />}
                 />
             </GridLayoutItem>
             <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} >
@@ -148,6 +156,7 @@ export default function Chipts() {
                 />
             </GridLayoutItem>
             <Outlet />
+        </GridLayout>
         </>
     )
 }
