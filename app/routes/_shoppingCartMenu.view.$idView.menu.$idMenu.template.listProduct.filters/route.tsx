@@ -124,6 +124,7 @@ export default function Chipts() {
                 <GridLayoutItem row={1} col={1} colSpan={10}  >
                     <Breadcrumb
                         data={urlBreadcrumb}
+                        
                         // onItemSelect={handleItemSelect}
                         textField="label"
                     />
@@ -133,6 +134,7 @@ export default function Chipts() {
                         data={urlChipts}
                         selection="multiple"
                         textField="label"
+                        className="tags"
                         chip={ChiptFilter}
                         onDataChange={handleDataChange}
                     //chip={(props: ChipProps) => <Chip removable={true} {...props} />}
@@ -148,6 +150,7 @@ export default function Chipts() {
                                             key={`${index}-${item.id}`}
                                             handleChange={handleChangeFilter}
                                             item={item}
+                                            className="filtros"
                                             filters={filters}
                                         />
                                     </>

@@ -53,8 +53,8 @@ const MyItemRender = (props, dataHtml) => {
           flex: "0 0 25.33%",
           margin: 25,
           padding : 10,
-         
         }}
+        className="tarjetas"
       >
         <CardImage
           src={props.dataItem.image}
@@ -62,6 +62,7 @@ const MyItemRender = (props, dataHtml) => {
             height: 150,
             width: 180,
           }}
+          className="tarjeta-imagen"
         />
         <div
           style={{
@@ -72,6 +73,7 @@ const MyItemRender = (props, dataHtml) => {
             style={{
               fontSize: 14,
             }}
+            className="tarjeta-cuerpo"
           >
             {createComponent(dataHtml.body[0], props.dataItem)}
            
@@ -93,6 +95,7 @@ export default function Products() {
           data={dataWithImages}
           item={(props) => MyItemRender(props, dataHtml)}
           style={{ height: 850 }}
+          className="lista-productos"
         />
         <style>
           {`.k-listview-content {
