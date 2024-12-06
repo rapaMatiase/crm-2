@@ -53,7 +53,7 @@ const MyItemRender = (props, dataHtml) => {
           flex: "0 0 25.33%",
           margin: 25,
           padding : 10,
-          border : "1px solid black",
+         
         }}
       >
         <CardImage
