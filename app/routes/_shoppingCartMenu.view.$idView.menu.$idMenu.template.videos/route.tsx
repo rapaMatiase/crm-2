@@ -1,16 +1,12 @@
-//REMIX
 import { Outlet } from "@remix-run/react";
-//TELERIK
-import { GridLayout, GridLayoutItem } from '@progress/kendo-react-layout';
+import { Card, CardImage, GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
 
-
-export default function DetailProduct() {
-
+export default function TemplateBasic() {
 
     return (
         <>
             <GridLayout
-                style={{ alignItems: "center", width: "100%", margin: "auto" }}
+                style={{  width: "100%", margin: "auto" }}
                 className="colorRojo"
                 cols={[
                     { width: "8.33%" }, { width: "8.33%" }, { width: "8.33%" },

@@ -17,7 +17,7 @@ export default function Detail() {
 
     return (
         <>
-            <GridLayoutItem row={2} col={1} colSpan={10}>
+            <GridLayoutItem row={6} col={2}  colSpan={10}>
                 <TabStrip 
                     tabPosition="left"
                     selected={selected} 
@@ -27,8 +27,6 @@ export default function Detail() {
                             {createComponent(item)}
                         </TabStripTab>
                     ))}
-                    <TabStripTab title="Paris">
-                    </TabStripTab>
                 </TabStrip>
             </GridLayoutItem>
             <Outlet />

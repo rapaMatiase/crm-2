@@ -19,8 +19,8 @@ const json = {
         { url: "/templateHome/ScrollView/3.jpg", alt : "Banner 3", content : "Texto descriptivo 3 - con html injectable" },
         { url: "/templateHome/ScrollView/4.jpg", alt : "Banner 4", content : "Texto descriptivo 4 - con html injectable" },
         { url: "/templateHome/ScrollView/5.jpg", alt : "Banner 5", content : "Texto descriptivo 5 - con html injectable" }
-    ]
-}
+
+    ]}
 
 export default function ScrollViewComponent() {
 

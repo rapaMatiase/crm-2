@@ -1,0 +1,7 @@
+[
+    { "id" : "0", "value" : "1", "label": "Home" },
+    { "id" : "1", "value" : "2", "label": "Productos" },
+    { "id" : "2", "value" : "3", "label": "Máquinas para Pisos Industriales" },
+    { "id" : "3", "value" : "4", "label": "Fratachadoras Tripuladas Hidráulicas" },
+    { "id" : "4", "value" : "5", "label": "Fratachadora Tripulada Roadway RWMG248C" }
+]

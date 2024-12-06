@@ -7,7 +7,6 @@ import { Button } from "@progress/kendo-react-buttons";
 import { LoaderFunction } from "@remix-run/node";
 import { getMenu } from "~/api/apiContentSettings";
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
-import { Grid } from "@progress/kendo-react-grid";
 
 const items = [
     { text: 'Inbox', selected: true },
@@ -115,7 +114,13 @@ export default function TemplateBasic() {
 
                 </DrawerContent>
             </Drawer>
-
+            <style>
+                {`.k-menu-popup  {
+                    position: fixed;
+                    top: auto;
+                    z-index: 1000; 
+                    }`}
+            </style>
         </>
     )
 }

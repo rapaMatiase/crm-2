@@ -64,7 +64,13 @@ export default function MainLayout() {
 
             <h3>{menuSelected}</h3>
             <Outlet />
-
+            <style>
+                {`.k-menu-popup  {
+                    position: fixed;
+                    top: auto;
+                    z-index: 1000; 
+                    }`}
+        </style>
         </>
     );
 };

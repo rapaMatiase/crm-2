@@ -110,53 +110,54 @@ export default function Chipts() {
     }
 
     return (
-        <><GridLayout
-            style={{ placeContent: "center" }}
-            className="colorRojo"
-            gap={{ rows: 10, cols: 10 }}
-            rows={[{ height: 50 }, { height: 150 }, { height: 650 }]}
-            cols={[{ width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }]}
-        >
+        <>
+            <GridLayout
+                style={{ placeContent: "center" }}
+                className="colorRojo"
+                gap={{ rows: 10, cols: 10 }}
+                rows={[{ height: 50 }, { height: 150 }, { height: 650 }]}
+                cols={[{ width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }]}
+            >
 
 
 
-            <GridLayoutItem row={1} col={1} colSpan={10}  >
-                <Breadcrumb
-                    data={urlBreadcrumb}
-                    // onItemSelect={handleItemSelect}
-                    textField="label"
-                />
-            </GridLayoutItem>
-            <GridLayoutItem row={2} col={1} colSpan={3}>
-                <ChipList
-                    data={urlChipts}
-                    selection="multiple"
-                    textField="label"
-                    chip={ChiptFilter}
-                    onDataChange={handleDataChange}
-                //chip={(props: ChipProps) => <Chip removable={true} {...props} />}
-                />
-            </GridLayoutItem>
-            <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} >
-                <Form
-                    render={() => (
-                        <FormElement>
-                            {filtersData.map((item: any, index: number) => (
-                                <>
-                                    <SingleSeleccion
-                                        key={`${index}-${item.id}`}
-                                        handleChange={handleChangeFilter}
-                                        item={item}
-                                        filters={filters}
-                                    />
-                                </>
-                            ))}
-                        </FormElement>
-                    )}
-                />
-            </GridLayoutItem>
-            <Outlet />
-        </GridLayout>
+                <GridLayoutItem row={1} col={1} colSpan={10}  >
+                    <Breadcrumb
+                        data={urlBreadcrumb}
+                        // onItemSelect={handleItemSelect}
+                        textField="label"
+                    />
+                </GridLayoutItem>
+                <GridLayoutItem row={2} col={1} colSpan={3}>
+                    <ChipList
+                        data={urlChipts}
+                        selection="multiple"
+                        textField="label"
+                        chip={ChiptFilter}
+                        onDataChange={handleDataChange}
+                    //chip={(props: ChipProps) => <Chip removable={true} {...props} />}
+                    />
+                </GridLayoutItem>
+                <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} >
+                    <Form
+                        render={() => (
+                            <FormElement>
+                                {filtersData.map((item: any, index: number) => (
+                                    <>
+                                        <SingleSeleccion
+                                            key={`${index}-${item.id}`}
+                                            handleChange={handleChangeFilter}
+                                            item={item}
+                                            filters={filters}
+                                        />
+                                    </>
+                                ))}
+                            </FormElement>
+                        )}
+                    />
+                </GridLayoutItem>
+                <Outlet />
+            </GridLayout>
         </>
     )
 }

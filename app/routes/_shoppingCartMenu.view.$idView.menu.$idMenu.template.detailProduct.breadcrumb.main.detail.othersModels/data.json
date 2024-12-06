@@ -1,0 +1,40 @@
+{
+    "header" : [
+        "Modelo", 
+        "Código", 
+        "Tipo de Motor", 
+        "Potencia (hp)", 
+        "Peso (kg)", 
+        "Dimensiones (mm)", 
+        "Cantidad de Paletas", 
+        "Tamaño de las Paletas (mm)", 
+        "Diámetro de las Paletas (mm)", 
+        "Venta", "Alquiler 28 días"
+    ],
+    "data" : [{
+        "model": "Fratachadora Tripulada Roadway RWMG236C",
+        "code": "000552",
+        "engine": "Honda GX690",
+        "power": 22.5,
+        "weight": 400,
+        "dimensions": "2.140 x 1.100 x 1.100",
+        "speed": 8,
+        "bladeSize": "350 x 150",
+        "diameter": "900 o 1200",
+        "price": "USD 14.877,20",
+        "tax": "USD 3.473,40"
+    },
+    {
+        "model": "Fratachadora Tripulada Roadway RWMG248C",
+        "code": "001626",
+        "engine": "B&S VANGUARD 6134",
+        "power": 35,
+        "weight": 500,
+        "dimensions": "2.660 x 1.400 x 1.730",
+        "speed": 10,
+        "bladeSize": "450 x 150",
+        "diameter": "900 o 1200",
+        "price": "USD 19.836,30",
+        "tax": "USD 4.688,30"
+    }]
+}
