@@ -1,5 +1,5 @@
 //REACT
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //REMIX
 import {
     Outlet,
@@ -78,10 +78,16 @@ const ChiptFilter = (props) => {
 
 export default function Chipts() {
     const { idView, idMenu } = useParams();
+    const [url] = useSearchParams();
+
     const { filtersData, urlBreadcrumb, urlChipts, urlMenu, urlFilters } = useLoaderData();
     const [filters, setFilters] = useState(urlFilters);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setFilters(urlSearchParamsToObject(url));
+      }, [url]);
 
     const handleDataChange = (event: ChipListDataChangeEvent) => {
         const newChips = event.value;
@@ -112,8 +118,9 @@ export default function Chipts() {
     return (
         <>
             <GridLayout
+                className="grid-layout"
                 style={{ placeContent: "center" }}
-                className="colorRojo"
+
                 gap={{ rows: 10, cols: 10 }}
                 rows={[{ height: 50 }, { height: 150 }, { height: 650 }]}
                 cols={[{ width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }, { width: 100 }]}
@@ -121,27 +128,25 @@ export default function Chipts() {
 
 
 
-                <GridLayoutItem row={1} col={1} colSpan={10}  >
+                <GridLayoutItem row={1} col={1} colSpan={10} className="grid-layout-ruta" >
                     <Breadcrumb
                         data={urlBreadcrumb}
-                        
                         // onItemSelect={handleItemSelect}
                         textField="label"
                     />
                 </GridLayoutItem>
-                <GridLayoutItem row={2} col={1} colSpan={3}>
+                <GridLayoutItem row={2} col={1} colSpan={3} className="grid-layout-tags">
                     <ChipList
                         data={urlChipts}
                         selection="multiple"
                         textField="label"
-                        className="tags"
-                        id="tags"
                         chip={ChiptFilter}
                         onDataChange={handleDataChange}
+                        className="tags"
                     //chip={(props: ChipProps) => <Chip removable={true} {...props} />}
                     />
                 </GridLayoutItem>
-                <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} >
+                <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} className="grid-layout-filtros">
                     <Form
                         render={() => (
                             <FormElement>
@@ -151,7 +156,6 @@ export default function Chipts() {
                                             key={`${index}-${item.id}`}
                                             handleChange={handleChangeFilter}
                                             item={item}
-                                            className="filtros"
                                             filters={filters}
                                         />
                                     </>
@@ -162,6 +166,69 @@ export default function Chipts() {
                 </GridLayoutItem>
                 <Outlet />
             </GridLayout>
+            {/* <style>
+                {`
+                  
+                    .header{
+                        display: flex;
+                    }
+                    .header-logo{
+                        background-color: yellow;
+                    }
+
+                    .header-titulo{
+                        color : red;
+                    }
+                
+                    .menu{
+                        background-color: pink;
+                    }
+
+                    .menu-seccion{
+                        padding-top: 10px;
+                    }
+
+                    .menu-seccion-items{
+                        font-size : 45px;
+                    }
+
+                    .menu-seccion-carrito{
+                        background-color: green;
+                    }
+
+                    .grid-layout{
+                        background-color: lightblue;
+                    }
+
+                    .grid-layout-ruta{
+                        background-color: lightgreen;
+                    }
+
+                    .grid-layout-tags{
+                        background-color: lightcoral;
+                    }
+                    
+                    .grid-layout-filtros{
+                        background-color: lightcyan;
+                    }
+                    
+                    .tags{
+                        background-color: lightcoral;
+                    }
+
+                    .lista-productos{}
+
+                    .lista-productos-item{}
+
+                    .tarjetas{}
+
+                    .tarjetas-imagen{}
+
+                    .tarjetas-cuerpo{}
+
+                    
+                `}
+            </style> */}
         </>
     )
 }

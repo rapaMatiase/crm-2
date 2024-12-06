@@ -53,9 +53,9 @@ const MyItemRender = (props, dataHtml) => {
           flex: "0 0 25.33%",
           margin: 25,
           padding : 10,
+          border : "1px solid black",
         }}
         className="tarjetas"
-        id="tarjetas"
       >
         <CardImage
           src={props.dataItem.image}
@@ -91,7 +91,7 @@ export default function Products() {
   
   return (
     <>
-      <GridLayoutItem row={2} col={4} colSpan={7} rowSpan={7}>
+      <GridLayoutItem row={2} col={4} colSpan={7} rowSpan={7} className="grid-layout-lista-productos">
         <ListView
           data={dataWithImages}
           item={(props) => MyItemRender(props, dataHtml)}
