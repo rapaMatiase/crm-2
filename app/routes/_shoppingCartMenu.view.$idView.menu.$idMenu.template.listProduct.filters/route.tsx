@@ -135,6 +135,7 @@ export default function Chipts() {
                         selection="multiple"
                         textField="label"
                         className="tags"
+                        id="tags"
                         chip={ChiptFilter}
                         onDataChange={handleDataChange}
                     //chip={(props: ChipProps) => <Chip removable={true} {...props} />}

@@ -45,7 +45,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 const MyItemRender = (props, dataHtml) => {
 
   return (
-    <div className="k-listview-item">
+    <div className="k-listview-item lista-productos-item">
       <Card
         style={{
           width: 180,
@@ -55,6 +55,7 @@ const MyItemRender = (props, dataHtml) => {
           padding : 10,
         }}
         className="tarjetas"
+        id="tarjetas"
       >
         <CardImage
           src={props.dataItem.image}
@@ -62,7 +63,7 @@ const MyItemRender = (props, dataHtml) => {
             height: 150,
             width: 180,
           }}
-          className="tarjeta-imagen"
+          className="tarjetas-imagen"
         />
         <div
           style={{
@@ -73,7 +74,7 @@ const MyItemRender = (props, dataHtml) => {
             style={{
               fontSize: 14,
             }}
-            className="tarjeta-cuerpo"
+            className="tarjetas-cuerpo"
           >
             {createComponent(dataHtml.body[0], props.dataItem)}
            
