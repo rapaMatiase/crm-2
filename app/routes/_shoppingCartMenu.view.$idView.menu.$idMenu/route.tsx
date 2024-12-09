@@ -96,18 +96,17 @@ export default function TemplateBasic() {
                 onSelect={handleSelect}
             >
                 <DrawerContent>
-                    <div className="header" /*  style={{ display: "flex" }} */>
+                    <div className="header" >
                         <div className="header-logo" style={{ height: 120, width: 860 }}></div>
                         <h1 className="header-titulo"> {title} </h1>
                     </div>
 
-                    <AppBar className="menu" style={{ marginBottom: 20 }} >
-                        <AppBarSpacer style={{ width: 4 }} />
+                    <AppBar className="menu" >
                         <AppBarSection className="menu-seccion">
                             <Menu className="menu-seccion-items" items={menuItems} onSelect={handleSelectMenu} />
                         </AppBarSection>
                         <AppBarSection className="menu-seccion">
-                            <Button className="menu-seccion-carrito" onClick={handleClick}> Carrito</Button>
+                            <div className="menu-seccion-carrito" onClick={handleClick}> </div>
                         </AppBarSection>
                     </AppBar>
 

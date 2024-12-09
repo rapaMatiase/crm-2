@@ -2,16 +2,19 @@ import { Button } from '@progress/kendo-react-buttons';
 import { Field, FieldRenderProps, FieldWrapper, Form, FormElement, FormRenderProps } from '@progress/kendo-react-form';
 import { useState } from 'react';
 import { Input } from '@progress/kendo-react-inputs';
-import { ActionFunction, LoaderFunction, useLoaderData, useSubmit } from 'react-router-dom';
+import { ActionFunction, LoaderFunction, Outlet, useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
 import { getSession } from '~/servicies/session.server';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
+import { getAtributoMarcas } from '~/api/ApiAtributos';
+import { ROUTE_BASE_ATRIBUTOS, ROUTE_BASE_MARCAS } from '~/config/routesConfig';
+
+//import { Dialog } from '@progress/kendo-react-dialogs';
+//import { useEffect } from 'react';
+//import { GridToolbar } from '@progress/kendo-react-grid';
 
 
-import { getAtributoMarcas } from '~/api/apiAtributos';
-//import { postSetImagen } from '~/api/ApiContentSettings';
 
-
-
+// La función loader se ejecuta en el servidor y en el cliente.
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getAtributoMarcas({ request });
     return response;
@@ -27,14 +30,20 @@ export default function CMSDefinirMarcasProductos() {
         codigoNombre: ''
     });
 
-    const submit = useSubmit()
+    const [selectedItem, setSelectedItem] = useState<any>(null);
+   
 
-    let data = useLoaderData() as any[];
+    const submit = useSubmit()
+    const navigate = useNavigate();
+
+
+    let data = useLoaderData() as { idMarcaProducto: string; codigo: string; nombre: string; activo: boolean; codigoNombre: string; }[];
 
     const handleSubmit = (data: any) => {
         submit(data, { method: "POST" })
     };
 
+    // La función handleChange se ejecuta cada vez que cambia el valor de un campo del formulario y actualiza el estado del componente.
     const handleChange = (event: any) => {
         const { name, value, type, checked } = event.target;
         setFormData((prevData) => ({
@@ -43,18 +52,22 @@ export default function CMSDefinirMarcasProductos() {
         }));
     };
 
+    // La función handleEdit se ejecuta cuando se hace clic en el botón Editar de un elemento de la tabla.
     const handleEdit = (item: any) => {
-        // Implement edit functionality
-        //console.log('Edit item:', item);
+        setSelectedItem(item);
+        
+        navigate(`${ROUTE_BASE_MARCAS}/edit`)
     };
 
+    
     const handleDelete = (item: any) => {
-        // Implement delete functionality
-        //console.log('Delete item:', item);
+        setSelectedItem(item);
+       
+        navigate(`${ROUTE_BASE_MARCAS}/delete`)
     };
+
 
     return (
-
 
         <>
             <Form
@@ -99,10 +112,20 @@ export default function CMSDefinirMarcasProductos() {
                             onChange={handleChange}
                             label={'Código Nombre'} />
 
+                            <div className="k-form-buttons"></div>
                         <div className="k-form-buttons">
-                            <Button type="submit" disabled={!formRenderProps.allowSubmit}>
+                            <Button type="submit" disabled={!formRenderProps.allowSubmit} 
+                            
+                           >
                                 Submit
                             </Button>
+
+
+                           {/*  <GridToolbar>
+                                <Button onClick={() => {navigate(`${ROUTE_BASE_MARCAS}/edit`)}}>
+                                    BOTON NUEVO
+                                </Button>
+                            </GridToolbar> */}
                         </div>
                         </FormElement>
                     )} />
@@ -119,11 +142,17 @@ export default function CMSDefinirMarcasProductos() {
                                 title="Acciones"
                                 cell={(props) => (
                                     <td>
+                                        
                                         <Button onClick={() => handleEdit(props.dataItem)}>Editar</Button>
                                         <Button onClick={() => handleDelete(props.dataItem)}>Eliminar</Button>
                                     </td>
                                 )} />
                         </Grid>
+                        <Outlet context={{ selectedItem }} />
                 </>
     );
+}
+
+function setData(arg0: any[]) {
+    throw new Error('Function not implemented.');
 }

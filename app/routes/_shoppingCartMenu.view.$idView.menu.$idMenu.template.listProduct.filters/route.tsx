@@ -118,7 +118,7 @@ export default function Chipts() {
     return (
         <>
             <GridLayout
-                className="grid-layout"
+                className="grid-layout cuerpo"
                 style={{ placeContent: "center" }}
 
                 gap={{ rows: 10, cols: 10 }}
