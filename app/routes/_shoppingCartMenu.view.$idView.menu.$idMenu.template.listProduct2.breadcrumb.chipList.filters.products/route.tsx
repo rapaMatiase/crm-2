@@ -58,7 +58,6 @@ const MyItemRender = (props, dataHtml) => {
         <div className="k-listview-item cms-lista-productos-item">
             <Card
                 style={{
-                    width: 180,
                     boxShadow: "none",
                     flex: "0 0 25.33%",
                     margin: 25,
