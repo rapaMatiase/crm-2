@@ -1,158 +1,54 @@
-import { Button } from '@progress/kendo-react-buttons';
-import { Field, FieldRenderProps, FieldWrapper, Form, FormElement, FormRenderProps } from '@progress/kendo-react-form';
-import { useState } from 'react';
-import { Input } from '@progress/kendo-react-inputs';
-import { ActionFunction, LoaderFunction, Outlet, useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
-import { getSession } from '~/servicies/session.server';
-import { Grid, GridColumn } from '@progress/kendo-react-grid';
-import { getAtributoMarcas } from '~/api/ApiAtributos';
-import { ROUTE_BASE_ATRIBUTOS, ROUTE_BASE_MARCAS } from '~/config/routesConfig';
+//REMIX
+import { useNavigate, useLoaderData } from "@remix-run/react";
+import { LoaderFunction,  } from '@remix-run/node';
 
-//import { Dialog } from '@progress/kendo-react-dialogs';
-//import { useEffect } from 'react';
-//import { GridToolbar } from '@progress/kendo-react-grid';
+//TELERIK
+import { Button } from "@progress/kendo-react-buttons";
+import { Field, Form, FormElement } from "@progress/kendo-react-form";
+//COMPONENTS
+import { FormComboBoxFilter } from "~/components/fm-components";
+//API
+import { getAtributoMarcas } from "~/api/ApiAtributos";
 
 
-
-// La función loader se ejecuta en el servidor y en el cliente.
 export const loader: LoaderFunction = async ({ request }) => {
-    const response = await getAtributoMarcas({ request });
-    return response;
-};
-
+    const response = await getAtributoMarcas({request})
+    return {data : response.data};
+}
 
 export default function CMSDefinirMarcasProductos() {
-    const [formData, setFormData] = useState({
-        idMarcaProducto: '',
-        codigo: '',
-        nombre: '',
-        activo: false,
-        codigoNombre: ''
-    });
-
-    const [selectedItem, setSelectedItem] = useState<any>(null);
-   
-
-    const submit = useSubmit()
+    const { data } = useLoaderData<{ data: any }>();
     const navigate = useNavigate();
 
-
-    let data = useLoaderData() as { idMarcaProducto: string; codigo: string; nombre: string; activo: boolean; codigoNombre: string; }[];
-
-    const handleSubmit = (data: any) => {
-        submit(data, { method: "POST" })
-    };
-
-    // La función handleChange se ejecuta cada vez que cambia el valor de un campo del formulario y actualiza el estado del componente.
-    const handleChange = (event: any) => {
-        const { name, value, type, checked } = event.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    // La función handleEdit se ejecuta cuando se hace clic en el botón Editar de un elemento de la tabla.
-    const handleEdit = (item: any) => {
-        setSelectedItem(item);
-        
-        navigate(`${ROUTE_BASE_MARCAS}/edit`)
-    };
-
-    
-    const handleDelete = (item: any) => {
-        setSelectedItem(item);
-       
-        navigate(`${ROUTE_BASE_MARCAS}/delete`)
-    };
-
+    const handleSubmit = (values: { [name: string]: any }, event?: React.SyntheticEvent) => {
+        event?.preventDefault();
+        const idMarcaProductoSelected = values.codigo.idMarcaProducto
+        const nombreMarcaProductoSelected = values.codigo.nombre
+        navigate(`/lista/CMSDefinirMarcasProductos/${idMarcaProductoSelected}/${nombreMarcaProductoSelected}`);
+    }
 
     return (
-
         <>
             <Form
                 onSubmit={handleSubmit}
-                render={(formRenderProps: FormRenderProps) => (
-                    <FormElement style={{ maxWidth: 650 }}>
-                        <legend className={'k-form-legend'}>Por favor elegi un producto:</legend>
-
+                render={(formRenderProps) => (
+                    <FormElement style={{ width: "500px", margin: "auto" }}>
                         <Field
-                            name={'idMarcaProducto'}
-                            component={Input}
-                            value={formData.idMarcaProducto}
-                            onChange={handleChange}
-                            label={'ID Marca Producto'} />
-
-                        <Field
-                            name={'codigo'}
-                            component={Input}
-                            value={formData.codigo}
-                            onChange={handleChange}
-                            label={'Código'} />
-
-                        <Field
-                            name={'nombre'}
-                            component={Input}
-                            value={formData.nombre}
-                            onChange={handleChange}
-                            label={'Nombre'} />
-
-                        <Field
-                            name={'activo'}
-                            component="input"
-                            checked={formData.activo}
-                            onChange={handleChange}
-                            label={'Activo'}
-                            type="checkbox" />
-
-                        <Field
-                            name={'codigoNombre'}
-                            component={Input}
-                            value={formData.codigoNombre}
-                            onChange={handleChange}
-                            label={'Código Nombre'} />
-
-                            <div className="k-form-buttons"></div>
-                        <div className="k-form-buttons">
-                            <Button type="submit" disabled={!formRenderProps.allowSubmit} 
-                            
-                           >
-                                Submit
-                            </Button>
-
-
-                           {/*  <GridToolbar>
-                                <Button onClick={() => {navigate(`${ROUTE_BASE_MARCAS}/edit`)}}>
-                                    BOTON NUEVO
-                                </Button>
-                            </GridToolbar> */}
-                        </div>
-                        </FormElement>
-                    )} />
-                        <Grid
+                            id={"codigo"}
+                            name={"codigo"}
+                            label={"Seleccione una marca:"}
                             data={data}
-                            style={{ maxHeight: '400px' }}
-                        >
-                            <GridColumn field="idMarcaProducto" title="ID Marca Producto" />
-                            <GridColumn field="codigo" title="Código" />
-                            <GridColumn field="nombre" title="Nombre" />
-                            <GridColumn field="activo" title="Activo" />
-                            <GridColumn field="codigoNombre" title="Código Nombre" />
-                            <GridColumn
-                                title="Acciones"
-                                cell={(props) => (
-                                    <td>
-                                        
-                                        <Button onClick={() => handleEdit(props.dataItem)}>Editar</Button>
-                                        <Button onClick={() => handleDelete(props.dataItem)}>Eliminar</Button>
-                                    </td>
-                                )} />
-                        </Grid>
-                        <Outlet context={{ selectedItem }} />
-                </>
+                            textField="codigoNombre"
+                            component={FormComboBoxFilter}
+                        />
+                        <Button
+                            disabled={!formRenderProps.allowSubmit}
+                            type={"submit"}>
+                            Buscar
+                        </Button>
+                    </FormElement>
+                )}
+            />
+        </>
     );
-}
-
-function setData(arg0: any[]) {
-    throw new Error('Function not implemented.');
-}
+}   

@@ -50,12 +50,14 @@ export const API_ENDPOINTS_CONTENT_SETTEINGS = {
     MENU : `${API_BASE_URL}/ContentSettings/ContentSettings/GetMenu`, 
     VISTA : `${API_BASE_URL}/ContentSettings/ContentSettings/GetVistas`,
     GET_ATRIBUTOS_CMS : `${API_BASE_URL}/ContentSettings/GetAtributosCMS`,
-    SET_IMAGEN : `${API_BASE_URL}ContentSettings/SetImagen`,
+    SET_IMAGEN : `${API_BASE_URL}/ContentSettings/SetImagen`,
     GET_ITEMS: `${API_BASE_URL}/ContentSettings/GetItems`,
     GET_CONTENIDO_FICHA_ITEM: `${API_BASE_URL}/ContentSettings/GetContenidoFichaItem`,
+    GET_MIMETYPE: `${API_BASE_URL}/ContentSettings/GetMimeTypes`,
+    GET_TIPOS_CONTENIDO: `${API_BASE_URL}/ContentSettings/GetTiposContenido`,
+    GET_IMAGENES: `${API_BASE_URL}/ContentSettings/GetImagenes`,
+    DELETE_IMAGEN: `${API_BASE_URL}/ContentSettings/DeleteImagen`,
 }
-
-
 
 export const API_ENDPOINTS_GET_MAIN_MENU = `${API_BASE_URL}/Contexto/Contexto/GetMainMenu`;
 

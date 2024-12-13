@@ -71,22 +71,22 @@ function createComponent(config: any, data: Record<string, any>, setProducto: an
 
 function AddToCardTodo(event, EsVendible, EsOferta, EsAlquilable) {
   alert(`Todo: EsVendible=${EsVendible}, EsOferta=${EsOferta}, EsAlquilable=${EsAlquilable}`);
-  console.log("event", event);
+ 
 }
 
 function AddToCard(event) {
   //alert('Comprado');
-  console.log("event", event);
+ 
 }
 
 function AddToCardOferta(event) {
   alert('OFERTA');
-  console.log("event", event);
+  
 }
 
 function AddToCardAlquilado(event) {
   alert('Alquilado');
-  console.log("event", event);
+  
 }
 
 

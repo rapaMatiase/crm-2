@@ -61,7 +61,7 @@ const items = [
 
 
 const contentRender = (props: any) => {
-    console.log(props.item.data)
+    
     return (
         <div style={{ padding: '10px', width: "80vw", textAlign: "center" }}>Custom content for itemId: {props.itemId}, text: {props.item.text}</div>
     );

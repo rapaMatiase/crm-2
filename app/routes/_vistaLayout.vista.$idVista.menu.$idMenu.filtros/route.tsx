@@ -110,7 +110,7 @@ export default function FiltroPorductos() {
 
 
   const handleDataChange = (event: ChipListDataChangeEvent) => {
-    console.log(event.value);
+   
   };
 
 

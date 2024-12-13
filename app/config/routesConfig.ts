@@ -4,3 +4,4 @@ export const ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS = "/CMSDefinirReglasValidaci
 export const ROUTE_BASE_PRODUCTOS = "/CMSDefinirProductos";
 export const ROUTE_LOGIN = "/login";
 export const ROUTE_LOGOUT = "/logout";
+export const ROUTE_BASE_MARCAS = "/CMSDefinirMarcasProductos";

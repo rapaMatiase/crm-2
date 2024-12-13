@@ -79,9 +79,8 @@ export default function CMSDefinirProductos() {
             event.preventDefault();
         }
         const urlParam = new URLSearchParams({ search: JSON.stringify({ codigoNombre: producto.codigoNombre }) });
-        navigate(`${ROUTE_BASE_PRODUCTOS}/productos/${producto.idProductoBase}?${urlParam.toString()}`);
+        navigate(`${ROUTE_BASE_PRODUCTOS}/productos/${producto.idProductoBase}/nombreProducto/${producto.nombre}?${urlParam.toString()}`);
         
-        //navigate(`${ROUTE_BASE_PRODUCTOS}/producto/${producto.idProductoBase}?${urlParam.toString()}`);
     }
 
     return (
@@ -102,17 +101,6 @@ export default function CMSDefinirProductos() {
                                     onFilterChange={handleFilter}
                                     onChange={handleSelectProduct}
                                 />
-                                {/* <ComboBox
-                                    name={"Producto"}
-
-                                    textField="codigoNombre"
-                                    filterable={true}
-                                    placeholder="Escriba para buscar un producto"
-                                    data={filterData}
-                                    onFilterChange={handleFilter}
-                                    onChange={handleSelectProduct}
-
-                                /> */}
                             </FieldWrapper>
                             <FieldWrapper>
                                 <Button

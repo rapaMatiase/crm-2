@@ -15,10 +15,11 @@ export const getTiposProducto = async ({ request }: { request: Request }) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        const errorText = await response.text();
+        throw new Error(`Failed to fetch data: ${errorText}`);
     }
 
     const tiposProductoData = await response.json();
 
-    return json({ tiposProductoData });
+    return tiposProductoData ;
 }

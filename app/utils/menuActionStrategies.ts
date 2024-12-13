@@ -10,7 +10,7 @@ interface MenuActionStrategy {
       //   defaultAttribute: { key: "", value: "", text: "" },
       //   attributeItemsSelected: {}
       // });
-      navigate(`/view/${idView}/menu/${idMenu}/template/listProduct/filters/products?${urlParamsManager.toString()}`);
+      navigate(`/view/${idView}/menu/${idMenu}/template/listProduct2/breadcrumb/chiplist/filters/products?${urlParamsManager.toString()}`);
     }
   }
   
@@ -29,7 +29,7 @@ interface MenuActionStrategy {
       //   defaultAttribute: { key: "", value: "", text: "" },
       //   attributeItemsSelected: {}
       // });
-      window.open(`/templateBasic/vista/${idView}/menu/${idMenu}/Breadcrumb/chipts/filters/products?${urlParamsManager.toString()}`, "_blank");
+      window.open(`/view/${idView}/menu/${idMenu}/template/listProduct2/breadcrumb/chiplist/filters/products?${urlParamsManager.toString()}`, "_blank");
 
     }
   }
@@ -41,6 +41,8 @@ interface MenuActionStrategy {
       //   defaultAttribute: { key: "", value: "", text: "" },
       //   attributeItemsSelected: {}
       // });
-      navigate(`/templateBasic/vista/${idView}/menu/${idMenu}/Breadcrumb/chipts/filters/products?${urlParamsManager.toString()}`);
+      navigate(`/view/${idView}/menu/${idMenu}/template/listProduct2/breadcrumb/chiplist/filters/products?${urlParamsManager.toString()}`);
+    
+      //navigate(`/templateBasic/vista/${idView}/menu/${idMenu}/Breadcrumb/chipts/filters/products?${urlParamsManager.toString()}`);
     }
   }

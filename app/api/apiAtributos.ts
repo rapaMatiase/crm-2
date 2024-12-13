@@ -83,11 +83,11 @@ export const getAtributoMarcas = async ({ request }: { request: Request }) => {
             throw new Error(`Failed to fetch data: ${errorText}`);
         }
     
-        const result = await response.json();
-        return result;
+        const data = await response.json();
+        return {data};
     };
 
-    export const GetGruposProductos = async ({ request }: { request: Request }) => {
+    export const getAtributosGruposProductos = async ({ request }: { request: Request }) => {
         const cookie = request.headers.get("Cookie");
         const session = await getSession(cookie);
         const { token } = session.get("user");

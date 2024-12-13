@@ -1,5 +1,5 @@
 //REMIX
-import { Link, Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import {  Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import { useState } from "react";
 
 import { AppBar, AppBarSection, AppBarSpacer, Drawer, DrawerContent, DrawerSelectEvent, GridLayout, Menu } from '@progress/kendo-react-layout';
@@ -29,19 +29,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return {
             text: item.title,
             id: item.id,
-            urlParam: [{ key: item.id, value: "" }],
-            url2: [{ key: item.id, value: "" }],
-            breadcrumb: [{ label: item.title, id: item.id }],
+            url2: [{texto : "no",  value: item.id, nombre : item.title, tipo : "menu" }],
             action: item.action,
             items: item.menuItems.map((subItem: any) => {
                 return {
                     text: subItem.title,
                     idFather: item.id,
                     id: subItem.id,
-                    urlParam: [{ key: item.id, value: "" }, { key: subItem.id, value: "" }],
-                    url2: [{ key: item.id, value: "" }, { key: subItem.id, value: "" }],
+                    url2: [{ texto : "no", value: item.id, nombre : item.title, tipo : "menu" }, {texto : "no", value: subItem.id, nombre : subItem.title, tipo : "menu" }],
                     action: subItem.action,
-                    breadcrumb: [{ label: item.title, id: item.id }, { label: subItem.title, id: subItem.id }]
                 }
             })
         }
@@ -51,7 +47,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 }
 
 
-// https://www.telerik.com/kendo-react-ui/components/layout/drawer/custom_rendering
 
 export default function TemplateBasic() {
     //REMIX
@@ -75,10 +70,7 @@ export default function TemplateBasic() {
         const actionAnalyzer = new menuActionAnalyzer();
 
         const url = new URLSearchParams({
-            menu: JSON.stringify(itemMenuSelected.url2),
-            breadcrumb: JSON.stringify(itemMenuSelected.breadcrumb),
-            chipts: JSON.stringify([]),
-            filters: JSON.stringify({})
+            filters: JSON.stringify(itemMenuSelected.url2),
         });
 
         actionAnalyzer.analyze(itemMenuSelected.action, navigate, url, idView, idMenu);
@@ -101,7 +93,7 @@ export default function TemplateBasic() {
                         <h1 className="header-titulo"> {title} </h1>
                     </div>
 
-                    <AppBar className="menu" >
+                    <AppBar className="menu cms-menu" >
                         <AppBarSection className="menu-seccion">
                             <Menu className="menu-seccion-items" items={menuItems} onSelect={handleSelectMenu} />
                         </AppBarSection>

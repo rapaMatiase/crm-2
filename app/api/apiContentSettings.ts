@@ -38,7 +38,7 @@ export const getImage = async ({ request, id }: { request: Request, id: string }
         redirect(`${ROUTE_LOGIN}`);
     }
 
-    const imageResponse = await fetch(`https://apptesting.leiten.dnscheck.com.ar/ContentSettings/GetImagen/Id/${id}/TipoContenido/0`, {
+    const imageResponse = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.IMAGE}/Id/${id}/TipoContenido/0`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -89,6 +89,38 @@ export const getMenu = async ({ request, idView, idMenu }: { request: Request, i
     return menus;
 }
 
+export const getImagenesTipoEntidad = async ({ request, tipoEntidad, idEntidad }: { request: Request, tipoEntidad: String, idEntidad : any}) => {
+
+  const cookie = request.headers.get("Cookie");
+  const session = await getSession(cookie);
+  const { token } = session.get("user");
+
+  const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_IMAGENES}/TipoEntidad/${tipoEntidad}/IdEntidad/${idEntidad}`,
+    {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    }
+  );
+
+  const data = await response.json();
+
+  if (!Array.isArray(data)) {
+    throw new Error("Expected data to be an array");
+  }
+
+  const dataWithImages = data.map((item) => {
+    const image = `data:image/jpeg;base64,${item.rawMedia}`;
+    return {
+      ...item,
+      rawMedia: image
+    };
+  });
+
+  return dataWithImages;
+}
 
 export const getAtributosCMS = async ({ request, idView, idMenu, arrayFilterJson }: { request: Request, idView: string, idMenu: string, arrayFilterJson: string }) => {
     const cookie = request.headers.get("Cookie");
@@ -169,25 +201,80 @@ export const getContenidoFichaItem = async ( request, idView) => {
     return data;
 }
 
-export const postSetImagen = async ({ request, data }: { request: Request, data: any }) => {
+export const postSetImagen = async ({ request, tipoEntidad, idEntidad, data }: { request: Request, tipoEntidad: string, idEntidad: string, data: any }) => {
 
     const cookie = request.headers.get("Cookie");
     const session = await getSession(cookie);
     const { token } = session.get("user");
 
-    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.SET_IMAGEN}`, {
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.SET_IMAGEN}?TipoEntidad=${tipoEntidad}&IdEntitidad=${idEntidad}`, {
         method: 'POST',
         headers: {
-        
+            "Content-Type": "application/json",
             "Authorization": token
         },
         body: JSON.stringify(data)
         
     });
 
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to post data: ${errorText}`);
-    }
+    return response;
 
 };
+
+
+
+export const getMimeType = async ({ request}: { request: Request}) => {
+
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const { token } = session.get("user");
+
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_MIMETYPE}`,
+        {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+                Authorization: token
+            }
+        }
+    );
+
+    return response.json()
+};
+
+export const getTipoContenido = async ({ request}: { request: Request}) => {
+
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const { token } = session.get("user");
+
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_TIPOS_CONTENIDO}`,
+        {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+                Authorization: token
+            }
+        }
+    );
+
+    return response.json()
+};
+
+export const deleteImagenes = async ({request, idMediaEntity}) => {
+    
+  
+  const cookie = request.headers.get("Cookie");
+  const session = await getSession(cookie);
+  const {token} = session.get("user");
+
+  const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.DELETE_IMAGEN}?IdMediaEntity=${idMediaEntity}`, {
+      method: 'DELETE',
+      headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json'
+      }
+  });
+
+  return response 
+}

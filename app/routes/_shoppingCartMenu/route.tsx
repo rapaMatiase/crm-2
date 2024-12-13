@@ -1,16 +1,21 @@
 //REMIX
 import { ListView, ListViewItemWrapper } from "@progress/kendo-react-listview";
-import { LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { LinksFunction, LoaderFunction } from "@remix-run/node";
+import { Links, Outlet, useLoaderData } from "@remix-run/react";
 //API
 import { getStyles } from "~/api/apiStyles";
 import { GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
+
+import styles from "~/styles/cmsStyle.css?url";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stylessData = await getStyles({ request, params });
     return { stylessData };
 }
 
+export const links: LinksFunction = () => [
+    { rel: "stylesheet", href: styles },
+];
 
 const json = [
     {

@@ -93,7 +93,7 @@ export default function Products() {
         <ListView
           data={dataWithImages}
           item={(props) => MyItemRender(props, dataHtml)}
-          style={{ height: 850 }}
+          style={{ /* height: 850 */ overflow: "hidden" }}
           className="lista-productos"
         />
         <style>

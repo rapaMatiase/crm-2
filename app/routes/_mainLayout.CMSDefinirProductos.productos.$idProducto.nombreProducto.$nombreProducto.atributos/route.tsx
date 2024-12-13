@@ -248,7 +248,7 @@ export default function CMSDefinirProductosGrillaAtributos() {
 
     return (
         <>
-        hola
+        
             <h2>{codigoNombre}</h2>
             <Grid style={{ height: "500px" }} data={data}>
                 <GridToolbar>

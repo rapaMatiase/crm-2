@@ -28,7 +28,7 @@ import {
   Hint,
   FloatingLabel,
 } from "@progress/kendo-react-labels";
-// import { Upload } from "@progress/kendo-react-upload";
+import { Upload } from "@progress/kendo-react-upload";
 import {
   DropDownList,
   AutoComplete,
@@ -592,63 +592,64 @@ export const FormRating = (fieldRenderProps: FieldRenderProps) => {
   );
 };
 
-// export const FormUpload = (fieldRenderProps: FieldRenderProps) => {
-//   const {
-//     value,
-//     id,
-//     optional,
-//     label,
-//     hint,
-//     validationMessage,
-//     touched,
-//     ...others
-//   } = fieldRenderProps;
+export const FormUpload = (fieldRenderProps: FieldRenderProps) => {
+  const {
+    value,
+    id,
+    optional,
+    label,
+    hint,
+    validationMessage,
+    touched,
+    ...others
+  } = fieldRenderProps;
 
-//   const showValidationMessage: string | false | null =
-//     touched && validationMessage;
-//   const showHint: boolean = !showValidationMessage && hint;
-//   const hintId: string = showHint ? `${id}_hint` : "";
-//   const errorId: string = showValidationMessage ? `${id}_error` : "";
-//   const labelId: string = label ? `${id}_label` : "";
+  const showValidationMessage: string | false | null =
+    touched && validationMessage;
+  const showHint: boolean = !showValidationMessage && hint;
+  const hintId: string = showHint ? `${id}_hint` : "";
+  const errorId: string = showValidationMessage ? `${id}_error` : "";
+  const labelId: string = label ? `${id}_label` : "";
 
-//   const onChangeHandler = (event: any) => {
-//     fieldRenderProps.onChange({ value: event.newState });
-//   };
-//   const onRemoveHandler = (event: any) => {
-//     fieldRenderProps.onChange({ value: event.newState });
-//   };
+  const onChangeHandler = (event: any) => {
+    fieldRenderProps.onChange({ value: event.newState });
+  };
+  const onRemoveHandler = (event: any) => {
+    fieldRenderProps.onChange({ value: event.newState });
+  };
 
-//   return (
-//     <FieldWrapper>
-//       <Label
-//         id={labelId}
-//         editorId={id}
-//         optional={optional}
-//         className="k-form-label"
-//       >
-//         {label}
-//       </Label>
-//       <div className={"k-form-field-wrap"}>
-//         <Upload
-//           id={id}
-//           autoUpload={false}
-//           showActionButtons={false}
-//           multiple={false}
-//           files={value}
-//           onAdd={onChangeHandler}
-//           onRemove={onRemoveHandler}
-//           ariaDescribedBy={`${hintId} ${errorId}`}
-//           ariaLabelledBy={labelId}
-//           {...others}
-//         />
-//         {showHint && <Hint id={hintId}>{hint}</Hint>}
-//         {showValidationMessage && (
-//           <Error id={errorId}>{validationMessage}</Error>
-//         )}
-//       </div>
-//     </FieldWrapper>
-//   );
-// };
+  return (
+    <FieldWrapper>
+      <Label
+        id={labelId}
+        editorId={id}
+        optional={optional}
+        className="k-form-label"
+      >
+        {label}
+      </Label>
+      <div className={"k-form-field-wrap"}>
+        <Upload
+          id={id}
+          autoUpload={false}
+          showActionButtons={false}
+          multiple={false}
+          files={value}
+          onAdd={onChangeHandler}
+          onRemove={onRemoveHandler}
+          
+          ariaDescribedBy={`${hintId} ${errorId}`}
+          ariaLabelledBy={labelId}
+          {...others}
+        />
+        {showHint && <Hint id={hintId}>{hint}</Hint>}
+        {showValidationMessage && (
+          <Error id={errorId}>{validationMessage}</Error>
+        )}
+      </div>
+    </FieldWrapper>
+  );
+};
 
 export const FormDropDownList = (fieldRenderProps: FieldRenderProps) => {
   const {

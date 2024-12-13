@@ -9,22 +9,23 @@ import { FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";
 import { Button } from "@progress/kendo-react-buttons";
 //API
 import { getVistas } from "~/api/apiContentSettings";
+import ROUTE_TEMPLATE_CONFIG from "~/config/routeTemplateConfig";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getVistas({ request });
     const vistasData = response;
-    return {vistasData};
+    return { vistasData };
 }
 
 export default function SimularVista() {
     //REMIX-HOOKS
-    const {vistasData} = useLoaderData<{ vistasData: any[] }>();
-   
+    const { vistasData } = useLoaderData<{ vistasData: any[] }>();
+
     //REACT-HOOKS
-    const [vistasFilter, setVistaFilter] = useState<any>(vistasData); 
-    const [vistaSelected, setVistaSelected] = useState<any>();
-    
+    const [vistasFilter, setVistaFilter] = useState<any>(vistasData);
+    const [vistaSelected, setVistaSelected] = useState<{ codigo: string; templateName: keyof typeof ROUTE_TEMPLATE_CONFIG } | undefined>();
+
     //FUNCTIONS
     const handleVistaFilter = (event: ComboBoxFilterChangeEvent) => {
         const value = event.filter.value;
@@ -39,18 +40,24 @@ export default function SimularVista() {
         setVistaSelected(itemMenu);
     }
 
-    const handleOpenVistaNewTab = () => {
-        window.open(`view/${vistaSelected.codigo}/menu/1/template/listProduct/filters/products`, '_blank');
+    const handleOpenVistaNewTab = (props) => {
+       
+        //window.open(`view/${vistaSelected.codigo}/menu/1/template/listProduct/filters/products`, '_blank');
+
+        window.open(ROUTE_TEMPLATE_CONFIG[vistaSelected.templateName](vistaSelected.codigo, "1"), '_blank');
+
+
     }
 
     return (
         <>
+            
             <Form
                 onSubmit={(event) => {
                     event.preventDefault();
                 }}
                 render={(formRenderProps) => (
-                    <FormElement style={{width : "500px", margin : "auto"}}>
+                    <FormElement style={{ width: "500px", margin: "auto" }}>
                         <FieldWrapper>
                             <ComboBox
                                 name={"vista"}
@@ -69,8 +76,8 @@ export default function SimularVista() {
                         </FieldWrapper>
                     </FormElement>
                 )} />
-        <Outlet />
-                
+            <Outlet />
+
         </>
     )
 }
