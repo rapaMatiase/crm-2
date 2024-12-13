@@ -10,7 +10,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Form } from "@progress/kendo-react-form";
 import { GridLayoutItem } from '@progress/kendo-react-layout';
 //SERVICES  
-import { getAtributosCMS } from "~/api/ApiContentSettings";
+import { getAtributosCMS } from "~/api/apiContentSettings";
 //UTILS
 import { isUrlSearchParamsEmpty } from "~/utils/URLSearchParams";
 import { FormElement } from "@progress/kendo-react-form";
