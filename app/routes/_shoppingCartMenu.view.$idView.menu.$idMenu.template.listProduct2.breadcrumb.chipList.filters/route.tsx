@@ -20,7 +20,7 @@ const json = {
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     const { idView, idMenu } = params;
-   
+
     const response = await getAtributosCMS({
         request,
         idView,
@@ -28,13 +28,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
         arrayFilterJson: JSON.stringify([{ key: "", value: "" }])
     });
 
-    return { data : response }
+    return { data: response }
 }
 
 export default function Filters() {
-    const {data} = useLoaderData();
+    const { data } = useLoaderData();
     const [url] = useSearchParams();
-    
+
     const [selectedValue, setSelectedValue] = useState<any[]>([]);
     const navigate = useNavigate();
 
@@ -42,50 +42,48 @@ export default function Filters() {
         const selectedValue = JSON.parse(url.get('filters')) || [];
         if (selectedValue.length === 0) {
             setSelectedValue([]);
-        }else{
+        } else {
             setSelectedValue(selectedValue);
         }
     }, [url]);
 
- 
+
     const handleChange = (e: RadioButtonChangeEvent) => {
-            const valuesFilters= selectedValue.filter(item => item.nombre !== e.value.nombre);
-            const newFilters = [...valuesFilters, e.value];	
-            setSelectedValue(newFilters);
-         
-            navigate({
-                pathname: `/view/8/menu/1/template/listProduct2/breadcrumb/chiplist/filters/products`,
-                search: `?filters=${JSON.stringify(newFilters).toString()}`
-            })
-        }
+        const valuesFilters = selectedValue.filter(item => item.nombre !== e.value.nombre);
+        const newFilters = [...valuesFilters, e.value];
+        setSelectedValue(newFilters);
+
+        navigate({
+            pathname: `/view/8/menu/1/template/listProduct2/breadcrumb/chiplist/filters/products`,
+            search: `?filters=${JSON.stringify(newFilters).toString()}`
+        })
+    }
 
     return (
         <>
-            <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} className="grid-layout-filtros" style={{ backgroundColor: "grey" }}>
-                <div>
-                    {data.map((item, index) => {
-                        const opciones = item.opciones;
-                        return (
-                            <>
-                            <h5>{item.nombre}</h5>
+            <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} className="cms-body-grid_filtros cms-body_filtros">
+                {data.map((item, index) => {
+                    const opciones = item.opciones;
+                    return (
+                        <div className='cms-body_filtros-item'>
+                            <h5 className='cms-body_filtros-titulo'>{item.nombre} </h5>
                             {opciones.map((opcion, index) => {
                                 return (
-                                    <>
-                                        <RadioButton 
-                                            name={item.nombre} 
-                                            value={{texto : opcion.texto, value : opcion.id, nombre : item.nombre, tipo : "filtro"}} 
+                                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                                        <RadioButton
+                                            className='cms-body_filtros-input'
+                                            name={item.nombre}
+                                            value={{ texto: opcion.texto, value: opcion.id, nombre: item.nombre, tipo: "filtro" }}
                                             checked={selectedValue.some(itemUrl => itemUrl.value === opcion.id)}
-                                            label={opcion.texto} 
+                                            label={opcion.texto}
                                             onChange={handleChange} />
-                                        <br />
-                                    </>
+                                    </div>
                                 )
                             })}
-                            </>
-                        )
-                    })}
-                
-                </div>
+                        </div>
+                    )
+                })}
+
             </GridLayoutItem>
             <Outlet />
         </>

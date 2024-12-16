@@ -39,7 +39,7 @@ export default function CMSDefinirGruposProductos() {
                         <Field
                             id={"codigo"}
                             name={"codigo"}
-                            label={"Seleccione un producto:"}
+                            label={"Seleccione un Grupo Producto:"}
                             data={data}
                             textField="codigoNombre"
                             component={FormComboBoxFilter}

@@ -1,0 +1,13 @@
+.cms-footer {
+    background-color: rgb(14, 13, 13);
+    color: rgb(236, 236, 236);
+}
+
+.cms-footer_titulo {
+    
+}
+
+.cms-footer_item-todos {
+    display: flex;
+    flex-direction: column;
+}

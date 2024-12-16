@@ -1,5 +1,5 @@
 //REMIX
-import {  Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import { Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import { useState } from "react";
 
 import { AppBar, AppBarSection, AppBarSpacer, Drawer, DrawerContent, DrawerSelectEvent, GridLayout, Menu } from '@progress/kendo-react-layout';
@@ -7,6 +7,7 @@ import { Button } from "@progress/kendo-react-buttons";
 import { LoaderFunction } from "@remix-run/node";
 import { getMenu } from "~/api/apiContentSettings";
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
+
 
 const items = [
     { text: 'Inbox', selected: true },
@@ -29,14 +30,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return {
             text: item.title,
             id: item.id,
-            url2: [{texto : "no",  value: item.id, nombre : item.title, tipo : "menu" }],
+            url2: [{ texto: "no", value: item.id, nombre: item.title, tipo: "menu" }],
             action: item.action,
             items: item.menuItems.map((subItem: any) => {
                 return {
                     text: subItem.title,
                     idFather: item.id,
                     id: subItem.id,
-                    url2: [{ texto : "no", value: item.id, nombre : item.title, tipo : "menu" }, {texto : "no", value: subItem.id, nombre : subItem.title, tipo : "menu" }],
+                    url2: [{ texto: "no", value: item.id, nombre: item.title, tipo: "menu" }, { texto: "no", value: subItem.id, nombre: subItem.title, tipo: "menu" }],
                     action: subItem.action,
                 }
             })
@@ -88,21 +89,22 @@ export default function TemplateBasic() {
                 onSelect={handleSelect}
             >
                 <DrawerContent>
-                    <div className="header" >
-                        <div className="header-logo" style={{ height: 120, width: 860 }}></div>
-                        <h1 className="header-titulo"> {title} </h1>
-                    </div>
 
-                    <AppBar className="menu cms-menu" >
-                        <AppBarSection className="menu-seccion">
-                            <Menu className="menu-seccion-items" items={menuItems} onSelect={handleSelectMenu} />
+                    <GridLayout className="cms-header-grid cms-header" >
+                        <div className="cms-header-grid_logo cms-header_logo"></div>
+                        <h1 className="cms-header-grid_titulo cms-header_titulo"> {title} </h1>
+                    </GridLayout>
+
+                    <AppBar className="cms-menu-grid cms-menu" >
+                        <AppBarSection className="cms-menu-grid_seccion-menu cms-menu_seccion-menu">
+                            <Menu className="cms-menu_menu" items={menuItems} onSelect={handleSelectMenu} />
                         </AppBarSection>
-                        <AppBarSection className="menu-seccion">
-                            <div className="menu-seccion-carrito" onClick={handleClick}> </div>
+                        <AppBarSection className="cms-menu-grid_seccion-carrito cms-menu_seccion-carrito">
+                            <div className="cms-menu_carrito" onClick={handleClick}> </div>
                         </AppBarSection>
                     </AppBar>
-
-                        <Outlet />
+                    
+                    <Outlet />
 
 
                 </DrawerContent>

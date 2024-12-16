@@ -85,7 +85,7 @@ export default function CMSDefinirMarcasProductosList() {
   return (
     <>
       <h2> {nombreMarca} </h2>
-      <Button onClick={handleCambiarMarca}> Cambiar de marca </Button>
+      <Button onClick={handleCambiarMarca}> Cambiar de Marca </Button>
       <ExcelExport data={result.data} ref={_export}>
         <Grid
           style={{ height: "500px" }}

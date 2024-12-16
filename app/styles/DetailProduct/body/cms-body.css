@@ -1,0 +1,86 @@
+.cms-body {
+    background-color: #f2f2f4;
+    padding-top: 20px;
+}
+
+/* BREADCRUMB */
+
+.cms-body_breadcrumb {
+    background-color: #f2f2f4;
+}
+
+/* CHIPLIST */
+
+.cms-body_chiplist {}
+
+.cms-body_chip {}
+
+.cms-body_chip div {
+    background-color: transparent;
+    text-transform: uppercase;
+    border: #d3d3d8 3px solid;
+}
+
+/* FILTROS */
+.cms-body_filtros {}
+
+.cms-body_filtros-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.cms-body_filtros-titulo {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 25px;
+    margin-top: 20px;
+}
+
+.cms-body_filtros  div  span  input:checked{
+    background-color: #e02323;
+}
+
+
+
+
+/* MIAN */
+
+.cms-body_main {}
+
+.cms-body_lista-productos {
+    background-color: #f2f2f4 !important;
+}
+
+.cms-body_lista-productos-item {}
+
+/* TARJETA */
+
+.cms-body_tarjeta {
+    width:230px ;
+    box-shadow: 8px 9px 12px -11px rgba(0, 0, 0, 0.55);
+    flex:0 0 25.33% ;
+    margin:5px ;
+    padding:20px ;
+    border: 0 solid black ;
+    background-color: #FFF ;
+    border-radius: 0 0 55px 0 ;
+}
+
+.cms-body_tarjeta-imagen {
+    height:180px;
+    width:180px;
+    align-content: center;
+    margin: 0;
+    border-bottom: 3px solid #ffc000;
+    padding: 8px;
+}
+
+.cms-body_tarjeta-cuerpo {
+    font-size:12px;
+    color: #E6E6E6;
+    margin: 0;
+    padding: 0;
+}

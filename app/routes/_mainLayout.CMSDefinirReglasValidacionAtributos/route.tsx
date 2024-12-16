@@ -1,3 +1,5 @@
+
+
 //REACT
 import {  useRef, useState } from 'react';
 //TELERIK
@@ -7,7 +9,7 @@ import { filterIcon } from '@progress/kendo-svg-icons';
 import { ExcelExport } from "@progress/kendo-react-excel-export";
 import { Button } from '@progress/kendo-react-buttons';
 //REMIX
-import { Outlet, useLoaderData, useNavigate } from '@remix-run/react';
+import { Outlet, useActionData, useLoaderData, useNavigate } from '@remix-run/react';
 import { LoaderFunction, MetaFunction } from '@remix-run/node';
 //COMPONENTS
 import { ColumnMenu } from './columnMenu';
@@ -16,17 +18,21 @@ import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getReglasDeValidacionAtributos } from '~/api/apiReglaDeValidacion';
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+/* export const meta: MetaFunction<typeof loader> = ({ data }) => {
     if (!data) {
       return [{ title: "User not found!" }];
     }
     return [{ title: "BackOffice - Reglas de validación" }];
 };
-
+ */
 export const loader: LoaderFunction = async ({request}) => {
     const response = await getReglasDeValidacionAtributos({request});
     const {reglasValidacionAtributoData} = await response.json();
     
+    if (!response.ok) {
+        return( { statusText: response.statusText, status: response.status })
+    }
+
     return {reglasValidacionAtributoData};
 };
 
@@ -35,6 +41,7 @@ export default function CMSDefinirRelgasValidacionAtributos() {
     //REMIX-HOOOKS
     const { reglasValidacionAtributoData } = useLoaderData<{ reglasValidacionAtributoData: any[] }>();
     const navigate = useNavigate();
+    const actionData = useActionData()
 
     //TELERIK-HOOKS
     const [reglaValidacionAtributosSeleccionado, setReglaValidacionAtributos] = useState<any>();
@@ -112,7 +119,12 @@ export default function CMSDefinirRelgasValidacionAtributos() {
                     onDataStateChange={dataStateChange}
                     sortable={true}
                     columnMenuIcon={filterIcon}
-                >
+                    >
+                    {actionData?.status && (
+                            <div style={{ color: 'red', marginBottom: '1rem' }}>
+                                {actionData.statusText}
+                            </div>
+                        )}
                     <GridToolbar>
                         <div >
                             <Button

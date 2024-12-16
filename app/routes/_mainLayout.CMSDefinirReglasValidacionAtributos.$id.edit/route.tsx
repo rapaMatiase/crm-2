@@ -10,8 +10,8 @@ import { Button } from "@progress/kendo-react-buttons";
 import { filterBy } from "@progress/kendo-data-query";
 import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 //REMIX
-import { useOutletContext, useParams, useSubmit, useLoaderData, useNavigate } from "@remix-run/react";
-import { ActionFunction, redirect } from "@remix-run/node";
+import { useOutletContext, useParams, useSubmit, useLoaderData, useNavigate, useActionData } from "@remix-run/react";
+import { ActionFunction, json, redirect } from "@remix-run/node";
 import { LoaderFunction } from "@remix-run/node";
 //CONFIG
 import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
@@ -20,38 +20,46 @@ import { postReglaDeValidacionAtributos } from "~/api/apiReglaDeValidacion";
 import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
 import { getAtributos } from "~/api/apiAtributos";
 import { getGruposProducto } from "~/api/apiGruposProducto";
-import { getTiposProducto } from "~/api/apiTiposProducto";
+import { GetTiposProductos } from "~/api/apiAtributos";
+
 
 export const loader: LoaderFunction = async ({ request }) => {
     
     //TIPOS DE PRODUCTO
-    const responseTiposProducto = await getTiposProducto({ request });
-    const {tiposProductoData} = await responseTiposProducto.json();
+    const responseTiposProducto = await GetTiposProductos({ request });
+    const tiposProductoData = await responseTiposProducto
     
-    const tiposProductoCodigoNombreData = tiposProductoData.map((producto) => {
+    const tiposProductoCodigoNombreData = tiposProductoData.map((producto: { codigoNombre: any; }) => {
         return producto.codigoNombre;
     });
+    
     
     //PRODUCTOS
     const responseGruposProducto = await getGruposProducto({request});
     const {gruposProductosData} = await responseGruposProducto.json();
-    const gruposProductoNombreData = gruposProductosData.map((producto) => {
+    const gruposProductoNombreData = gruposProductosData.map((producto: { codigoNombre: any; }) => {
         return producto.codigoNombre;
     });
-    
+
     //ATRIBUTOS
     const responseAtributos = await getAtributos({request});
     const {atributosData} = await responseAtributos.json();
-    const atributosNombresData = atributosData.map((atributo) => {
+    const atributosNombresData = atributosData.map((atributo: { nombre: any; }) => {
         return atributo.nombre;
     });
+
+    
     
     //UNIDADES DE MEDIDA
     const responseUnidadesMedida = await getUnidadesMedida({request});
     const {unidadesMedidaData} = await responseUnidadesMedida.json();
-    const unidadesDeMedidaCodigoNombreData = unidadesMedidaData.map((unidad: { codigo: string }) => {
+    const unidadesDeMedidaCodigoNombreData = unidadesMedidaData.map((unidad: {
+        codigoNombre: any; codigo: string 
+}) => {
         return unidad.codigoNombre;
     });
+
+    //const unidadesDeMedidaCodigoNombreData = [];
     
     return { tiposProductoCodigoNombreData, gruposProductoNombreData, atributosNombresData, unidadesDeMedidaCodigoNombreData };
     
@@ -71,7 +79,10 @@ export const action: ActionFunction = async ({ request }) => {
         comentario: String(formData.get("comentario"))
     }
 
-    await postReglaDeValidacionAtributos({ request, reglaValidacionAtributo });
+    const response = await postReglaDeValidacionAtributos({ request, reglaValidacionAtributo });
+    if(!response.ok){
+        return json({ statusText: response.statusText, status: response.status });
+    }
 
     return redirect(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}`);
 };
@@ -79,13 +90,14 @@ export const action: ActionFunction = async ({ request }) => {
 export default function EditFormReglaValidacionAtributosSeleccionado() {
     
     //REMIX-HOOKS
-    const {  tiposProductoCodigoNombreData, gruposProductoNombreData,  atributosNombresData, unidadesDeMedidaCodigoNombreData } = useLoaderData<{ tiposProductoCodigoNombreData: string[], gruposProductoNombre: string[], atributosNombres: string[], unidadesDeMedidaCodigoNombre: string[] }>();
+    const {  tiposProductoCodigoNombreData, gruposProductoNombreData,  atributosNombresData, unidadesDeMedidaCodigoNombreData } = useLoaderData<{ tiposProductoCodigoNombreData: string[], gruposProductoNombreData: string[], atributosNombresData: string[], unidadesDeMedidaCodigoNombreData: string[] }>();
     const { reglaValidacionAtributosSeleccionado } = useOutletContext<any>();
     const { id } = useParams();
     const submit = useSubmit();
     const [reglaValidacionAtributos, setReglaValidacionAtributos] = useState<any>();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const actionData = useActionData();
 
     //TELERIK-FILTERS
     const [dataUnidadMedida, setDataUnidadMedida] = useState(unidadesDeMedidaCodigoNombreData);
@@ -126,6 +138,11 @@ export default function EditFormReglaValidacionAtributosSeleccionado() {
                     onClose={()=>navigate(-1)}
                     width={500}
                 >
+                    {actionData?.status && (
+                        <div style={{ color: 'red', marginBottom: '1rem' }}>
+                            {actionData.statusText}
+                        </div>
+                    )}
                     <FormElement>
                         <FieldWrapper>
                             <Field

@@ -169,7 +169,7 @@ export default function CMSDefinirProductosGrillaAtributos() {
     //REMIX-HOOK
     const [searchParams, setSearchParams] = useSearchParams();
     const { idProducto } = useParams();
-    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
+    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[], todosAtributosData: Atributo[] }>();
     const serchJson = searchParams.get("search") || "{}";
     const navigate = useNavigate();
     const submit = useSubmit();
@@ -182,7 +182,16 @@ export default function CMSDefinirProductosGrillaAtributos() {
     const [openFormDelete, setOpenFormDelete] = useState<boolean>(false);
     const [openFormCreate, setOpenFormCreate] = useState<boolean>(false);
 
-    const [editItem, setEditItem] = useState<Atributo>({ idAtributo: 0 });
+    const [editItem, setEditItem] = useState<Atributo>({
+        idAtributo: 0,
+        nombre: "",
+        tipoValor: "",
+        valorTexto: "",
+        valorFecha: new Date(),
+        valorEntero: 0,
+        valorNumero: 0,
+        strUniMed: ""
+    });
     const [data, setData] = useState<Array<Atributo>>(Atributos);
 
     const enterCreate = () => {
@@ -200,9 +209,11 @@ export default function CMSDefinirProductosGrillaAtributos() {
     }
 
     const handleSubmitEdit = (event) => {
+        
         let newData = data.map(item => {
             if (event.idAtributo === item.idAtributo) {
-                item = { ...event };
+                console.log(event, "llegue")
+                item = { ...event.nombre };
             }
             return item;
         })
@@ -254,11 +265,6 @@ export default function CMSDefinirProductosGrillaAtributos() {
                 <GridToolbar>
 
                     <Button type="button"  onClick={enterCreate}> Agregar atributo </Button>
-
-                    <Button
-                        onClick={() => {
-                            navigate(`${ROUTE_BASE_PRODUCTOS}`);
-                        }}> Cancelar y volver </Button>
 
                     <Button  themeColor={"primary"} onClick={handleSubmit}> Guardar todo </Button>
 

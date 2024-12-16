@@ -14,7 +14,7 @@ const truncateText = (text, maxLength) => {
 const ChiptFilter = (props : ChipProps ) => {
     const truncatedText = truncateText(props.text, 30);
     return (
-        <Chip {...props} removable={true}  >
+        <Chip {...props} removable={true} className="cms-body_chiplist-chip" >
             {truncatedText}
         </Chip>
     )
@@ -43,13 +43,14 @@ export default function ChiptsList() {
 
     return (
         <>
-            <GridLayoutItem row={2} col={1} colSpan={3} className="grid-layout-tags" style={{ backgroundColor: "purple" }}>
+            <GridLayoutItem row={2} col={1} colSpan={3} className="cms-body-grid_chiplist cms-body_chiplist">
                 <ChipList
                     data={list}
                     selection='single'
                     textField='texto'
                     chip={ChiptFilter}
                     onDataChange={handleDataChange}
+                    className='cms-body_chip'
                 />
             </GridLayoutItem>
             <Outlet />

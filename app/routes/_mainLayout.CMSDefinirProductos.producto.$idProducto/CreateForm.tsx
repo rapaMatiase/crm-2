@@ -3,8 +3,7 @@ import { useState } from "react";
 //TELERIK
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import {
-    Form,
-    Field,
+    
     FormElement,
     FieldWrapper,
 } from "@progress/kendo-react-form";
@@ -13,16 +12,25 @@ import { ComboBox, ComboBoxFilterChangeEvent, DropDownList } from "@progress/ken
 import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { filterBy, FilterDescriptor } from "@progress/kendo-data-query";
-import { atRule } from "postcss";
 
-export default function CreateForm(props) {
+
+export default function CreateForm(props: { cancelEdit: any; onSubmit: any; item: any; data: any; dataAtributos: any; }) {
     //TELERIK-HOOKS
-    const { cancelEdit, onSubmit, item, data, dataAtributos, ...other } = props;
-    const [tipoValor, setTipoValor] = useState("");
+    const { cancelEdit, onSubmit, item, data, dataAtributos } = props;
     const [unidadesMedida, setUnidadesMedida] = useState(data);
     const [todosAtributos, setTodosAtributos] = useState(dataAtributos);
 
-    const [atibutoSelected, setAtributoSelected] = useState({});
+    interface Atributo {
+        idAtributo: string;
+        tipoValor: string;
+        valorTexto?: string;
+        strUniMed?: string;
+    }
+
+    const [atibutoSelected, setAtributoSelected] = useState<Atributo>({
+        idAtributo: "",
+        tipoValor: "",
+    });
     //FUNCTIONS
     const filterData = (filter: FilterDescriptor) => {
         const data = unidadesMedida.slice();
@@ -85,7 +93,7 @@ export default function CreateForm(props) {
                                 type="text"
                                 label={"Valor Texto"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}
@@ -95,17 +103,18 @@ export default function CreateForm(props) {
                                 type="number"
                                 label={"Valor Numero"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}
                         {atibutoSelected.tipoValor === "Fecha" && (
+                            
                             <Input
                                 name={"valorTexto"}
                                 type="date"
                                 label={"Valor Fecha"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}
@@ -115,7 +124,7 @@ export default function CreateForm(props) {
                                 type="number"
                                 label={"Valor Entero"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}

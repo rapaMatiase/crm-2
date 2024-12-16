@@ -2,13 +2,13 @@
 import { isRouteErrorResponse, Outlet, useLoaderData, useParams, useRouteError, useSearchParams } from "@remix-run/react";
 import { Card, CardImage, CardTitle, GridLayoutItem } from '@progress/kendo-react-layout';
 import { urlSearchParamsToObject } from "~/utils/URLSearchParams";
-import { getSession } from "~/servicies/session.server";
 import { data, LoaderFunction } from "@remix-run/node";
 import { getImage, getItems, getContenidoFichaItem } from "~/api/apiContentSettings";
 import { ListView } from "@progress/kendo-react-listview";
 import { createComponent } from "~/utils/ParseHtmlInjeccion";
 import { useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
+import { maxWidthIcon } from "@progress/kendo-svg-icons";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
 
@@ -55,14 +55,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 const MyItemRender = (props, dataHtml) => {
 
     return (
-        <div className="k-listview-item cms-lista-productos-item">
+        <div className="k-listview-item cms-body_lista-productos-item">
             <Card
-                style={{
-                    boxShadow: "none",
+                /* style={{
                     flex: "0 0 25.33%",
                     margin: 25,
-                }}
-                className="cms-tarjetas"
+                    maxWidth : 200
+                }} */
+                className="cms-body_tarjeta"
             >
                 <CardImage
                     src={props.dataItem.image}
@@ -70,7 +70,7 @@ const MyItemRender = (props, dataHtml) => {
                         height: 150,
                         width: 180,
                     }}
-                    className="cms-tarjetas-imagenes"
+                    className="cms-body_tarjeta-imagen"
                 />
                 <div
                     style={{
@@ -81,7 +81,7 @@ const MyItemRender = (props, dataHtml) => {
                         style={{
                             fontSize: 14,
                         }}
-                        className="cms-tarjetas-cuerpo"
+                        className="cms-body_tarjeta-cuerpo"
                     >
                         {createComponent(dataHtml.body[0], props.dataItem)}
 
@@ -106,12 +106,12 @@ export default function Filters() {
 
     return (
         <>
-            <GridLayoutItem row={2} col={4} colSpan={9} rowSpan={7} className="grid-layout-lista-productos">
+            <GridLayoutItem  className="cms-body-grid_main cms-body_main">
                 <ListView
                     data={dataWithImages}
                     item={(props) => MyItemRender(props, dataHtml)}
                     style={{ height: 850 }}
-                    className="cms-lista-productos"
+                    className="cms-body_lista-productos"
                 />
                 <style>
                     {`.k-listview-content {

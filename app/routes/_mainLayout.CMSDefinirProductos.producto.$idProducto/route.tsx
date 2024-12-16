@@ -257,7 +257,7 @@ export default function CMSDefinirProductosGrillaAtributos() {
                     <Button
                         onClick={() => {
                             navigate(`${ROUTE_BASE_PRODUCTOS}`);
-                        }}> Cancelar y volver </Button>
+                        }}> Elegir otro producto </Button>
 
                     <Button  themeColor={"primary"} onClick={handleSubmit}> Guardar todo </Button>
 

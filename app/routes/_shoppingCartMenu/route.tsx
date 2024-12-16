@@ -5,17 +5,16 @@ import { Links, Outlet, useLoaderData } from "@remix-run/react";
 //API
 import { getStyles } from "~/api/apiStyles";
 import { GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
-
-import styles from "~/styles/cmsStyle.css?url";
+// import styles from "~/styles/cmsStyle.css?url";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stylessData = await getStyles({ request, params });
     return { stylessData };
 }
 
-export const links: LinksFunction = () => [
-    { rel: "stylesheet", href: styles },
-];
+// export const links: LinksFunction = () => [
+//     { rel: "stylesheet", href: styles },
+// ];
 
 const json = [
     {
@@ -70,31 +69,23 @@ export default function TemplateBasic() {
 
     return (
         <>
-            <Outlet />
             <style dangerouslySetInnerHTML={{ __html: stylessData }} />
-            <footer style={{backgroundColor :  "green"}}>
-                <GridLayout
-                    style={{height : 600}}
-                    rows={[{ height: "100%" }]}
-                    cols={[{ width: "60%" }, { width: "30%" }, { width: "10%" }]}
-                >
-                    <GridLayoutItem row={1} col={2} style={{backgroundColor : "red"}}>
-                        <h2>Comuniquese con Leiten</h2>
-                        <ListView
-                            data={json}
-                            style={{ width: "100%" }}
-                            item={(props) => {
-                                return <ListViewItemWrapper style={{display : "flex", flexDirection : "column"}}>
-                                    <span> {props.dataItem.sede} </span>
-                                    <span> {props.dataItem.address} </span>
-                                    <span> {props.dataItem.tel} </span>
-                                </ListViewItemWrapper>
-                            }}
-                        />
+            <Outlet />
+            <footer >
+                <GridLayout className="cms-footer-grid cms-footer">
+                    <GridLayoutItem className="cms-footer-grid_titulo cms-footer_titulo" >
+                            <h1>Titulo </h1>
                     </GridLayoutItem>
-
+                    {json.map((item, index) => {
+                        return (
+                            <GridLayoutItem className={`cms-footer-grid_item-${index}  cms-footer_item-todos`}  >
+                                    <span> {item.sede} </span>
+                                    <span> {item.address} </span>
+                                    <span> {item.tel} </span>
+                            </GridLayoutItem>)
+                    })}
+                 
                 </GridLayout>
-
             </footer>
         </>
     )

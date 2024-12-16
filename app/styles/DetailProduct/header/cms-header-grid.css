@@ -1,0 +1,25 @@
+.cms-header-grid{
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: 120px;
+    grid-gap: 0;
+    place-content: center;
+    /* PARA ALINEAR LOS MARGENES*/
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.cms-header-grid_logo{
+    --grid-fila-inicio : 1;
+    --grid-fila-fin : 2;
+    --grid-columna-inicio : 1;
+    --grid-columna-fin : 6;
+    grid-area : var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-header-grid_titulo{
+    --grid-fila-inicio : 1;
+    --grid-fila-fin : 2;
+    --grid-columna-inicio : 6;
+    --grid-columna-fin : 12;
+    grid-area : var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}

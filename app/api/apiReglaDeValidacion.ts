@@ -40,7 +40,5 @@ export const postReglaDeValidacionAtributos = async ({ request, reglaValidacionA
         body: reglaValidacionAtributoJson
     });
 
-    if (!response.ok) {
-        throw new Error(`Failed to update regla de validacion: ${response.statusText}`);
-    }
+    return response
 }

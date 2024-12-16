@@ -6,18 +6,7 @@ export default function listProduct() {
     
     return (
         <>
-            <GridLayout
-                className="grid-layout cuerpo"
-                style={{ placeContent: "center" }}
-
-                gap={{ rows: 10, cols: 10 }}
-                rows={[{ height: 50 }, { height: 150 }, { height: 650 }]}
-                cols={[
-                    { width: 100 }, { width: 100 }, { width: 100 }, 
-                    { width: 100 }, { width: 100 }, { width: 100 }, 
-                    { width: 100 }, { width: 100 }, { width: 100 }, 
-                    { width: 100 }, { width: 100 }, { width: 100 }]}
-            >
+            <GridLayout className="cms-body-grid cms-body">
 
                 <Outlet />
 

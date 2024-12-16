@@ -36,7 +36,7 @@ export default function CMSDefinirMarcasProductos() {
                         <Field
                             id={"codigo"}
                             name={"codigo"}
-                            label={"Seleccione una marca:"}
+                            label={"Seleccione una Marca:"}
                             data={data}
                             textField="codigoNombre"
                             component={FormComboBoxFilter}

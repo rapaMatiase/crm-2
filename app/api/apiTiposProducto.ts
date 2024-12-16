@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { API_ENDPOINTS_TIPOS_PRODUCTO } from "~/config/apiConfig";
+import { API_ENDPOINTS_ATRIBUTOS } from "~/config/apiConfig";
 import { getSession } from "~/servicies/session.server";
 
 export const getTiposProducto = async ({ request }: { request: Request }) => {
@@ -7,7 +7,7 @@ export const getTiposProducto = async ({ request }: { request: Request }) => {
     const session = await getSession(cookie);
     const { token } = session.get("user");
 
-    const response = await fetch(`${API_ENDPOINTS_TIPOS_PRODUCTO.GET}`, {
+    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET_TIPOS_PRODUCTOS}`, {
         method: "GET",
         headers: {
             "Authorization": token

@@ -38,7 +38,7 @@ export default function RouteProductos() {
                 <Button
                     onClick={() => {
                         navigate(`${ROUTE_BASE_PRODUCTOS}`);
-                    }}> Cancelar y volver </Button>
+                    }}> Elegir otro producto </Button>
 
             
             <TabStrip selected={selected} onSelect={handleSelect}>

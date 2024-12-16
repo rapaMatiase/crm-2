@@ -26,9 +26,10 @@ export default function breadcumb() {
 
     return (
         <>
-            <GridLayoutItem  row={1} col={1} colSpan={10} className="grid-layout-ruta">
+            <GridLayoutItem  row={1} col={1} colSpan={10} className="cms-body-grid_breadcrumb">
                 <Breadcrumb
                     data={selectedValue}
+                    className='cms-body_breadcrumb'
                     // onItemSelect={handleItemSelect}
                     // onKeyDown={handleKeyDown}
                 />
