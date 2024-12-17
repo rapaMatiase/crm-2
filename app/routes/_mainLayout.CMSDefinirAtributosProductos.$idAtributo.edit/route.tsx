@@ -25,12 +25,13 @@ const tipoDeValores = ["Texto", "Numerico", "Fecha", "Entero"];
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getUnidadesMedida({ request });
 
-    const { unidadesMedidaData } = await response.json();
+    const {unidadesMedidaData} = await response.json();
 
     const unidadesDeMedidaCodigoNombre = unidadesMedidaData.map((unidad: { codigo: string }) => {
         return unidad.codigo;
     });
-
+    
+    
     return unidadesDeMedidaCodigoNombre;
 };
 

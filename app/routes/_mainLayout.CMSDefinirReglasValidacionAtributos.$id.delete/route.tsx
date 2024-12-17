@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 //TELERIK
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
-import { Form, Field, FormElement, FieldWrapper } from "@progress/kendo-react-form";
+import { Form, Field, FormElement, FieldWrapper, FormRenderProps } from "@progress/kendo-react-form";
 import { Checkbox, Input, TextArea } from "@progress/kendo-react-inputs";
 import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, trashIcon } from "@progress/kendo-svg-icons";
@@ -38,10 +38,14 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 
+type OutletContextType = {
+    reglaValidacionAtributosSeleccionado: any;
+};
+
 export default function CMSDefinirReglasValidacionAtributosDelete() {
     
     //REMIX-HOOKS
-    const {reglaValidacionAtributosSeleccionado} = useOutletContext();
+    const {reglaValidacionAtributosSeleccionado} = useOutletContext<OutletContextType>();
     const {id} = useParams();
     const submit = useSubmit();
     const navigate = useNavigate();
@@ -55,8 +59,8 @@ export default function CMSDefinirReglasValidacionAtributosDelete() {
     }, [reglaValidacionAtributosSeleccionado, loading]);
 
     //TELERIK-FUNCTIONS
-    const handleSubmit = (dataItem, event) => {
-        event.preventDefault();
+    const handleSubmit = (dataItem: { [name: string]: any }, event?: React.SyntheticEvent) => {
+        event?.preventDefault();
         submit(dataItem, {method : "POST"});
     }
 

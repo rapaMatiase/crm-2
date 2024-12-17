@@ -1,8 +1,9 @@
+// REMIX
 import { Outlet, redirect, useLoaderData, useNavigate } from "@remix-run/react";
-
+// KENDO
 import { Menu, AppBar, AppBarSection, AppBarSpacer } from '@progress/kendo-react-layout';
 
-
+// REMIX
 import { json, LoaderFunction } from "@remix-run/node";
 import { getSession } from "~/servicies/session.server";
 import { useState } from "react";
@@ -13,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const nombre = session.get("user")?.name;
 
     if (!token) {
-        return redirect("/login"); // Redirect to login if no token is found
+        return redirect("/login"); 
     }
 
     const response = await fetch("https://apptesting.leiten.dnscheck.com.ar/Contexto/Contexto/GetMainMenu", {
@@ -31,7 +32,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function MainLayout() {
-    const { titulo, menuItem, text,  nombre } = useLoaderData<{ items: any[] }>();
+    const { titulo, menuItem, text,  nombre } = useLoaderData<{ titulo: string, menuItem: any, text: string, nombre: string }>();
     const navigate = useNavigate();
     const [menuSelected, setMenuSelected] = useState<any>();
 

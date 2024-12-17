@@ -11,7 +11,7 @@ import { FormCheckbox } from "~/components/fm-components";
 //API
 import { deleteImagenes, getMimeType, getTipoContenido } from "~/api/apiContentSettings";
 import { useState } from "react";
-import { Loader } from "@progress/kendo-react-indicators";
+import { Loader, LoaderType } from "@progress/kendo-react-indicators";
 
 
 

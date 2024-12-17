@@ -14,7 +14,6 @@ import { API_ENDPOINTS_PRODUCTOS } from "~/config/apiConfig";
 import { ROUTE_BASE_PRODUCTOS } from "~/config/routesConfig";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-    // Handle our 404 gracefully by setting a generic error as page title
     if (!data) {
       return [{ title: "User not found!" }];
     }

@@ -75,9 +75,9 @@ export default function CMSDefinirProductosEdit() {
     <>
       <Form
         initialValues={{ 
-          nombre: actionData?.status ? actionData.data.nombre : "",
-          tipoContenido: actionData?.status ? actionData.data.tipoContenido : "",
-          mimeType: actionData?.status ? actionData.data.mimeType : "",
+          nombre: actionData && typeof actionData === 'object' && 'status' in actionData ? (actionData as any).data.nombre : "",
+          tipoContenido: actionData && typeof actionData === 'object' && 'status' in actionData ? (actionData as any).data.tipoContenido : "",
+          mimeType: actionData && typeof actionData === 'object' && 'status' in actionData ? (actionData as any).data.mimeType : "",
         }}
         onSubmit={handleSubmit}
         render={(formRenderProps) => (

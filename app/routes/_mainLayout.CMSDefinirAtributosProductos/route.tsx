@@ -103,7 +103,7 @@ export default function CMSDefinirAtributosProductosHome() {
     };
 
     //TELERIK - FILTER
-    const createDataState = (dataState, atributos) => {
+    const createDataState = (dataState: State, atributos: any[]) => {
         return {
             result: process(atributos, dataState),
             dataState: dataState

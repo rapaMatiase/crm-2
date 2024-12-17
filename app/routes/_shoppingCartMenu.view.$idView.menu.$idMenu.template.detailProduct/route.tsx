@@ -9,15 +9,7 @@ export default function DetailProduct() {
 
     return (
         <>
-            <GridLayout
-                style={{ alignItems: "center", width: "100%", margin: "auto" }}
-                className="colorRojo"
-                cols={[
-                    { width: "8.33%" }, { width: "8.33%" }, { width: "8.33%" },
-                    { width: "8.33%" }, { width: "8.33%" }, { width: "8.33%" },
-                    { width: "8.33%" }, { width: "8.33%" }, { width: "8.33%" },
-                    { width: "8.33%" }, { width: "8.33%" }, { width: "8.33%" }]}
-            >
+            <GridLayout className="cms-body-grid cms-body">
                 <Outlet />
             </GridLayout>
         </>

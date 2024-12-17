@@ -50,11 +50,6 @@ export const action: ActionFunction = async ({ request }) => {
     });
 
     const result = await response.json();
-
-    // throw new Response("Oh no! Something went wrong!", {
-    //     status: 500,
-    //     statusText : "nada"
-    //   })
     
 
     if (!response.ok) {
@@ -76,9 +71,9 @@ export default function Login() {
     const { titulo } = useLoaderData<{titulo: string}>();
     
     return (
-        <>
-            <h1>{titulo}</h1>
-            <h2> Login </h2>
+        < >
+            <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px"}}>{titulo}</h1>
+            <h2 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}> Login </h2>
             {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
             <Form
                 onSubmit={(dataItem, event) => {
@@ -86,6 +81,7 @@ export default function Login() {
                     submit(dataItem, { method: "post" });
                 }}
                 render={(renderProps: FormRenderProps) => (
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
                     <FormElement>
                         <FieldWrapper>
                             <Field
@@ -111,20 +107,10 @@ export default function Login() {
                             </Button>
                         </FieldWrapper>
                     </FormElement>
+                    </div>
                 )}
             />
             <Outlet />
         </>
     );
 };
-
-
-// export function ErrorBoundary(){
-//     const error = useRouteError();
-
-//     if(isRouteErrorResponse(error)){
-//         return <div>{error.status} - {error.statusText}</div>
-//     }
-
-//     return <div> Fallaste </div>
-// }

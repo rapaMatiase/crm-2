@@ -16,7 +16,11 @@ import { deleteAtributo } from "~/api/apiAtributos";
 
 export const action: ActionFunction = async ({ request, params }) => {
     const {idAtributo} = params;
-    await deleteAtributo({request, idAtributo});
+    if (idAtributo) {
+        await deleteAtributo({request, idAtributo});
+    } else {
+        throw new Error("idAtributo is undefined");
+    }
     return redirect(`${ROUTE_BASE_ATRIBUTOS}`);
 };
 

@@ -12,7 +12,7 @@ import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, trashIcon } from "@progress/kendo-svg-icons";
 import { Label } from "@progress/kendo-react-labels";
 
-export default function DeleteFomr(props){
+export default function DeleteFomr(props: { [x: string]: any; cancelEdit: any; onSubmit: any; item: any; data: any; }){
     const { cancelEdit, onSubmit, item, data, ...other } = props;
 
     return (

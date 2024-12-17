@@ -7,8 +7,8 @@ import { Chip, ChipList, ChipProps  } from '@progress/kendo-react-buttons';
 import { GridLayoutItem } from '@progress/kendo-react-layout';
 
 
-const truncateText = (text, maxLength) => {
-    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+const truncateText = (text: string | undefined, maxLength: number) => {
+    return text && text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 };
 
 const ChiptFilter = (props : ChipProps ) => {
@@ -28,7 +28,7 @@ export default function ChiptsList() {
 
     useEffect(() => {
         const seleted = JSON.parse(url.get('filters') || '[]') || [];
-        const justChipt =  seleted.filter((item) => item.tipo === 'filtro');
+        const justChipt =  seleted.filter((item: { tipo: string; }) => item.tipo === 'filtro');
         setList((justChipt));
     }, [url]);
 

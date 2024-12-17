@@ -8,7 +8,7 @@ import { ListView } from "@progress/kendo-react-listview";
 import { createComponent } from "~/utils/ParseHtmlInjeccion";
 import { useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
-import { maxWidthIcon } from "@progress/kendo-svg-icons";
+import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
 
@@ -24,11 +24,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const searchParams = url.searchParams;
     const urlParamsSearch = urlSearchParamsToObject(searchParams);
 
-    const filters = urlParamsSearch.filters || [{ key: "", value: "" }];
-
-    const filterArray = Object.keys(filters).map((key) => {
-        return { key: filters[key].id, value: "" };
-    });
+    
 
     const paramSearch = [...urlParamsSearch.menu, ...array]
 
@@ -53,16 +49,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 
 const MyItemRender = (props, dataHtml) => {
-
     return (
-        <div className="k-listview-item cms-body_lista-productos-item">
+        <div className="k-listview-item cms-body_lista-productos-item" id={`item-${props.dataItem.codigo}`}>
             <Card
-                /* style={{
-                    flex: "0 0 25.33%",
-                    margin: 25,
-                    maxWidth : 200
-                }} */
                 className="cms-body_tarjeta"
+                id={`card-${props.dataItem.codigo}`}
             >
                 <CardImage
                     src={props.dataItem.image}
@@ -70,6 +61,7 @@ const MyItemRender = (props, dataHtml) => {
                         height: 150,
                         width: 180,
                     }}
+
                     className="cms-body_tarjeta-imagen"
                 />
                 <div
@@ -96,7 +88,6 @@ export default function Filters() {
     const { dataWithImages, dataHtml } = useLoaderData();
     const [url] = useSearchParams();
 
-    
     
     const fetcher = useFetcher();
 

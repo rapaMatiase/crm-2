@@ -14,17 +14,17 @@ export default function DetailProduct() {
     const handleItemSelect = (event: BreadcrumbLinkMouseEvent) => {
         const index = event.id;
         const breadcrumbSelected = listBreadcrumb[Number(index)];
-        alert(breadcrumbSelected.label);
         //Deberia redireccionar a la url del breadcrumb seleccionda
     }   
 
     return (
         <>
-            <GridLayoutItem row={1} col={2} colSpan={12} >
+            <GridLayoutItem row={1} col={2} colSpan={12} className="cms-body-grid_breadcrumb">
                 <Breadcrumb
                     data={listBreadcrumb}
                     onItemSelect={handleItemSelect}
                     textField="label"
+                    className="cms-body_breadcrumb"
                 />
             </GridLayoutItem>
             <Outlet />

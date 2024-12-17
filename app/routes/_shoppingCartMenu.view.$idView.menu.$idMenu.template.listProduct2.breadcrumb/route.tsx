@@ -12,11 +12,10 @@ export default function breadcumb() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const selectedValue = JSON.parse(url.get('filters')) || [];
+        const selectedValue = JSON.parse(url.get('filters') || '[]') || [];
         if (selectedValue.length === 0) {
             setSelectedValue([]);
         } else {
-            console.log(selectedValue);
             const justMenu =  selectedValue.filter((item: any) => item.tipo === 'menu');
             const formatForBreadcrumb = justMenu.map((item: any, index : Number) => { return { id : index, text : item.nombre } });
             setSelectedValue(formatForBreadcrumb);
@@ -30,8 +29,6 @@ export default function breadcumb() {
                 <Breadcrumb
                     data={selectedValue}
                     className='cms-body_breadcrumb'
-                    // onItemSelect={handleItemSelect}
-                    // onKeyDown={handleKeyDown}
                 />
             </GridLayoutItem>
             <Outlet />

@@ -15,7 +15,6 @@ import { filterBy, FilterDescriptor } from "@progress/kendo-data-query";
 export default function CreateForm(props: { [x: string]: any; cancelEdit: any; onSubmit: any; item: any; data: any; dataAtributos: any; }) {
     //TELERIK-HOOKS
     const { cancelEdit, onSubmit, item, data, dataAtributos, ...other } = props;
-    const [tipoValor, setTipoValor] = useState("");
     const [unidadesMedida, setUnidadesMedida] = useState(data);
     const [todosAtributos, setTodosAtributos] = useState(dataAtributos);
 
@@ -92,7 +91,7 @@ export default function CreateForm(props: { [x: string]: any; cancelEdit: any; o
                                 type="text"
                                 label={"Valor Texto"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}
@@ -102,7 +101,7 @@ export default function CreateForm(props: { [x: string]: any; cancelEdit: any; o
                                 type="number"
                                 label={"Valor Numero"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}
@@ -112,7 +111,7 @@ export default function CreateForm(props: { [x: string]: any; cancelEdit: any; o
                                 type="date"
                                 label={"Valor Fecha"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}
@@ -122,7 +121,7 @@ export default function CreateForm(props: { [x: string]: any; cancelEdit: any; o
                                 type="number"
                                 label={"Valor Entero"}
                                 onChange={(event) => {
-                                    setAtributoSelected({ ...atibutoSelected, valorTexto: event.target.value })
+                                    setAtributoSelected({ ...atibutoSelected, valorTexto: String(event.target.value) })
                                 }}
                             />
                         )}

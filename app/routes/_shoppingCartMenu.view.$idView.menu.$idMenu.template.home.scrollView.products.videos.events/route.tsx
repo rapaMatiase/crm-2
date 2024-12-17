@@ -43,12 +43,6 @@ const MyItemRender = (props: ListViewItemProps) => {
     return (
         <ListViewItemWrapper style={{ width : "50%", height: "50%" , padding: 10, borderRight: '1px solid lightgrey' }}>
             {item.title}
-           {/*  <Card>
-                    <CardImage src={"/templateHome/productMain/1.jpeg"} />
-                        <CardBody>
-                            {item.content}
-                        </CardBody>
-                </Card> */}
         </ListViewItemWrapper>
     );
 };

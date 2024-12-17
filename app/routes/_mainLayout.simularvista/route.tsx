@@ -35,16 +35,18 @@ export default function SimularVista() {
         setVistaFilter(filteredVistas);
     }
 
-    const handleVistaSelected = (event) => {
+    const handleVistaSelected = (event: { target: { value: any; }; }) => {
         const itemMenu = event.target.value;
         setVistaSelected(itemMenu);
     }
 
-    const handleOpenVistaNewTab = (props) => {
+    const handleOpenVistaNewTab = () => {
        
         //window.open(`view/${vistaSelected.codigo}/menu/1/template/listProduct/filters/products`, '_blank');
 
-        window.open(ROUTE_TEMPLATE_CONFIG[vistaSelected.templateName](vistaSelected.codigo, "1"), '_blank');
+        if (vistaSelected) {
+            window.open(ROUTE_TEMPLATE_CONFIG[vistaSelected.templateName](vistaSelected.codigo, "1"), '_blank');
+        }
 
 
     }

@@ -18,13 +18,7 @@ import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getReglasDeValidacionAtributos } from '~/api/apiReglaDeValidacion';
 
-/* export const meta: MetaFunction<typeof loader> = ({ data }) => {
-    if (!data) {
-      return [{ title: "User not found!" }];
-    }
-    return [{ title: "BackOffice - Reglas de validación" }];
-};
- */
+
 export const loader: LoaderFunction = async ({request}) => {
     const response = await getReglasDeValidacionAtributos({request});
     const {reglasValidacionAtributoData} = await response.json();
@@ -46,17 +40,17 @@ export default function CMSDefinirRelgasValidacionAtributos() {
     //TELERIK-HOOKS
     const [reglaValidacionAtributosSeleccionado, setReglaValidacionAtributos] = useState<any>();
 
-    const handleEditReglaValidacionAtributos = (item) => {
+    const handleEditReglaValidacionAtributos = (item: { idReglaValidacion: any; }) => {
         setReglaValidacionAtributos(item);
         navigate(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}/${item.idReglaValidacion}/edit`);
     };
 
-    const handleDeleteReglaValidacionAtributos = (item) => {
+    const handleDeleteReglaValidacionAtributos = (item: { idReglaValidacion: any; }) => {
         setReglaValidacionAtributos(item);
         navigate(`${ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS}/${item.idReglaValidacion}/delete`);
     };
 
-    const CustomCellAction = (props) => {
+    const CustomCellAction = (props: { dataItem: { idReglaValidacion: any; }; }) => {
         return (
             <td>
                 <Button onClick={() => { handleEditReglaValidacionAtributos(props.dataItem) }}>Editar</Button>
@@ -111,7 +105,7 @@ export default function CMSDefinirRelgasValidacionAtributos() {
 
     return (
         <>
-            <ExcelExport data={result} ref={_export}>
+            <ExcelExport data={result.data} ref={_export}>
                 <Grid
                     style={{ height: "500px" }}
                     data={process(reglasValidacionAtributoData, dataState)}

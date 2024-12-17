@@ -1,0 +1,73 @@
+.cms-body{}
+
+.cms-body_breadcrumb{}
+
+.cms-body_imagen{
+    width: 100%;
+}
+
+.cms-body_titulo{}
+
+.cms-body_seguridad{
+    background-color: red;
+}
+
+.cms-body_seguridad-lista{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.cms-body_seguridad-lista img{
+     width: 80px;
+}
+
+.cms-body_trasporte{}
+
+.cms-body_transporte-lista{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.cms-body_transporte-lista img{
+    width: 100px;
+}
+
+.cms-body_cretificados{
+    display: flex;
+    justify-content: start;
+}
+
+.cms-body-grid_cretificados img{
+    width: 100px;
+    height: 100px;
+}
+
+.cms-body_opciones{
+    background-color: peru;
+}
+
+.cms-body_tabstrip{}
+
+.cms-body_otros-modelos{}
+
+.cms-body_otros-modelos-fila{
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+}
+
+.cms-body_otros-modelos-titulos{
+    color : rgb(160, 160, 160);
+    font-size: 14px;
+    display: flex;
+}
+
+.cms-body_otros-modelos-titulos  div{
+    flex : 1;
+}
+
+.cms-body_otros-modelos-fila div{
+    flex : 1;
+}

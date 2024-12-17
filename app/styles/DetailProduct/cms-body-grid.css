@@ -1,0 +1,83 @@
+.cms-body-grid{
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: 50px 150px 150px 150px 150px 300px 400px;
+    grid-gap: 0;
+    place-content: center;
+    /* PARA ALINEAR LOS MARGENES*/
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.cms-body-grid_breadcrumb {
+    --grid-fila-inicio: 1;
+    --grid-fila-fin: 2;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 12;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-body-grid_imagen{
+    --grid-fila-inicio: 2;
+    --grid-fila-fin: 6;
+    --grid-columna-inicio: 2;
+    --grid-columna-fin: 5;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-body-grid_titulo{
+    --grid-fila-inicio: 2;
+    --grid-fila-fin: 3;
+    --grid-columna-inicio: 5;
+    --grid-columna-fin: 9;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-body-grid_seguridad{
+    --grid-fila-inicio: 3;
+    --grid-fila-fin: 4;
+    --grid-columna-inicio: 5;
+    --grid-columna-fin: 9;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-body-grid_transporte{
+    --grid-fila-inicio: 4;
+    --grid-fila-fin: 5;
+    --grid-columna-inicio: 5;
+    --grid-columna-fin: 9;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-body-grid_cretificados{
+    --grid-fila-inicio: 5;
+    --grid-fila-fin: 6;
+    --grid-columna-inicio: 5;
+    --grid-columna-fin: 9;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+
+.cms-body-grid_opciones{
+    --grid-fila-inicio: 2;
+    --grid-fila-fin: 6;
+    --grid-columna-inicio: 9;
+    --grid-columna-fin: 12;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+.cms-body-grid_tabstrip{
+    --grid-fila-inicio: 6;
+    --grid-fila-fin: 7;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 12;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}
+
+
+.cms-body-grid_otros-modelos{
+    --grid-fila-inicio: 7;
+    --grid-fila-fin: 8;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 12;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+}

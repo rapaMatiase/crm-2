@@ -14,7 +14,6 @@ export default function TemplateBasic() {
     const handleItemSelect = (event: BreadcrumbLinkMouseEvent) => {
         const index = event.id;
         const breadcrumbSelected = listBreadcrumb[Number(index)];
-        alert(breadcrumbSelected.label);
         //Deberia redireccionar a la url del breadcrumb seleccionda
     }   
 

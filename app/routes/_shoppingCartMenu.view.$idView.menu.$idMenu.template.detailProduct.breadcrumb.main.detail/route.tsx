@@ -17,8 +17,9 @@ export default function Detail() {
 
     return (
         <>
-            <GridLayoutItem row={6} col={2}  colSpan={10}>
+            <GridLayoutItem className="cms-body-grid_tabstrip" >
                 <TabStrip 
+                    className="cms-body_tabstrip"
                     tabPosition="left"
                     selected={selected} 
                     onSelect={handleSelect}>

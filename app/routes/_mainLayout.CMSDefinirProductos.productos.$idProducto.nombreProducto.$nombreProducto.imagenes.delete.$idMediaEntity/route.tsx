@@ -10,7 +10,7 @@ import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { FormCheckbox } from "~/components/fm-components";
 //API
 import { deleteImagenes, getMimeType, getTipoContenido } from "~/api/apiContentSettings";
-import { Loader } from "@progress/kendo-react-indicators";
+import { Loader, LoaderType } from "@progress/kendo-react-indicators";
 import { useState } from "react";
 
 
@@ -32,11 +32,15 @@ export const action: ActionFunction = async ({ request, params }) => {
     return redirect(`/CMSDefinirProductos/productos/${idProducto}/nombreProducto/${nombreProducto}/imagenes`);
 }
 
+interface ActionData {
+  statusText?: string;
+  status?: number;
+}
 export default function CMSDefinirSegmentosDelete() {
 
   const navigate = useNavigate();
   const submit = useSubmit();
-  const actionData = useActionData();
+  const actionData = useActionData<ActionData | null>();
 
 
   const handleCloseAndCancel = () => {

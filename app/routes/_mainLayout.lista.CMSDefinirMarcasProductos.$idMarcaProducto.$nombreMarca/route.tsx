@@ -64,9 +64,9 @@ export default function CMSDefinirMarcasProductosList() {
 
 
   //TELERIK-FILTER-GRID
-  const createDataState = (dataState, atributos) => {
+  const createDataState = (dataState: State, atributos: unknown) => {
     return {
-      result: process(atributos, dataState),
+      result: process(atributos as unknown[], dataState),
       dataState: dataState
     };
   }
@@ -89,7 +89,7 @@ export default function CMSDefinirMarcasProductosList() {
       <ExcelExport data={result.data} ref={_export}>
         <Grid
           style={{ height: "500px" }}
-          data={process(data, dataState)}
+          data={process(data as unknown[], dataState)}
           {...dataState}
           onDataStateChange={dataStateChange}
           sortable={true}

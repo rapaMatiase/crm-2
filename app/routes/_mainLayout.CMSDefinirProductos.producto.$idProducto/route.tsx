@@ -169,20 +169,29 @@ export default function CMSDefinirProductosGrillaAtributos() {
     //REMIX-HOOK
     const [searchParams, setSearchParams] = useSearchParams();
     const { idProducto } = useParams();
-    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[] }>();
+    const { atributosDataFormat: atributosData, unidadesDeMedidaCodigoNombre, todosAtributosData } = useLoaderData<{ atributosDataFormat: Atributo[], unidadesDeMedidaCodigoNombre: string[], todosAtributosData: any[] }>();
     const serchJson = searchParams.get("search");
     const navigate = useNavigate();
     const submit = useSubmit();
 
 
-    const codigoNombre = JSON.parse(serchJson).codigoNombre
+    const codigoNombre = serchJson ? JSON.parse(serchJson).codigoNombre : ""
     const Atributos = [...atributosData];
     
     const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
     const [openFormDelete, setOpenFormDelete] = useState<boolean>(false);
     const [openFormCreate, setOpenFormCreate] = useState<boolean>(false);
 
-    const [editItem, setEditItem] = useState<Atributo>({ idAtributo: 0 });
+    const [editItem, setEditItem] = useState<Atributo>({
+        idAtributo: 0,
+        nombre: "",
+        tipoValor: "",
+        valorTexto: "",
+        valorFecha: new Date(),
+        valorEntero: 0,
+        valorNumero: 0,
+        strUniMed: ""
+    });
     const [data, setData] = useState<Array<Atributo>>(Atributos);
 
     const enterCreate = () => {
@@ -199,7 +208,7 @@ export default function CMSDefinirProductosGrillaAtributos() {
         setEditItem(item);
     }
 
-    const handleSubmitEdit = (event) => {
+    const handleSubmitEdit = (event: Atributo) => {
         let newData = data.map(item => {
             if (event.idAtributo === item.idAtributo) {
                 item = { ...event };
@@ -210,13 +219,13 @@ export default function CMSDefinirProductosGrillaAtributos() {
         setOpenFormEdit(false);
     }
 
-    const handleSubmitCreate = (event) => {
+    const handleSubmitCreate = (event: ConcatArray<Atributo>) => {
         let newData = data.concat(event);
         setData(newData);
         setOpenFormCreate(false);
     }
 
-    const handleSubmitDelete = (event) => {
+    const handleSubmitDelete = (event: { idAtributo: number; }) => {
         let newData = data.filter(item => item.idAtributo !== event.idAtributo);
         setData(newData);
         setOpenFormDelete(false);
@@ -283,15 +292,13 @@ export default function CMSDefinirProductosGrillaAtributos() {
             {openFormDelete && <DeleteForm
                 cancelEdit={handleCancelDelete}
                 onSubmit={handleSubmitDelete}
-                item={editItem}
-            />}
+                item={editItem} data={undefined}            />}
 
             {openFormCreate && <CreateForm
                 cancelEdit={handleCancelCreate}
                 onSubmit={handleSubmitCreate}
                 data={unidadesDeMedidaCodigoNombre}
-                dataAtributos={todosAtributosData}
-            />}
+                dataAtributos={todosAtributosData} item={undefined}            />}
 
         </>
     );

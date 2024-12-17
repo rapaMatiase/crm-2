@@ -208,11 +208,10 @@ export default function CMSDefinirProductosGrillaAtributos() {
         setEditItem(item);
     }
 
-    const handleSubmitEdit = (event) => {
+    const handleSubmitEdit = (event: { idAtributo: number; nombre: Atributo; }) => {
         
         let newData = data.map(item => {
             if (event.idAtributo === item.idAtributo) {
-                console.log(event, "llegue")
                 item = { ...event.nombre };
             }
             return item;
@@ -221,13 +220,13 @@ export default function CMSDefinirProductosGrillaAtributos() {
         setOpenFormEdit(false);
     }
 
-    const handleSubmitCreate = (event) => {
+    const handleSubmitCreate = (event: ConcatArray<Atributo>) => {
         let newData = data.concat(event);
         setData(newData);
         setOpenFormCreate(false);
     }
 
-    const handleSubmitDelete = (event) => {
+    const handleSubmitDelete = (event: { idAtributo: number; }) => {
         let newData = data.filter(item => item.idAtributo !== event.idAtributo);
         setData(newData);
         setOpenFormDelete(false);
@@ -290,15 +289,13 @@ export default function CMSDefinirProductosGrillaAtributos() {
             {openFormDelete && <DeleteForm
                 cancelEdit={handleCancelDelete}
                 onSubmit={handleSubmitDelete}
-                item={editItem}
-            />}
+                item={editItem} data={undefined}            />}
 
             {openFormCreate && <CreateForm
                 cancelEdit={handleCancelCreate}
                 onSubmit={handleSubmitCreate}
                 data={unidadesDeMedidaCodigoNombre}
-                dataAtributos={todosAtributosData}
-            />}
+                dataAtributos={todosAtributosData} item={undefined}            />}
 
         </>
     );

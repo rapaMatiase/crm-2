@@ -58,8 +58,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 }) => {
         return unidad.codigoNombre;
     });
-
-    //const unidadesDeMedidaCodigoNombreData = [];
     
     return { tiposProductoCodigoNombreData, gruposProductoNombreData, atributosNombresData, unidadesDeMedidaCodigoNombreData };
     

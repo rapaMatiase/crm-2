@@ -38,11 +38,12 @@ function createComponentLeaf(dataHtml, dataItem) {
 function createComponentContainer(dataHtml, dataItems) {
     const { Tag, Attributes, Children } = dataHtml;
     const contente = Children.map((child) => (createComponent(child, dataItems)));
-    return React.createElement(
+    const elemento = React.createElement(
         Tag,
         convertAttributes(Attributes),
-        contente
+        contente.map((child, index) => React.cloneElement(child, { key: index }))
     );
+    return elemento
 }
 
 export function createComponent(dataHtml, dataItem) {

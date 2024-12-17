@@ -78,7 +78,7 @@ export default function TemplateBasic() {
                     </GridLayoutItem>
                     {json.map((item, index) => {
                         return (
-                            <GridLayoutItem className={`cms-footer-grid_item-${index}  cms-footer_item-todos`}  >
+                            <GridLayoutItem key={`footer-${index}`} className={`cms-footer-grid_item-${index}  cms-footer_item-todos`}  >
                                     <span> {item.sede} </span>
                                     <span> {item.address} </span>
                                     <span> {item.tel} </span>

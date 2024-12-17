@@ -1,5 +1,5 @@
 //REMIX
-import { Outlet, useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import { isRouteErrorResponse, Outlet, useLoaderData, useNavigate, useParams, useRouteError } from "@remix-run/react";
 import { useState } from "react";
 
 import { AppBar, AppBarSection, AppBarSpacer, Drawer, DrawerContent, DrawerSelectEvent, GridLayout, Menu } from '@progress/kendo-react-layout';
@@ -21,6 +21,10 @@ const items = [
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { idView, idMenu } = params;
+
+    if (!idView || !idMenu) {
+        throw new Error("idView and idMenu are required");
+    }
 
     const menus = await getMenu({ request, idView, idMenu });
 
@@ -74,7 +78,11 @@ export default function TemplateBasic() {
             filters: JSON.stringify(itemMenuSelected.url2),
         });
 
-        actionAnalyzer.analyze(itemMenuSelected.action, navigate, url, idView, idMenu);
+        if (idView && idMenu) {
+            actionAnalyzer.analyze(itemMenuSelected.action, navigate, url, idView, idMenu);
+        } else {
+            console.error("idView or idMenu is undefined");
+        }
     }
 
     return (
@@ -118,4 +126,17 @@ export default function TemplateBasic() {
             </style>
         </>
     )
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div> Sin datos para este menu </div>
+        <Outlet />
+    </>
 }

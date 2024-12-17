@@ -1,7 +1,5 @@
-import * as React from 'react';
 import { useState } from 'react';
-import { Form, Field, FormElement, FieldRenderProps, FormRenderProps, FieldWrapper } from '@progress/kendo-react-form';
-import { Input } from '@progress/kendo-react-inputs';
+
 import { Button } from '@progress/kendo-react-buttons';
 import {
     Grid,

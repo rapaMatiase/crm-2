@@ -65,12 +65,13 @@ export default function Filters() {
                 {data.map((item, index) => {
                     const opciones = item.opciones;
                     return (
-                        <div className='cms-body_filtros-item'>
+                        <div className='cms-body_filtros-item' key={`filtro-${index}`}>
                             <h5 className='cms-body_filtros-titulo'>{item.nombre} </h5>
                             {opciones.map((opcion, index) => {
                                 return (
-                                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                                    <div style={{ display: 'flex', alignItems: 'baseline' }} key={`opcion-${index}`}>
                                         <RadioButton
+                                            key={`${item.nombre}-${opcion.id}`}
                                             className='cms-body_filtros-input'
                                             name={item.nombre}
                                             value={{ texto: opcion.texto, value: opcion.id, nombre: item.nombre, tipo: "filtro" }}

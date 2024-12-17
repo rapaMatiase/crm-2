@@ -22,7 +22,6 @@ export default function EditForm(props: { [x: string]: any; cancelEdit: any; onS
 
     const filterData = (filter: FilterDescriptor) => {
         const data = unidadesMedida.slice();
-        console.log(data, "llegue")
         return filterBy(data, filter);
     };
 
@@ -32,7 +31,6 @@ export default function EditForm(props: { [x: string]: any; cancelEdit: any; onS
 
     const filterDataAtributo = (filter: FilterDescriptor) => {
         const data = todosAtributos.slice();
-        console.log(data, "llegue")
         return filterBy(data, filter);
     };
 
