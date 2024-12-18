@@ -27,7 +27,7 @@ export default function ScrollViewComponent() {
 
     return (
         <>
-            <GridLayoutItem row={1} col={1} colSpan={10} rowSpan={3} style={{ backgroundColor: "red" }}>
+            <GridLayoutItem className='cms-home-body-grid_scrollView'>
                 <ScrollView
                     style={{ width: "100%", height: "100%" }}
                     arrows={false}
@@ -37,6 +37,7 @@ export default function ScrollViewComponent() {
                     endless={true} //Determina si se puede volver al principio
                     pageable={true} //Determina si tengo o no los puntintos para moverme
                     pagerOverlay="dark" // [none, light, dark] Agrega sombreado a los puntos
+                    className='cms-home-body_scrollView'
                 >
                     {json.items.map((item, index) => {
                         return (

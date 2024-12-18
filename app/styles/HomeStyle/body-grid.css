@@ -1,0 +1,17 @@
+.cms-body-grid{
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows:200px 50px 150px 200px 300px;
+    gap: 15;
+    /* PARA ALINEAR LOS MARGENES*/
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.cms-body-grid_scrollView{
+    --grid-fila-inicio: 1;
+    --grid-fila-fin: 2;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 12;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
+
+}
