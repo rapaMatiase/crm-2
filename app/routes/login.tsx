@@ -29,7 +29,6 @@ export const loader: LoaderFunction = async () => {
     }
     
     const {titulo} = await response.json();
-
     return {titulo};
 }
 
