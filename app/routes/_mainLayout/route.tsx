@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect("/login"); 
     }
 
-    const response = await fetch("https://apptesting.leiten.dnscheck.com.ar/Contexto/Contexto/GetMainMenu", {
+    const response = await fetch("https://appcms.testingleiten.dnscheck.com.ar/Contexto/Contexto/GetMainMenu", {
         headers: {
             Authorization: token
         }

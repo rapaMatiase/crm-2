@@ -10,26 +10,27 @@ import { Button } from "@progress/kendo-react-buttons";
 import { sessionStorage } from "~/servicies/session.server";
 //CONFIG
 import { API_ENDPOINTS_LOGIN } from "~/config/apiConfig";
-import {ROUTE_MAIN_LAYOUT} from "~/config/routesConfig";
+import { ROUTE_MAIN_LAYOUT } from "~/config/routesConfig";
 
 export const loader: LoaderFunction = async () => {
 
-    const response = await fetch(`${API_ENDPOINTS_LOGIN.GET}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        }
-    );
-   
-    if (!response.ok) {
-        throw new Error("Failed to fetch pre-login info");
-    }
+     const response = await fetch(`${API_ENDPOINTS_LOGIN.GET}`,
+         {
+             method: "GET",
+             headers: {
+                 "Content-Type": "application/json",
+                 "Accept": "application/json"
+             }
+         }
+     );
     
+     if (!response.ok) {
+         console.log(response.statusText);
+         throw new Error("Failed to fetch pre-login info"); 
+     }
+
     const {titulo} = await response.json();
-    return {titulo};
+    return { titulo };
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -49,7 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
     });
 
     const result = await response.json();
-    
+
 
     if (!response.ok) {
         return json({ error: "Usuario no encontrado. Revice sus credenciales." }, { status: 401 });
@@ -63,15 +64,15 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Login() {
-    
+
     //REMIX-HOOKS
     const submit = useSubmit();
     const actionData = useActionData();
-    const { titulo } = useLoaderData<{titulo: string}>();
-    
+    const { titulo } = useLoaderData<{ titulo: string }>();
+
     return (
         < >
-            <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px"}}>{titulo}</h1>
+            <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>{titulo}</h1>
             <h2 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}> Login </h2>
             {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
             <Form
@@ -81,31 +82,31 @@ export default function Login() {
                 }}
                 render={(renderProps: FormRenderProps) => (
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
-                    <FormElement>
-                        <FieldWrapper>
-                            <Field
-                                name={"name"}
-                                component={Input}
-                                type={"text"}
-                                label={"Nombre"} />
-                        </FieldWrapper>
-                        <FieldWrapper>
-                            <Field
-                                name={"password"}
-                                component={Input}
-                                type={"password"}
-                                label={"Contraseña"} />
-                        </FieldWrapper>
-                        <FieldWrapper>
-                            <Button
-                                themeColor={"primary"}
-                                disabled={!renderProps.allowSubmit}
-                                icon="save"
-                            >
-                                Entrar
-                            </Button>
-                        </FieldWrapper>
-                    </FormElement>
+                        <FormElement>
+                            <FieldWrapper>
+                                <Field
+                                    name={"name"}
+                                    component={Input}
+                                    type={"text"}
+                                    label={"Nombre"} />
+                            </FieldWrapper>
+                            <FieldWrapper>
+                                <Field
+                                    name={"password"}
+                                    component={Input}
+                                    type={"password"}
+                                    label={"Contraseña"} />
+                            </FieldWrapper>
+                            <FieldWrapper>
+                                <Button
+                                    themeColor={"primary"}
+                                    disabled={!renderProps.allowSubmit}
+                                    icon="save"
+                                >
+                                    Entrar
+                                </Button>
+                            </FieldWrapper>
+                        </FormElement>
                     </div>
                 )}
             />
