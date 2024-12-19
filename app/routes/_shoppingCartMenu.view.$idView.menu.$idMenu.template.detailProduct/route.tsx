@@ -9,7 +9,7 @@ export default function DetailProduct() {
 
     return (
         <>
-            <GridLayout className="cms-detalle-body-grid cms-body">
+            <GridLayout className="cms-body-grid cms-body">
                 <Outlet />
             </GridLayout>
         </>
