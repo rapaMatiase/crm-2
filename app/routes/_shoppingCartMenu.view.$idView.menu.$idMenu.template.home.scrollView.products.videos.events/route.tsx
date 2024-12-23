@@ -16,10 +16,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         throw new Error("idView is required");
     }
     const data = await getEventos({ request, idView });
-    const sucursales = await getCentrosOperaciones({ request })
+    //const sucursales = await getCentrosOperaciones({ request })
 
 
-    return { data, sucursales }
+    return { data, sucursales: [] };
 };
 
 const MyItemRender = (props: ListViewItemProps) => {

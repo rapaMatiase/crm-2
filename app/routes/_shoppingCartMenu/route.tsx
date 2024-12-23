@@ -1,6 +1,6 @@
 //REMIX
-import {  LoaderFunction } from "@remix-run/node";
-import {  Outlet, useLoaderData } from "@remix-run/react";
+import { LoaderFunction } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
 //API
 import { getStyles } from "~/api/apiStyles";
 import { GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
@@ -8,11 +8,11 @@ import { getCentrosOperaciones } from "~/api/apiCentrosOperaciones";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stylessData = await getStyles({ request, params });
-    const sucursales = await getCentrosOperaciones({ request });
-    return { stylessData, sucursales };
+    //const sucursales = await getCentrosOperaciones({ request });
+    return { stylessData,};
 }
 
-/* const json = [
+const json = [
     {
         sede: "Buenos Aires",
         address: "3 de Febrero 4456 - Caseros - Buenos Aires",
@@ -58,10 +58,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         address: "Próximamente - Salta Capital - Salta",
         tel: "- / -"
     }
-] */
+]
 
 export default function TemplateBasic() {
-    const { stylessData, sucursales } = useLoaderData<{ stylessData: any }>();
+    const { stylessData } = useLoaderData<{ stylessData: any }>();
 
     return (
         <>
@@ -70,17 +70,17 @@ export default function TemplateBasic() {
             <footer >
                 <GridLayout className="cms-footer-grid cms-footer">
                     <GridLayoutItem className="cms-footer-grid_titulo cms-footer_titulo" >
-                            <h1>Titulo </h1>
+                        <h1>Titulo </h1>
                     </GridLayoutItem>
-                    {sucursales.map((item, index) => {
+                    {json.map((item, index) => {
                         return (
                             <GridLayoutItem key={`footer-${index}`} className={`cms-footer-grid_item-${index}  cms-footer_item-todos`}  >
-                                    <span> {item.idCentrosOperaciones} </span>
-                                    <span> {item.nombre} </span>
-                                    <span> {item.activo} </span>
+                                <span> {item.sede} </span>
+                                <span> {item.address} </span>
+                                <span> {item.tel} </span>
                             </GridLayoutItem>)
                     })}
-                 
+
                 </GridLayout>
             </footer>
         </>
