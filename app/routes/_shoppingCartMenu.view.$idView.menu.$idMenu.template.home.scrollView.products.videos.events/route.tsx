@@ -35,7 +35,7 @@ const MyItemRender = (props: ListViewItemProps) => {
     );
 };
 
-export default function Events() {
+export default function HomeEvents() {
 
     const { eventos, sucursales } = useLoaderData<any[]>()
 
