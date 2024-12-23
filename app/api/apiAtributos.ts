@@ -24,7 +24,7 @@ export const getAtributos = async ({ request }: { request: Request }) => {
 
     return { atributosData };
 }
-const nda = ""
+
 export const postAtributo = async ({ request, atributo }: { request: Request, atributo: any }) => {
     
     const cookie = request.headers.get("Cookie");
