@@ -44,11 +44,11 @@ export default function Events() {
     return (
         <>
             <GridLayoutItem className='cms-home-body-grid_eventos'>
-                <GridLayout className='cms-home-body_evento-contendor'>
-                    <GridLayoutItem className='cms-home-body_evento-contenedor-titulo'>
-                        <h3 className='cms-home-body_evento-titulo'>Eventos</h3>
+                <GridLayout className='cms-home-body_eventos-contenedor'>
+                    <GridLayoutItem className='cms-home-body_eventos-contendor-titulo'  >
+                        <h3 className='cms-home-body_eventos-titulo'>Eventos</h3>
                     </GridLayoutItem>
-                    <GridLayoutItem className='cms-home-body_evento-contenedor-combobox'>
+                    <GridLayoutItem className='cms-home-body-_eventos-contenedor-combobox'  >
                         <Form
                             initialValues={{ sucursales: 'Todas las sucursales' }}
                             render={() => (
@@ -56,6 +56,7 @@ export default function Events() {
                                     <Field
                                         component={FormComboBoxSimple}
                                         name={'sucursuales'}
+                                        className="cms-home-body_eventos-combobox"
                                         id={sucursales.idCentrosOperaciones}
                                         data={sucursales.map((item: any) => item.nombre)}
                                     />
@@ -63,13 +64,14 @@ export default function Events() {
                             )}
                         />
                     </GridLayoutItem>
-                    <GridLayoutItem className='cms-home-body_evento-contenedor-lista'>
+                    <GridLayoutItem className='cms-home-body_enventos-contenedor-lista' row={15} col={1} colSpan={10} rowSpan={2} style={{ backgroundColor: "pink" }}>
                         <ListView
                             data={eventos}
                             item={MyItemRender}
-                            className='cms-home-body_envento-lista'
+                            className='cms-home-body_enventos-lista'
                         />
                     </GridLayoutItem>
+
                 </GridLayout>
             </GridLayoutItem>
             <Outlet />

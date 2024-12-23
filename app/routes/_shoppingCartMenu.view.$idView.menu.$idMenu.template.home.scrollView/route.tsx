@@ -58,9 +58,9 @@ export default function ScrollViewComponent() {
     return (
 
         <>
-            <GridLayoutItem className='cms-home-body-grid_scrollView'>
+            <GridLayoutItem row={1} col={1} colSpan={10} rowSpan={3} style={{ backgroundColor: "red" }}>
                 <ScrollView
-                    className='cms-home-body_scrollView'
+                    style={{ width: "100%", height: "100%" }}
                     arrows={Arrows} //Determina si tengo flechas para moverme
                     activeView={ActiveView} //Este determina en la posicion que arranca el scrollView
                     automaticViewChange={AutomaticViewChange} //Este determina si se cambia automaticamente
