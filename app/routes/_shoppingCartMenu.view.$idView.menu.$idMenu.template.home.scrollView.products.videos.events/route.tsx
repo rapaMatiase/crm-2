@@ -26,11 +26,9 @@ const MyItemRender = (props: ListViewItemProps) => {
     let item = props.dataItem;
     return (
 
-        <ListViewItemWrapper style={{ width: "50%", height: "50%", padding: 10, borderRight: '1px solid lightgrey' }}>
+        <ListViewItemWrapper className='cms-home-body_eventos-lista-item'>
             {item.titulo}
-            <br />
             {item.texto}
-            <br />
             {item.fecha}
         </ListViewItemWrapper>
 
@@ -48,7 +46,7 @@ export default function Events() {
                     <GridLayoutItem className='cms-home-body_eventos-contendor-titulo'  >
                         <h3 className='cms-home-body_eventos-titulo'>Eventos</h3>
                     </GridLayoutItem>
-                    <GridLayoutItem className='cms-home-body-_eventos-contenedor-combobox'  >
+                    <GridLayoutItem className='cms-home-body_eventos-contenedor-combobox'  >
                         <Form
                             initialValues={{ sucursales: 'Todas las sucursales' }}
                             render={() => (
