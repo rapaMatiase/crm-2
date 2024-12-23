@@ -18,7 +18,6 @@ export const getCentrosOperaciones = async ({ request }: { request: Request }) =
     }
 
     const centrosOperaciones = await response.json();
-
     return centrosOperaciones;
 
 }
