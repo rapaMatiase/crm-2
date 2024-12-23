@@ -8,7 +8,7 @@ import {
     FieldWrapper,
 } from "@progress/kendo-react-form";
 import { Input } from "@progress/kendo-react-inputs";
-import { ComboBox, ComboBoxFilterChangeEvent, DropDownList } from "@progress/kendo-react-dropdowns";
+import { ComboBox, ComboBoxFilterChangeEvent } from "@progress/kendo-react-dropdowns";
 import { Button } from "@progress/kendo-react-buttons";
 import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { filterBy, FilterDescriptor } from "@progress/kendo-data-query";

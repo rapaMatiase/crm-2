@@ -1,8 +1,7 @@
 //REMIX
-import { useState } from "react";
 import { Outlet } from "@remix-run/react";
 //TELERIK
-import { GridLayoutItem, Breadcrumb, BreadcrumbLinkMouseEvent, Card, CardImage } from "@progress/kendo-react-layout";
+import { GridLayoutItem, Card } from "@progress/kendo-react-layout";
 import { ListView, ListViewItemProps } from "@progress/kendo-react-listview";
 
 //FOR DELETE

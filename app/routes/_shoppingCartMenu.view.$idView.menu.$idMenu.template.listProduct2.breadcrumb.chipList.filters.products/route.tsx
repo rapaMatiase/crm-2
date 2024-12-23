@@ -1,14 +1,13 @@
 //TELERIK
-import { isRouteErrorResponse, Outlet, useLoaderData, useParams, useRouteError, useSearchParams } from "@remix-run/react";
+import {  Outlet, useLoaderData, useSearchParams } from "@remix-run/react";
 import { Card, CardImage, CardTitle, GridLayoutItem } from '@progress/kendo-react-layout';
 import { urlSearchParamsToObject } from "~/utils/URLSearchParams";
-import { data, LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { getImage, getItems, getContenidoFichaItem } from "~/api/apiContentSettings";
 import { ListView } from "@progress/kendo-react-listview";
 import { createComponent } from "~/utils/ParseHtmlInjeccion";
 import { useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
-import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
 
@@ -24,11 +23,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const searchParams = url.searchParams;
     const urlParamsSearch = urlSearchParamsToObject(searchParams);
 
-    
-
     const paramSearch = [...urlParamsSearch.menu, ...array]
 
-    const paramJson = JSON.stringify(paramSearch);
+    const paramJson: never[] = []
 
     const response = await getItems(request, idView, paramJson);
 

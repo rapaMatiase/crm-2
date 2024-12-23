@@ -29,7 +29,11 @@ export const API_ENDPOINTS_REGLAS_VALIDACION_ATRIBUTOS = {
 export const API_ENDPOINTS_PRODUCTOS = {
     SEARCH : `${API_BASE_URL}/Productos/GetProductosBasePorBusquedaAmbigua`,
     GET : `${API_BASE_URL}/Productos/GetAtributosPorProducto`,
-    POST : `${API_BASE_URL}/Productos/ActualizarProductoAtributos`
+    POST : `${API_BASE_URL}/Productos/ActualizarProductoAtributos`,
+    GET_TEXTOS: `${API_BASE_URL}/Productos/GetTextosPorProducto`,
+    GET_TIPOS_TEXTO: `${API_BASE_URL}/Productos/GetTiposTexto`,
+    SET_TEXTO: `${API_BASE_URL}/Productos/ActualizarProductoTexto`,
+    DELETE_TEXTO: `${API_BASE_URL}/Productos/DestroyProductoTexto`,
 }
 
 export const API_GRUPOS_PRODUCTO = {
@@ -42,7 +46,9 @@ export const API_ENDPOINTS_TIPOS_PRODUCTO = {
 
 export const API_ENDPOINTS_LOGIN = {
     POST : `${API_BASE_URL}/Contexto/Contexto/Login`,
-    GET : `${API_BASE_URL}/Contexto/Contexto/GetPreLoginInfo`
+    GET : `${API_BASE_URL}/Contexto/Contexto/GetPreLoginInfo`,
+    GET_MAIN_MENU: `${API_BASE_URL}/Contexto/Contexto/GetMainMenu`
+
 };
 
 export const API_ENDPOINTS_CONTENT_SETTEINGS = {
@@ -57,10 +63,17 @@ export const API_ENDPOINTS_CONTENT_SETTEINGS = {
     GET_TIPOS_CONTENIDO: `${API_BASE_URL}/ContentSettings/GetTiposContenido`,
     GET_IMAGENES: `${API_BASE_URL}/ContentSettings/GetImagenes`,
     DELETE_IMAGEN: `${API_BASE_URL}/ContentSettings/DeleteImagen`,
+    POST_CARRUSEL: `${API_BASE_URL}/ContentSettings/GetCarruselConfig`,
+    POST_VIDEOS: `${API_BASE_URL}/ContentSettings/GetVideosConfig`,
+    GET_EVENTOS: `${API_BASE_URL}/ContentSettings/GetEventos`,
 }
 
 export const API_ENDPOINTS_GET_MAIN_MENU = `${API_BASE_URL}/Contexto/Contexto/GetMainMenu`;
 
 export const API_ENDPOINT_STYLES = {
     GET : `${API_BASE_URL}/Styles/GetStyle`
+}
+
+export const API_ENDOPOINT_CENTROS_OPERACIONES = {
+    GET_CENTROS_OPERACIONES : `${API_BASE_URL}/CentrosOperaciones/GetCentrosOperaciones`
 }

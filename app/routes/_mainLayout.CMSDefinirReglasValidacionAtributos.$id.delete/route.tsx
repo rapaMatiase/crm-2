@@ -15,6 +15,7 @@ import { getSession } from "~/servicies/session.server";
 //CONFIG
 import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from "~/config/routesConfig";
 import { API_ENDPOINTS_REGLAS_VALIDACION_ATRIBUTOS } from "~/config/apiConfig";
+
 export const action: ActionFunction = async ({ request, params }) => {
 
     const session = await getSession(request.headers.get("Cookie"));

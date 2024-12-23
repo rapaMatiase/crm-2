@@ -2,9 +2,8 @@ import * as React from 'react'
 
 import { TabStrip, TabStripSelectEventArguments, TabStripTab } from '@progress/kendo-react-layout';
 import { Outlet, useParams } from "@remix-run/react";
-import { Link, useNavigate } from "@remix-run/react";
-import { useEffect } from 'react';
-import { GridToolbar } from '@progress/kendo-react-grid';
+import {  useNavigate } from "@remix-run/react";
+
 import { Button } from '@progress/kendo-react-buttons';
 import { ROUTE_BASE_PRODUCTOS } from '~/config/routesConfig';
 
@@ -22,7 +21,7 @@ export default function RouteProductos() {
             navigate(`/CMSDefinirProductos/productos/${idProducto}/nombreProducto/${nombreProducto}/imagenes`);
         }
         if (e.selected === 2) {
-            navigate(`/CMSDefinirProductos/productos/${idProducto}/nombreProducto/${nombreProducto}/otros`);
+            navigate(`/CMSDefinirProductos/productos/${idProducto}/nombreProducto/${nombreProducto}/detalles`);
         }
     };
 

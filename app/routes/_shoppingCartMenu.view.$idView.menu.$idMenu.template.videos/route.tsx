@@ -1,5 +1,5 @@
 import { Outlet } from "@remix-run/react";
-import { Card, CardImage, GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
+import { GridLayout } from "@progress/kendo-react-layout";
 
 export default function TemplateBasic() {
 

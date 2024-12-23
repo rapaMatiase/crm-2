@@ -5,3 +5,4 @@ export const ROUTE_BASE_PRODUCTOS = "/CMSDefinirProductos";
 export const ROUTE_LOGIN = "/login";
 export const ROUTE_LOGOUT = "/logout";
 export const ROUTE_BASE_MARCAS = "/CMSDefinirMarcasProductos";
+export const ROUTE_BASE_OTROS = "/CMSOtrosContenidos";

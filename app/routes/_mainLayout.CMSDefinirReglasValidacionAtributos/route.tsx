@@ -10,7 +10,7 @@ import { ExcelExport } from "@progress/kendo-react-excel-export";
 import { Button } from '@progress/kendo-react-buttons';
 //REMIX
 import { Outlet, useActionData, useLoaderData, useNavigate } from '@remix-run/react';
-import { LoaderFunction, MetaFunction } from '@remix-run/node';
+import { LoaderFunction } from '@remix-run/node';
 //COMPONENTS
 import { ColumnMenu } from './columnMenu';
 //CONFIG

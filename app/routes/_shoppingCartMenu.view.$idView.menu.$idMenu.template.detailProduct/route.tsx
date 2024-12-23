@@ -1,7 +1,7 @@
 //REMIX
 import { Outlet } from "@remix-run/react";
 //TELERIK
-import { GridLayout, GridLayoutItem } from '@progress/kendo-react-layout';
+import { GridLayout } from '@progress/kendo-react-layout';
 
 
 export default function DetailProduct() {

@@ -42,7 +42,6 @@ export default function SimularVista() {
 
     const handleOpenVistaNewTab = () => {
        
-        //window.open(`view/${vistaSelected.codigo}/menu/1/template/listProduct/filters/products`, '_blank');
 
         if (vistaSelected) {
             window.open(ROUTE_TEMPLATE_CONFIG[vistaSelected.templateName](vistaSelected.codigo, "1"), '_blank');

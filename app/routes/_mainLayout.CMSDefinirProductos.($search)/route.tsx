@@ -7,11 +7,10 @@ import { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Field, FieldWrapper, Form, FormElement, FormRenderProps } from "@progress/kendo-react-form";
 import { ComboBox, ComboBoxChangeEvent, ComboBoxFilterChangeEvent } from "@progress/kendo-react-dropdowns";
 import { Button } from "@progress/kendo-react-buttons";
-//SERVICIES
-import { getSession } from "~/servicies/session.server";
+
 //CONFIG
-import { API_ENDPOINTS_PRODUCTOS } from "~/config/apiConfig";
 import { ROUTE_BASE_PRODUCTOS } from "~/config/routesConfig";
+import { getDefinirProductos } from "~/api/apiContentSettings";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
     if (!data) {
@@ -20,22 +19,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return [{ title: "BackOffice - Productos" }];
 };
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-    const session = await getSession(request.headers.get("Cookie"));
-    const token = session.get("user")?.token;
-    const search = params.search;
-
-    const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.SEARCH}/PatronBusqueda/${search}`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: token
-            }
-        }
-    );
-
-    const productosData = await response.json();
-    return productosData;
+export const loader: LoaderFunction = async ({ request, params}) => {
+    const response = await getDefinirProductos({ request, params });
+       return response
 };
 
 export default function CMSDefinirProductos() {
@@ -68,7 +54,7 @@ export default function CMSDefinirProductos() {
     }
 
     const handleSelectProduct = (event: ComboBoxChangeEvent) => {
-        debugger;
+       
         const producto = event.target.value;
         setProducto(producto);
     }

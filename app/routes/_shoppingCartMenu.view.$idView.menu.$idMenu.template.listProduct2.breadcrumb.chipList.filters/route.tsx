@@ -1,5 +1,5 @@
 //REACT
-import { useCallback, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 //REMIX
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { Outlet, useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';

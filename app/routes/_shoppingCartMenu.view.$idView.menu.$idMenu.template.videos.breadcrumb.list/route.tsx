@@ -1,8 +1,7 @@
 import { ListView, ListViewItemProps } from "@progress/kendo-react-listview";
 import { Outlet } from "@remix-run/react";
-import { Card, CardImage, GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
+import { Card, CardImage, GridLayoutItem } from "@progress/kendo-react-layout";
 import data from './data.json';
-import { Grid } from "@progress/kendo-react-grid";
 
 const MyItemRender = (props: ListViewItemProps) => {
     const item = props.dataItem;

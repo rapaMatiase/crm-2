@@ -1,42 +1,77 @@
 //REMIX
-import { Outlet } from '@remix-run/react';
+import { Outlet, useLoaderData, useSearchParams } from '@remix-run/react';
 //TELERIK
-import { GridLayoutItem } from '@progress/kendo-react-layout';
+import { CardTitle, GridLayoutItem, StackLayout } from '@progress/kendo-react-layout';
 import {
     StackLayout,
     Card,
     CardBody,
     CardImage,
 } from '@progress/kendo-react-layout';
+import { urlSearchParamsToObject } from '~/utils/URLSearchParams';
+import { getContenidoFichaItem, getImage, getItems } from '~/api/apiContentSettings';
+import { LoaderFunction } from '@remix-run/node';
+import { createComponent } from '~/utils/ParseHtmlInjeccion';
 
 
-const json = {
-    titulo: "Productos destacados",
-    items: [
-        { url: "/templateHome/productMain/1.jpeg", alt: "Banner 1", content: "Texto descriptivo 1 - con html injectable" },
-        { url: "/templateHome/productMain/2.jpg", alt: "Banner 2", content: "Texto descriptivo 2 - con html injectable" },
-        { url: "/templateHome/productMain/3.jpeg", alt: "Banner 3", content: "Texto descriptivo 3 - con html injectable" },
-        { url: "/templateHome/productMain/4.jpg", alt: "Banner 4", content: "Texto descriptivo 4 - con html injectable" },
-        { url: "/templateHome/productMain/5.jpg", alt: "Banner 5", content: "Texto descriptivo 5 - con html injectable" },
-        { url: "/templateHome/productMain/6.jpeg", alt: "Banner 6", content: "Texto descriptivo 6 - con html injectable" },
-    ]
-}
+export const loader: LoaderFunction = async ({ request, params }) => {
+
+    const idView = params.idView;
+
+    const url = new URL(request.url);
+    const selectedValue = url.searchParams.get("filters") || "[]";
+    const selectedValueParese = JSON.parse(selectedValue);
+
+    const array = selectedValueParese.map((item) => {
+        return { key: item.value, value: "" };
+    })
+    const searchParams = url.searchParams;
+    const urlParamsSearch = urlSearchParamsToObject(searchParams);
+
+    const paramSearch = [...urlParamsSearch.menu, ...array]
+
+    const paramJson = JSON.stringify(paramSearch);
+
+    const response = await getItems(request, idView, paramJson);
+
+    const data = await response;
+
+    const dataWithImages = await Promise.all(
+        data.map(async (item: any) => {
+            const { id } = item;
+            const image = await getImage({ request, id });
+            return { ...item, image };
+        })
+    );
+
+    const responseHtml = await getContenidoFichaItem(request, idView);
+    return { dataWithImages, dataHtml: responseHtml };
+};
+
 
 export default function ScrollViewComponent() {
+    interface LoaderData {
+        dataWithImages: Array<{ image: string; ProductName: string; content: string }>;
+        dataHtml: string;
+    }
 
+    const { dataWithImages, dataHtml } = useLoaderData<LoaderData>();
+
+
+const sixsPrimary = dataWithImages.slice(0, 6);
 
     return (
         <>
             <GridLayoutItem className='cms-home-body-grid_productos-destacados-titulo'>
-                <h3 className='cms-home-body_productos-destacados-titulo'> {json.titulo} </h3>
+            <h3 className='cms-home-body_productos-destacados-titulo'> Productos destacados </h3>
             </GridLayoutItem>
-            <GridLayoutItem className='cms-home-body-grid_productos-destacados-lista' >
-                <StackLayout className='cms-home-body_productos-destacados-lista' orientation={'horizontal'}>
-                    {json.items.map((item, index) => (
+            <GridLayoutItem className='cms-home-body-grid_productos-destacados-lista'>
+            <StackLayout className='cms-home-body_productos-destacados-lista' orientation={'horizontal'}>
+                    {sixsPrimary.map((item, index) => (
                         <Card key={`productosdestacados-${index}`} style={{ height : "100%"}} className='cms-home-body_productos-destacados-lista-card'>
-                            <CardImage src={item.url} />
+                            <CardImage src={item.image} />
                             <CardBody>
-                                {item.content}
+                            {createComponent(dataHtml.body[0], item)}
                             </CardBody>
                         </Card>))}
                 </StackLayout>

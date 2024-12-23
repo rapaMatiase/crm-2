@@ -8,7 +8,7 @@ import { Field, Form, FormElement } from "@progress/kendo-react-form";
 //COMPONENTS
 import { FormComboBoxFilter } from "~/components/fm-components";
 //API
-import {  getAtributosGruposProductos } from "~/api/apiAtributos";
+import { getAtributosGruposProductos } from "~/api/apiAtributos";
 
 
 export const loader: LoaderFunction = async ({ request }) => {

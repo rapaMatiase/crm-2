@@ -3,7 +3,7 @@ import { useState } from "react"
 //REMIX
 import { Outlet } from "@remix-run/react";
 //TELERIK
-import { Breadcrumb, BreadcrumbLinkMouseEvent, GridLayout, GridLayoutItem } from '@progress/kendo-react-layout';
+import { Breadcrumb, BreadcrumbLinkMouseEvent, GridLayoutItem } from '@progress/kendo-react-layout';
 //TO DELETE
 import data from './data.json';
 

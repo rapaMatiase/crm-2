@@ -5,11 +5,9 @@ import { useOutletContext, useParams, useSubmit, useLoaderData, useNavigate } fr
 import { LoaderFunction, ActionFunction, redirect } from "@remix-run/node";
 //TELERIK
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
-import { Form, Field, FormElement, FieldWrapper, FormRenderProps } from "@progress/kendo-react-form";
-import { Input, NumericTextBox, Checkbox, TextArea } from "@progress/kendo-react-inputs";
-import { DropDownList, MultiSelect } from "@progress/kendo-react-dropdowns";
+import { Form, Field, FormElement, FormRenderProps } from "@progress/kendo-react-form";
+
 import { Button } from "@progress/kendo-react-buttons";
-import { Label } from "@progress/kendo-react-labels";
 import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
 import { FormInput, FormCheckbox, FormDropDownList, FormTextArea, FormMultiSelect } from "~/components/fm-components";
 //CONFIG
@@ -73,7 +71,7 @@ export default function CMSDefinirAtributosProductosEditCreate() {
     const [tipoValor, setTipoValor] = useState("");
     const [readOnly, setReadOnly] = useState(Number(idAtributo) === 0 ? false : true);
 
-    //FUNCTIONS
+    //FUNCTIONS 
     useEffect(() => {
         setAtributo(atributoSeleccionado);
         setTipoValor(atributoSeleccionado.tipoValor);

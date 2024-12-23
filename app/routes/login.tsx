@@ -1,5 +1,5 @@
 //REMIX
-import { isRouteErrorResponse, Outlet, useActionData, useRouteError } from "@remix-run/react";
+import { Outlet, useActionData} from "@remix-run/react";
 import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
 //TELERIK
 import { useLoaderData, useSubmit } from "@remix-run/react";
@@ -11,26 +11,12 @@ import { sessionStorage } from "~/servicies/session.server";
 //CONFIG
 import { API_ENDPOINTS_LOGIN } from "~/config/apiConfig";
 import { ROUTE_MAIN_LAYOUT } from "~/config/routesConfig";
+import { getLogin } from "~/api/apiContentSettings";
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
 
-     const response = await fetch(`${API_ENDPOINTS_LOGIN.GET}`,
-         {
-             method: "GET",
-             headers: {
-                 "Content-Type": "application/json",
-                 "Accept": "application/json"
-             }
-         }
-     );
-    
-     if (!response.ok) {
-         console.log(response.statusText);
-         throw new Error("Failed to fetch pre-login info"); 
-     }
-
-    const {titulo} = await response.json();
-    return { titulo };
+    const response = await getLogin({ request });
+    return response
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -71,9 +57,24 @@ export default function Login() {
     const { titulo } = useLoaderData<{ titulo: string }>();
 
     return (
+        
         < >
-            <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>{titulo}</h1>
-            <h2 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}> Login </h2>
+            <h1 style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100px",
+                margin: "auto"
+            }}
+            >{titulo}</h1>
+            <h2 style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100px",
+                margin: "auto"
+            }}
+            > Login </h2>
             {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
             <Form
                 onSubmit={(dataItem, event) => {
@@ -81,7 +82,13 @@ export default function Login() {
                     submit(dataItem, { method: "post" });
                 }}
                 render={(renderProps: FormRenderProps) => (
-                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "200px",
+                        margin: "auto"
+                    }}>
                         <FormElement>
                             <FieldWrapper>
                                 <Field
