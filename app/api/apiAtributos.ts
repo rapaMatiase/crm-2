@@ -13,7 +13,7 @@ export const getAtributos = async ({ request }: { request: Request }) => {
         return new Response("La sesion se ha terminado", { status: 401 });
     } */
 
-    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}1`, {
+    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}`, {
         method: "GET",
         headers: {
             "Authorization": token
