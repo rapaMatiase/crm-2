@@ -161,8 +161,5 @@ export function ErrorBoundary() {
 
     return <>
         <div> Ocurrio un error. Comunique lo al sector de informatica </div>
-        <pre>
-            {error.stack}
-        </pre>
     </>
 }

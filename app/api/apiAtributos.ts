@@ -9,9 +9,9 @@ export const getAtributos = async ({ request }: { request: Request }) => {
     const session = await getSession(cookie);
     const { token } = session.get("user");
 
-    if (!session.has("user")) {
+    /* if (!session.has("user")) {
         return new Response("La sesion se ha terminado", { status: 401 });
-    }
+    } */
 
     const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}1`, {
         method: "GET",
