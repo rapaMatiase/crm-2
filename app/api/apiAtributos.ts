@@ -9,7 +9,11 @@ export const getAtributos = async ({ request }: { request: Request }) => {
     const session = await getSession(cookie);
     const { token } = session.get("user");
 
-    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}`, {
+    if (!session.has("user")) {
+        return new Response("La sesion se ha terminado", { status: 401 });
+    }
+
+    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}1`, {
         method: "GET",
         headers: {
             "Authorization": token
@@ -17,7 +21,7 @@ export const getAtributos = async ({ request }: { request: Request }) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        return new Response("El fetch fallo", { status: response.status });
     }
 
     const atributosData = await response.json();
@@ -30,6 +34,10 @@ export const postAtributo = async ({ request, atributo }: { request: Request, at
     const cookie = request.headers.get("Cookie");
     const session = await getSession(cookie);
     const { token } = session.get("user");
+
+    if (!session.has("user")) {
+        return new Response("User session is not active", { status: 401 });
+    }
 
     const atributoJson = JSON.stringify(atributo);
 

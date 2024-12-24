@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 //REMIX
 import { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Button, Chip, ChipList, ChipProps } from '@progress/kendo-react-buttons';
-import { Outlet, useLoaderData, useNavigate } from '@remix-run/react';
+import { isRouteErrorResponse, Outlet, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 //TELERIK
 import { Grid, GridColumn as Column, GridToolbar, GridDataStateChangeEvent } from '@progress/kendo-react-grid';
 import { DataResult, process, State } from '@progress/kendo-data-query';
@@ -16,16 +16,13 @@ import { ROUTE_BASE_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getAtributos } from '~/api/apiAtributos';
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-    if (!data) {
-        return [{ title: "User not found!" }];
-    }
-    return [{ title: "BackOffice - Atributos" }];
+export const meta: MetaFunction<typeof loader> = () => {
+    return [{ title: "cms - BackOfiice - Atributos" }];
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getAtributos({ request });
-    const { atributosData } = await response.json();
+    const { atributosData } = response;
     return { atributosData };
 }
 
@@ -154,3 +151,18 @@ export default function CMSDefinirAtributosProductosHome() {
         </>
     );
 };
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+    
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div> Ocurrio un error. Comunique lo al sector de informatica </div>
+        <pre>
+            {error.stack}
+        </pre>
+    </>
+}
