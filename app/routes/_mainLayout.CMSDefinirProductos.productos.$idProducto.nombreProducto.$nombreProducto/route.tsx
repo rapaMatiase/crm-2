@@ -47,7 +47,7 @@ export default function RouteProductos() {
                 <TabStripTab title="Imagenes">
                     {selected === 1 && <Outlet />}
                 </TabStripTab>
-                <TabStripTab title="Detalles">
+                <TabStripTab title="Textos">
                     {selected === 2 && <Outlet />}
                 </TabStripTab>
 

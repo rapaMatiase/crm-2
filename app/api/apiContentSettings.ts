@@ -374,8 +374,8 @@ export const postSetTexto = async ({ request, idProducto, data }: { request: Req
     const cookie = request.headers.get("Cookie");
     const session = await getSession(cookie);
     const { token } = session.get("user");
-
-    const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.SET_TEXTO}?IdProductoBase=${idProducto}`, {
+    console.log("adentro", data)
+    const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.SET_TEXTO}?IdProductoBase=${Number(idProducto)}`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

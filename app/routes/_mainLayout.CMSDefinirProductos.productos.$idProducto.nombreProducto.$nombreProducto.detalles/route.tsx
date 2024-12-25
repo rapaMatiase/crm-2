@@ -39,7 +39,7 @@ const [textoSeleccionado, setTextoSeleccionado] = useState<any>(null);
 
     //REMIX
   const handleCrearDetalle = () => {
-    setTextoSeleccionado({ idProductoTexto :0, tipoTexto: "", texto: ""});
+    setTextoSeleccionado({idProductoTexto :0, tipoTexto: "", texto: ""});
     navigate(`/CMSDefinirProductos/productos/${idProducto}/nombreProducto/${nombreProducto}/detalles/edit/0`)
   }
 
@@ -64,7 +64,7 @@ const [textoSeleccionado, setTextoSeleccionado] = useState<any>(null);
                 <GridColumn cell={cellAction} title="Acciones" />
             </Grid>
 
-                    <Outlet context={textoSeleccionado}/>
+                    <Outlet context={{textoSeleccionado}}/>
 
         </>
     );

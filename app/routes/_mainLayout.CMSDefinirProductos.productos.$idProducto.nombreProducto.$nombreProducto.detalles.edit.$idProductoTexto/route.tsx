@@ -29,21 +29,21 @@ export const action: ActionFunction = async ({ request, params }) => {
   const { idProducto, nombreProducto } = params as { idProducto: string, nombreProducto: string };
 
   const formData = await request.formData();
-  const idProductoTexto = formData.get("idProductoTexto");
-  const tipoTexto = formData.get("tipoTexto");
-  const texto = formData.get("texto");
+  const idProductoTexto = Number(formData.get("idProductoTexto"));
+  const tipoTexto = String(formData.get("tipoTexto"));
+  const texto = String(formData.get("texto"));
 
   const data = {
     idProductoTexto,
     tipoTexto,
     texto
   }
-
+  console.log(data)
   const response = await postSetTexto({ request, idProducto, data });
 
-  if (!response.ok) {
+ /*  if (!response.ok) {
     return json({ statusText: response.statusText, status: response.status, data });
-  }
+  } */
 
   return redirect(`/CMSDefinirProductos/productos/${idProducto}/nombreProducto/${nombreProducto}/detalles`);
 }
@@ -56,7 +56,7 @@ export default function CMSDefinirProductosTextoEdit() {
   const actionData = useActionData();
   const [loading, setLoading] = useState(true);
   const { textoSeleccionado } = useOutletContext<any>();
-  const [texto, setTexto] = useState<{ idProductoTexto: string, tipoTexto: string, texto: string } | null>(null)
+  const [texto, setTexto] = useState<any>({})
 
 
   const handleCloseAndCancel = () => {
@@ -86,9 +86,9 @@ export default function CMSDefinirProductosTextoEdit() {
     <>
       <Form
         initialValues={{
-          idProductoTexto: texto?.idProductoTexto,
-          tipoTexto: texto?.tipoTexto,
-          texto: texto?.texto
+          idProductoTexto: texto.idProductoTexto,
+          tipoTexto: texto.tipoTexto,
+          texto: texto.texto
         }}
         onSubmit={handleSubmit}
         render={(formRenderProps) => (
@@ -108,6 +108,7 @@ export default function CMSDefinirProductosTextoEdit() {
                 id={"idProductoTexto"}
                 name={"idProductoTexto"}
                 label={"idProductoTexto"}
+                disabled={true}
                 component={FormInput}
                 type="text"
               />
