@@ -30,7 +30,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="cms-body">
+      <body className="cms-body-elemento">
         {children}
         <ScrollRestoration />
         <Scripts />

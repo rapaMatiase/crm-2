@@ -15,21 +15,21 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     if (!idView) {
         throw new Error("idView is required");
     }
-    const data = await getEventos({ request, idView });
+    const eventos = await getEventos({ request, idView });
     const sucursales = await getCentrosOperaciones({ request })
 
-
-    return { data, sucursales }
+    
+    return { eventos, sucursales }
 };
 
 const MyItemRender = (props: ListViewItemProps) => {
     let item = props.dataItem;
     return (
 
-        <ListViewItemWrapper className='cms-home-body_eventos-lista-item'>
-            {item.titulo}
-            {item.texto}
-            {item.fecha}
+        <ListViewItemWrapper className='cms-home-body_enventos-lista-listview-item'>
+            <span>{item.titulo}</span>
+            <span>{item.texto}</span>
+            <span>{item.fecha}</span>
         </ListViewItemWrapper>
 
     );
@@ -38,15 +38,14 @@ const MyItemRender = (props: ListViewItemProps) => {
 export default function Events() {
 
     const { eventos, sucursales } = useLoaderData<any[]>()
-
     return (
         <>
             <GridLayoutItem className='cms-home-body-grid_eventos'>
                 <GridLayout className='cms-home-body_eventos-contenedor'>
-                    <GridLayoutItem className='cms-home-body_eventos-contendor-titulo'  >
-                        <h3 className='cms-home-body_eventos-titulo'>Eventos</h3>
+                    <GridLayoutItem className='cms-home-body_eventos-titulo'  >
+                        <h3 >Eventos</h3>
                     </GridLayoutItem>
-                    <GridLayoutItem className='cms-home-body_eventos-contenedor-combobox'  >
+                    <GridLayoutItem className='cms-home-body_eventos-combobox'  >
                         <Form
                             initialValues={{ sucursales: 'Todas las sucursales' }}
                             render={() => (
@@ -54,7 +53,7 @@ export default function Events() {
                                     <Field
                                         component={FormComboBoxSimple}
                                         name={'sucursuales'}
-                                        className="cms-home-body_eventos-combobox"
+                                        className="cms-home-body_eventos-combobox-input"
                                         id={sucursales.idCentrosOperaciones}
                                         data={sucursales.map((item: any) => item.nombre)}
                                     />
@@ -62,14 +61,13 @@ export default function Events() {
                             )}
                         />
                     </GridLayoutItem>
-                    <GridLayoutItem className='cms-home-body_enventos-contenedor-lista' row={15} col={1} colSpan={10} rowSpan={2} style={{ backgroundColor: "pink" }}>
+                    <GridLayoutItem className='cms-home-body_enventos-lista' row={15} col={1} colSpan={10} rowSpan={2} style={{ backgroundColor: "pink" }}>
                         <ListView
-                            data={eventos}
+                            data={eventos.eventos}
                             item={MyItemRender}
-                            className='cms-home-body_enventos-lista'
+                            className='cms-home-body_enventos-lista-listview'
                         />
                     </GridLayoutItem>
-
                 </GridLayout>
             </GridLayoutItem>
             <Outlet />
@@ -92,7 +90,7 @@ export function ErrorBoundary() {
     }
 
     return <>
-        <div> El error esta en Eventos </div>
+        <div> No hay datos para eventos </div>
 
     </>
 }

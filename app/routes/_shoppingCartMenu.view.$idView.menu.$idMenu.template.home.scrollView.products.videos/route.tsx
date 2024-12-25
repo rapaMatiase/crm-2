@@ -19,15 +19,18 @@ const fourVideo = info.Videos[3].Url.replace("watch?v=", "embed/")
         <>
             <GridLayoutItem className='cms-home-body-grid_videos' >
                 <GridLayout className='cms-home-body_videos'>
-                    <GridLayoutItem className='cms-home-body_videos-principal' row={1} col={1} colSpan={1} rowSpan={3} style={{ backgroundColor: "black" }}>
+                    <GridLayoutItem className='cms-home-body_videos-titulo' row={1} col={1} colSpan={2} >
+                        <h2> Nuestro videos </h2>
+                    </GridLayoutItem>
+                    <GridLayoutItem className='cms-home-body_videos-principal' row={3} col={1} colSpan={1} rowSpan={3} style={{ backgroundColor: "black" }}>
                     <iframe width="560" height="315" src={`${firstVideo}`} title="YouTube video player" ></iframe> 
                     </GridLayoutItem>
-                    <GridLayoutItem  row={1} col={2} colSpan={1} style={{ backgroundColor: "blue" }}>
+                    <GridLayoutItem className='cms-home-body_videos-secundarios' row={2} col={2} colSpan={1} style={{ backgroundColor: "blue" }}>
                     <iframe width="260" height="150" src={`${secondVideo}`} title="YouTube video player"  ></iframe>                     </GridLayoutItem>
-                    <GridLayoutItem row={2} col={2} colSpan={1} style={{ backgroundColor: "yellow" }}>
+                    <GridLayoutItem className='cms-home-body_videos-secundarios' row={3} col={2} colSpan={1} style={{ backgroundColor: "yellow" }}>
                     <iframe width="260" height="150" src={`${thirdVideo}`} title="YouTube video player" ></iframe> 
                     </GridLayoutItem>
-                    <GridLayoutItem row={3} col={2} colSpan={1} style={{ backgroundColor: "red" }}>
+                    <GridLayoutItem className='cms-home-body_videos-secundarios' row={4} col={2} colSpan={1} style={{ backgroundColor: "red" }}>
                     <iframe width="260" height="150" src={`${fourVideo}`} title="YouTube video player" ></iframe> 
                     </GridLayoutItem>
                 </GridLayout>

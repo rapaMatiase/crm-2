@@ -3,7 +3,7 @@ import { GridLayoutItem } from '@progress/kendo-react-layout';
 import { ScrollView } from '@progress/kendo-react-scrollview';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { isRouteErrorResponse, LoaderFunction, useRouteError } from 'react-router-dom';
-import { getImage, getImagenesTipoEntidad, postCarruselConfig } from '~/api/apiContentSettings';
+import { getImage,  postCarruselConfig } from '~/api/apiContentSettings';
 import sinImagen from '/templateHome/ScrollView/images.jpeg';
 
 
@@ -18,7 +18,7 @@ function removeFirstPartUntilPoint(str: string): string {
 export const loader: LoaderFunction = async ({ request, params }) => {
   const idVista = params.idView ?? ''; 
   const data = await postCarruselConfig({ request, idVista, data: {} });
-  
+ 
   const dataWithImages = await Promise.all(
           data.Items.map(async (item: any) => {
               const { IdItem } = item;
@@ -41,8 +41,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function ScrollViewComponent() {
 
-    const {data,} = useLoaderData<{ dataWithImages: any }>();
-
+    const {data} = useLoaderData<{ data: any }>();
+    
     const {
         Arrows,
         ActiveView,
@@ -72,7 +72,7 @@ export default function ScrollViewComponent() {
                 >
                     {Items.map((item, index) => {
                         return (
-                            <div  style={{position : "relative", width: "100%", height: "100%"}} key={index}>
+                            <div  className='cms-home-body_scrollView-detalle' style={{position : "relative", width: "100%", height: "100%"}} key={index}>
                                 <div style={{position : "absolute", backgroundColor : "", height : "40%", width : "35%", color : "white", background: "rgba(0,100,150,0.6)", top : "25%"}}>
                                     Esto tendria que se un html injectable{item.Content} 
                                 </div>
