@@ -48,6 +48,7 @@ function createComponentContainer(dataHtml, dataItems) {
 
 export function createComponent(dataHtml, dataItem) {
     console.log("Esto llego",dataHtml)
+    
     if (dataHtml?.Text) {
         return createComponentLeaf(dataHtml, dataItem);
     }
