@@ -40,13 +40,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const dataWithImages = await Promise.all(
         data.map(async (item: any) => {
             const { id } = item;
-            try{
-                const image = await getImage({ request, id });
-                return { ...item, image };
-            }catch{
-                const image =   sinImagen
-                return { ...item, image };
-            }
+            const image = await getImage({ request, id });
+            return { ...item, image };
         })
     );
 
