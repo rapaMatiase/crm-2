@@ -12,7 +12,7 @@ import { useNavigate, useOutletContext, useSubmit } from "@remix-run/react";
 import { ActionFunction,  redirect } from "@remix-run/node";
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from "~/config/routesConfig";
-import { deleteAtributo } from "~/api/apiAtributos";
+import { deleteAtributo } from "~/api/ApiAtributos";
 
 export const action: ActionFunction = async ({ request, params }) => {
     const {idAtributo} = params;
@@ -42,10 +42,11 @@ export default function CMSDefinirAtributosProductosDelete(){
     }, [atributoSeleccionado, loading]);
 
     const handleSubmit = (dataItem: { [name: string]: any }, event?: React.SyntheticEvent<any, Event>) => {
-        if (event) {
-            event.preventDefault();
-        }
-        submit(dataItem, { method: "POST" });
+        
+            event?.preventDefault();
+       
+        console.log("Datos enviados:", dataItem);
+        submit(dataItem, { method: "delete" });
     }
 
     if(loading){
@@ -64,7 +65,7 @@ export default function CMSDefinirAtributosProductosDelete(){
             render={(renderProps: FormRenderProps) => (
                 <Dialog
                     title={`Eliminar atributo`}
-                    onClose={()=>navigate(-1)}
+                    onClose={() => navigate(-1)}
                     width={500}
                     >
                     <FormElement>
@@ -104,7 +105,7 @@ export default function CMSDefinirAtributosProductosDelete(){
                                 readOnly
                             /> 
                         </FieldWrapper>
-                        <FieldWrapper>
+                        {/*  <FieldWrapper>
                             <Label>¿Está seguro que desea eliminar este atributo?</Label>
                             <Field 
                             name="confirmacion" 
@@ -112,7 +113,7 @@ export default function CMSDefinirAtributosProductosDelete(){
                             component={Checkbox}
                             readOnly
                             />
-                        </FieldWrapper>
+                        </FieldWrapper> */} 
                     </FormElement>
                     <DialogActionsBar layout="end">
                         <Button
@@ -124,8 +125,8 @@ export default function CMSDefinirAtributosProductosDelete(){
                         </Button>
                         <Button
                             themeColor={"primary"}
-                            disabled={!renderProps.allowSubmit}
-                            icon="save"
+                            //disabled={!renderProps.allowSubmit}
+                            icon="trash"
                             onClick={renderProps.onSubmit}
                             svgIcon={trashIcon}
                         >

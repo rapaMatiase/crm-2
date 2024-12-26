@@ -33,7 +33,7 @@ const EditCommandCell = (props: EditCommandCellProps) => {
                 Edit
             </Button>
             <Button
-                themeColor={"warning"}
+                themeColor={"base"}
                 type="button"
                 onClick={() => props.enterDelete(props.dataItem)}
             >

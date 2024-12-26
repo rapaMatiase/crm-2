@@ -1,14 +1,25 @@
 //REMIX
-import { Outlet } from '@remix-run/react';
+import { isRouteErrorResponse, Outlet, useLoaderData, useRouteError } from '@remix-run/react';
 //TELERIK
 import { GridLayoutItem, GridLayout } from '@progress/kendo-react-layout';
+import { LoaderFunction } from '@remix-run/node';
+import { postVideosConfig } from '~/api/apiContentSettings';
 
+import { Params } from '@remix-run/react';
 
+export const loader: LoaderFunction = async ({ request, params }: { request: Request, params: Params }) => {
+    const { idView } = params;
+    const response = await postVideosConfig({ request, idView });
+    const { videosData } = response;
+    return { videosData };
+}
 
 export default function ScrollViewComponent() {
 
+    const  videosData  = useLoaderData<{ videosData: any }>();
 
-const info = {"Videos":[{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":1},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":2},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":3},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":4}]}
+const info = videosData.videosData
+//{"Videos":[{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":1},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":2},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":3},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":4}]}
 
 const firstVideo = info.Videos[0].Url.replace("watch?v=", "embed/")
 const secondVideo = info.Videos[1].Url.replace("watch?v=", "embed/")
@@ -40,6 +51,18 @@ const fourVideo = info.Videos[3].Url.replace("watch?v=", "embed/")
     )
 }
 
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div> El error esta en videos </div>
+
+    </>
+}
 
 // https://www.telerik.com/kendo-react-ui/components/scrollview/api/scrollviewprops
 // https://www.telerik.com/kendo-react-ui/components/layout/card

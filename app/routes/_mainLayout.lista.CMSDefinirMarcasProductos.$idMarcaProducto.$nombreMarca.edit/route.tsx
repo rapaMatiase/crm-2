@@ -71,6 +71,10 @@ export default function CMSDefinirMarcasProductosEdit() {
     submit(dataItem, { method: "POST" });
   }
 
+  const selectMessage = function () {
+    return <span>Seleccionar archivo</span>;
+};
+
   return (
     <>
       <Form
@@ -119,7 +123,7 @@ export default function CMSDefinirMarcasProductosEdit() {
                 name={"rawMedia"}
                 label={"Archivo"}
                 component={FormUpload}
-                selectMessageUI={()=><span>Seleccionar archivo</span>}
+                selectMessageUI={selectMessage}
                 mass
               />
             </FormElement>

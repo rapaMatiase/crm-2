@@ -38,6 +38,15 @@ export default function CMSDefinirSegmentosList() {
         const dataItem = props.dataItem;
         navigate(`/lista/CMSDefinirSegmentos/${idSegmento}/${nombreSegmento}/delete/${dataItem.idMediaEntity}`)
       }}>Borrar</Button>
+      <Button onClick={() => {
+      const dataItem = props.dataItem;
+      const link = document.createElement('a');
+      link.href = dataItem.rawMedia;
+      link.download = dataItem.nombre;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }}>Descargar imagen</Button>
     </td>
   )
 

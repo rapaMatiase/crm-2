@@ -13,7 +13,7 @@ import { FormInput, FormCheckbox, FormDropDownList, FormTextArea, FormMultiSelec
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from "~/config/routesConfig";
 //API
-import { postAtributo } from "~/api/apiAtributos";
+import { postAtributo } from "~/api/ApiAtributos";
 import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
 import { requiredValidator } from "~/components/fm-validators";
 
@@ -90,7 +90,10 @@ export default function CMSDefinirAtributosProductosEditCreate() {
     if (loading) {
         return <div>Loading...</div>
     }
-
+    const dialogStyle: React.CSSProperties = {
+        overflowY: "auto",
+        maxHeight: "100vh"
+    };
     return (
         <>
             <Form
@@ -108,7 +111,8 @@ export default function CMSDefinirAtributosProductosEditCreate() {
                 }}
                 onSubmit={handleSubmit}
                 render={(formRenderProps: FormRenderProps) => (
-                    <Dialog
+                    <Dialog 
+                        style={dialogStyle}
                         title={Number(idAtributo) === 0 ? "Crear Atributo" : "Editar Atributo"}
                         onClose={handleCloseAndCancel}
                         width={600}
@@ -143,6 +147,7 @@ export default function CMSDefinirAtributosProductosEditCreate() {
                                 data={unidadesDeMedidaCodigoNombre}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
+                            
                             <Field
                                 name={"activo"}
                                 component={FormCheckbox}
