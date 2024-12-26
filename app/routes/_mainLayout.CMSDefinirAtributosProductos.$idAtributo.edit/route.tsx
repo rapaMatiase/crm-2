@@ -13,7 +13,7 @@ import { FormInput, FormCheckbox, FormDropDownList, FormTextArea, FormMultiSelec
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from "~/config/routesConfig";
 //API
-import { postAtributo } from "~/api/ApiAtributos";
+import { postAtributo } from "~/api/apiAtributos";
 import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
 import { requiredValidator } from "~/components/fm-validators";
 
