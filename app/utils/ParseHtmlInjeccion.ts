@@ -26,7 +26,7 @@ function createComponentLeaf(dataHtml, dataItem) {
 
     const contenido = Text.replace(/#(\w+)#/g, (_: string, key: string) => {
 
-        return dataItem[key.toLowerCase()] !== undefined ? dataItem[key.toLowerCase()] : `#${key}#`;
+        return dataItem[key] !== undefined ? dataItem[key] : `#${key}#`;
     })
     return React.createElement(
         Tag,
@@ -47,6 +47,7 @@ function createComponentContainer(dataHtml, dataItems) {
 }
 
 export function createComponent(dataHtml, dataItem) {
+    console.log("Esto llego",dataHtml)
     if (dataHtml?.Text) {
         return createComponentLeaf(dataHtml, dataItem);
     }
