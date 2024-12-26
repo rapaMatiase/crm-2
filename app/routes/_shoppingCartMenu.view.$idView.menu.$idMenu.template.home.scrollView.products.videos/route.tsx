@@ -18,7 +18,8 @@ export default function ScrollViewComponent() {
 
     const  videosData  = useLoaderData<{ videosData: any }>();
 
-const info = videosData.videosData
+const info = {"Videos":[{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":1},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":2},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":3},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":4}]}
+ // videosData.videosData
 //{"Videos":[{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":1},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":2},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":3},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":4}]}
 
 const firstVideo = info.Videos[0].Url.replace("watch?v=", "embed/")
