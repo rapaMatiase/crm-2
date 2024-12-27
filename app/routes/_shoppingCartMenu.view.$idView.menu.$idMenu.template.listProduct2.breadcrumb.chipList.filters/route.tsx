@@ -85,14 +85,14 @@ export default function Filters() {
     const [selectedValue, setSelectedValue] = useState<any[]>([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
+  /*   useEffect(() => {
         const selectedValue = JSON.parse(url.get('filters')) || [];
         if (selectedValue.length === 0) {
             setSelectedValue([]);
         } else {
             setSelectedValue(selectedValue);
         }
-    }, [url]);
+    }, [url]); */
 
 
     const handleChange = (e: RadioButtonChangeEvent) => {
