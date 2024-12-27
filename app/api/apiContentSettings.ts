@@ -256,7 +256,7 @@ export const getItems = async ( request, idView, arrayFilterJson  ) => {
           "Content-Type": "application/json",
           "Authorization": token
         },
-        body: arrayFilterJson
+        body: JSON.stringify(arrayFilterJson)
       });
     
       if (!response.ok) {

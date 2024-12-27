@@ -1,5 +1,5 @@
 //TELERIK
-import {  Outlet, useLoaderData, useSearchParams } from "@remix-run/react";
+import {  isRouteErrorResponse, Outlet, useLoaderData, useRouteError, useSearchParams } from "@remix-run/react";
 import { Card, CardImage, CardTitle, GridLayoutItem } from '@progress/kendo-react-layout';
 import { urlSearchParamsToObject } from "~/utils/URLSearchParams";
 import { LoaderFunction } from "@remix-run/node";
@@ -27,7 +27,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const paramJson: never[] = []
 
-    const response = await getItems(request, idView, paramJson);
+    const response = await getItems(request, idView, [
+        {
+          "key": "string",
+          "value": "string"
+        }
+      ]);
 
     const data = await response;
 
@@ -112,4 +117,16 @@ export default function Filters() {
             <Outlet />
         </>
     )
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div> Si estas viendo este texto, no hay productos en este lista de productos. </div>
+    </>
 }

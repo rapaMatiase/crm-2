@@ -2,7 +2,7 @@
 import {  useEffect, useState } from 'react';
 //REMIX
 import type { LoaderFunctionArgs } from '@remix-run/node';
-import { Outlet, useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
+import { isRouteErrorResponse, Outlet, useLoaderData, useNavigate, useRouteError, useSearchParams } from '@remix-run/react';
 //TELERIK
 import { GridLayoutItem } from '@progress/kendo-react-layout';
 import { RadioButton, RadioButtonChangeEvent } from '@progress/kendo-react-inputs';
@@ -21,14 +21,69 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     const { idView, idMenu } = params;
 
-    const response = await getAtributosCMS({
-        request,
-        idView,
-        idMenu,
-        arrayFilterJson: JSON.stringify([{ key: "", value: "" }])
-    });
+    // const response = await getAtributosCMS({
+    //     request,
+    //     idView,
+    //     idMenu,
+    //     arrayFilterJson: JSON.stringify([{ key: "", value: "" }])
+    // });
 
-    return { data: response }
+    const json = [
+        {
+            nombre : "filtro 1",
+            opciones : [
+                {
+                    id : 1,
+                    texto : "opcion 1"
+                },
+                {
+                    id : 2,
+                    texto : "opcion 2"
+                },
+                {
+                    id : 3,
+                    texto : "opcion 3"
+                }
+            ]
+        },
+        {
+            nombre : "filtro 2",
+            opciones : [
+                {
+                    id : 1,
+                    texto : "opcion 1"
+                },
+                {
+                    id : 2,
+                    texto : "opcion 2"
+                },
+                {
+                    id : 3,
+                    texto : "opcion 3"
+                }
+            ]
+        },
+        ,
+        {
+            nombre : "filtro 3",
+            opciones : [
+                {
+                    id : 1,
+                    texto : "opcion 1"
+                },
+                {
+                    id : 2,
+                    texto : "opcion 2"
+                },
+                {
+                    id : 3,
+                    texto : "opcion 3"
+                }
+            ]
+        },
+    ]
+
+    return { data: json }
 }
 
 export default function Filters() {
@@ -77,7 +132,7 @@ export default function Filters() {
                                             value={{ texto: opcion.texto, value: opcion.id, nombre: item.nombre, tipo: "filtro" }}
                                             checked={selectedValue.some(itemUrl => itemUrl.value === opcion.id)}
                                             label={opcion.texto}
-                                            onChange={handleChange} />
+                                            /* onChange={handleChange} */ />
                                     </div>
                                 )
                             })}
@@ -89,4 +144,16 @@ export default function Filters() {
             <Outlet />
         </>
     )
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div> No ha yfiltros </div>
+    </>
 }

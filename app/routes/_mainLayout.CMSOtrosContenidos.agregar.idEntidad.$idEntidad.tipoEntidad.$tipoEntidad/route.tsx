@@ -69,8 +69,6 @@ export default function CMSOtrosContenidosEdit() {
     submit(dataItem, { method: "POST" });
   } 
 
-
-  const selecteMenssage = function(){ return <span>Seleccionar archivo</span>}
   return (
     <>
       <Form
@@ -120,7 +118,7 @@ export default function CMSOtrosContenidosEdit() {
                 name={"rawMedia"}
                 label={"Archivo"}
                 component={FormUpload}
-                selectMessageUI={selecteMenssage}
+                selectMessageUI={()=><span>Seleccionar archivo</span>}
                 
               />
             </FormElement>
