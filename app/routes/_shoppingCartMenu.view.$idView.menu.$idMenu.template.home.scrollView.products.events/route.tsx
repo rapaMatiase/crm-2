@@ -18,18 +18,28 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const eventos = await getEventos({ request, idView });
     const sucursales = await getCentrosOperaciones({ request })
 
-    
+
     return { eventos, sucursales }
 };
 
 const MyItemRender = (props: ListViewItemProps) => {
     let item = props.dataItem;
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const month = date.getMonth() + 1; // getMonth() returns 0-based month, so add 1
+        const day = date.getDate();
+        return { month, day };
+    };
+
+    const { month, day } = formatDate(item.fecha);
     return (
 
         <ListViewItemWrapper className='cms-home-body_enventos-lista-listview-item'>
             <span>{item.titulo}</span>
             <span>{item.texto}</span>
-            <span>{item.fecha}</span>
+            <span>{day}</span>
+            <span>{month}</span>
         </ListViewItemWrapper>
 
     );
@@ -71,13 +81,6 @@ export default function Events() {
                 </GridLayout>
             </GridLayoutItem>
             <Outlet />
-            <style>
-                {`.k-listview-content {
-                    display: flex;
-                    flex-wrap: wrap;
-                }
-                `}
-            </style>
         </>
     )
 }

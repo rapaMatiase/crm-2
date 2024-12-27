@@ -47,7 +47,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const responseHtml = await getContenidoFichaItem(request, idView);
 
-    console.log(dataWithImages)
     return { dataWithImages, dataHtml: responseHtml };
 };
 
@@ -59,7 +58,6 @@ export default function ScrollViewComponent() {
     }
 
     const { dataWithImages, dataHtml } = useLoaderData<LoaderData>();
-    console.log("aca",dataWithImages);
 
     const sixsPrimary = dataWithImages.slice(0, 6);
 
