@@ -62,7 +62,7 @@ const json = [
         ]
     },
 ]
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+/* export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     const { idView, idMenu } = params;
 
@@ -76,10 +76,10 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     
 
     return { data: json }
-}
+} */
 
 export default function Filters() {
-    const { data } = useLoaderData();
+    /* const { data } = useLoaderData(); */
     const [url] = useSearchParams();
 
     const [selectedValue, setSelectedValue] = useState<any[]>([]);
@@ -109,7 +109,7 @@ export default function Filters() {
     return (
         <>
             <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} className="cms-body-grid_filtros cms-body_filtros">
-                {data.map((item, index) => {
+                {json.map((item, index) => {
                     const opciones = item.opciones;
                     return (
                         <div className='cms-body_filtros-item' key={`filtro-${index}`}>
@@ -146,6 +146,6 @@ export function ErrorBoundary() {
     }
 
     return <>
-        <div> No hay filtros </div>
+        <div> No hay filtros22 </div>
     </>
 }
