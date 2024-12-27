@@ -8,15 +8,60 @@ import { GridLayoutItem } from '@progress/kendo-react-layout';
 import { RadioButton, RadioButtonChangeEvent } from '@progress/kendo-react-inputs';
 import { getAtributosCMS } from '~/api/apiContentSettings';
 
-const json = {
-    nombre: "grupo1",
-    opciones: [
-        { texto: "First", id: 1 },
-        { texto: "Second", id: 2 },
-        { texto: "Third", id: 3 }
-    ]
-}
-
+const json = [
+    {
+        nombre : "filtro 1",
+        opciones : [
+            {
+                id : 1,
+                texto : "opcion 1"
+            },
+            {
+                id : 2,
+                texto : "opcion 2"
+            },
+            {
+                id : 3,
+                texto : "opcion 3"
+            }
+        ]
+    },
+    {
+        nombre : "filtro 2",
+        opciones : [
+            {
+                id : 1,
+                texto : "opcion 1"
+            },
+            {
+                id : 2,
+                texto : "opcion 2"
+            },
+            {
+                id : 3,
+                texto : "opcion 3"
+            }
+        ]
+    },
+    ,
+    {
+        nombre : "filtro 3",
+        opciones : [
+            {
+                id : 1,
+                texto : "opcion 1"
+            },
+            {
+                id : 2,
+                texto : "opcion 2"
+            },
+            {
+                id : 3,
+                texto : "opcion 3"
+            }
+        ]
+    },
+]
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     const { idView, idMenu } = params;
@@ -28,60 +73,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     //     arrayFilterJson: JSON.stringify([{ key: "", value: "" }])
     // });
 
-    const json = [
-        {
-            nombre : "filtro 1",
-            opciones : [
-                {
-                    id : 1,
-                    texto : "opcion 1"
-                },
-                {
-                    id : 2,
-                    texto : "opcion 2"
-                },
-                {
-                    id : 3,
-                    texto : "opcion 3"
-                }
-            ]
-        },
-        {
-            nombre : "filtro 2",
-            opciones : [
-                {
-                    id : 1,
-                    texto : "opcion 1"
-                },
-                {
-                    id : 2,
-                    texto : "opcion 2"
-                },
-                {
-                    id : 3,
-                    texto : "opcion 3"
-                }
-            ]
-        },
-        ,
-        {
-            nombre : "filtro 3",
-            opciones : [
-                {
-                    id : 1,
-                    texto : "opcion 1"
-                },
-                {
-                    id : 2,
-                    texto : "opcion 2"
-                },
-                {
-                    id : 3,
-                    texto : "opcion 3"
-                }
-            ]
-        },
-    ]
+    
 
     return { data: json }
 }
@@ -154,6 +146,6 @@ export function ErrorBoundary() {
     }
 
     return <>
-        <div> No ha yfiltros </div>
+        <div> No hay filtros </div>
     </>
 }
