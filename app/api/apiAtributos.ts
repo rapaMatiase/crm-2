@@ -2,7 +2,7 @@
 import { API_ENDPOINTS_ATRIBUTOS } from "~/config/apiConfig";
 //SERVICES
 import { getSession } from "~/servicies/session.server";
-
+const nada = ""
 export const getAtributos = async ({ request }: { request: Request }) => {
 
     const cookie = request.headers.get("Cookie");
