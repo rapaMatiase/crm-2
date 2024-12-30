@@ -8,11 +8,14 @@ import { Field, Form, FormElement } from "@progress/kendo-react-form";
 //COMPONENTS
 import { FormComboBoxFilter } from "~/components/fm-components";
 //API
-import { getAtributoMarcas } from "~/api/apiAtributos";
+import { getMarcas } from "~/api/apiMarcas";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const response = await getAtributoMarcas({request})
+    const response = await getMarcas({request})
+    if (!response.data) {
+        return new Error(`Fallo la conexión con getAtributrosMarcas`);
+    }
     return {data : response.data};
 }
 

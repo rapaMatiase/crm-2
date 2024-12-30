@@ -35,3 +35,16 @@ export default function breadcumb() {
         </>
     )
 }
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div className="cms-body-grid_main cms-body_main"> No hay breadcrumb </div>
+
+    </>
+}

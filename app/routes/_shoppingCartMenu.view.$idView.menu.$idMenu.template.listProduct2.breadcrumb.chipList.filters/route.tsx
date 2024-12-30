@@ -1,98 +1,44 @@
 //REACT
-import {  useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 //REMIX
 import type { LoaderFunctionArgs } from '@remix-run/node';
-import { isRouteErrorResponse, Outlet, useLoaderData, useNavigate, useRouteError, useSearchParams } from '@remix-run/react';
+import { isRouteErrorResponse, Outlet, useLoaderData, useNavigate, useParams, useRouteError, useSearchParams } from '@remix-run/react';
 //TELERIK
 import { GridLayoutItem } from '@progress/kendo-react-layout';
 import { RadioButton, RadioButtonChangeEvent } from '@progress/kendo-react-inputs';
 import { getAtributosCMS } from '~/api/apiContentSettings';
 
-const json = [
-    {
-        nombre : "filtro 1",
-        opciones : [
-            {
-                id : 1,
-                texto : "opcion 1"
-            },
-            {
-                id : 2,
-                texto : "opcion 2"
-            },
-            {
-                id : 3,
-                texto : "opcion 3"
-            }
-        ]
-    },
-    {
-        nombre : "filtro 2",
-        opciones : [
-            {
-                id : 1,
-                texto : "opcion 1"
-            },
-            {
-                id : 2,
-                texto : "opcion 2"
-            },
-            {
-                id : 3,
-                texto : "opcion 3"
-            }
-        ]
-    },
-    ,
-    {
-        nombre : "filtro 3",
-        opciones : [
-            {
-                id : 1,
-                texto : "opcion 1"
-            },
-            {
-                id : 2,
-                texto : "opcion 2"
-            },
-            {
-                id : 3,
-                texto : "opcion 3"
-            }
-        ]
-    },
-]
-/* export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+
+
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     const { idView, idMenu } = params;
 
-    // const response = await getAtributosCMS({
-    //     request,
-    //     idView,
-    //     idMenu,
-    //     arrayFilterJson: JSON.stringify([{ key: "", value: "" }])
-    // });
+    const response = await getAtributosCMS({
+        request,
+        idView,
+        idMenu,
+        arrayFilterJson: JSON.stringify([{ key: "", value: "" }])
+    });
 
-    
-
-    return { data: json }
-} */
+    return { data: response }
+}
 
 export default function Filters() {
-    /* const { data } = useLoaderData(); */
+    const { data } = useLoaderData();
     const [url] = useSearchParams();
-
+    const { idView, idMenu } = useParams();
     const [selectedValue, setSelectedValue] = useState<any[]>([]);
     const navigate = useNavigate();
 
-  /*   useEffect(() => {
+    useEffect(() => {
         const selectedValue = JSON.parse(url.get('filters')) || [];
         if (selectedValue.length === 0) {
             setSelectedValue([]);
         } else {
             setSelectedValue(selectedValue);
         }
-    }, [url]); */
+    }, [url]);
 
 
     const handleChange = (e: RadioButtonChangeEvent) => {
@@ -101,7 +47,7 @@ export default function Filters() {
         setSelectedValue(newFilters);
 
         navigate({
-            pathname: `/view/8/menu/1/template/listProduct2/breadcrumb/chiplist/filters/products`,
+            pathname: `/view/${idView}/menu/${idMenu}/template/listProduct2/breadcrumb/chiplist/filters/products`,
             search: `?filters=${JSON.stringify(newFilters).toString()}`
         })
     }
@@ -109,22 +55,21 @@ export default function Filters() {
     return (
         <>
             <GridLayoutItem row={3} col={1} colSpan={3} rowSpan={6} className="cms-body-grid_filtros cms-body_filtros">
-                {json.map((item, index) => {
+                {data.map((item, index) => {
                     const opciones = item.opciones;
                     return (
-                        <div className='cms-body_filtros-item' key={`filtro-${index}`}>
+                        <div className='cms-body_filtros-item'>
                             <h5 className='cms-body_filtros-titulo'>{item.nombre} </h5>
                             {opciones.map((opcion, index) => {
                                 return (
-                                    <div style={{ display: 'flex', alignItems: 'baseline' }} key={`opcion-${index}`}>
+                                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
                                         <RadioButton
-                                            key={`${item.nombre}-${opcion.id}`}
                                             className='cms-body_filtros-input'
                                             name={item.nombre}
                                             value={{ texto: opcion.texto, value: opcion.id, nombre: item.nombre, tipo: "filtro" }}
                                             checked={selectedValue.some(itemUrl => itemUrl.value === opcion.id)}
                                             label={opcion.texto}
-                                            /* onChange={handleChange} */ />
+                                            onChange={handleChange} />
                                     </div>
                                 )
                             })}
@@ -146,6 +91,8 @@ export function ErrorBoundary() {
     }
 
     return <>
-        <div> No hay filtros22 </div>
+        <div className="cms-body-grid_filtros cms-body_filtros"> No hay filtros </div>
+
     </>
 }
+

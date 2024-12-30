@@ -58,26 +58,16 @@ export default function CMSOtrosContenidosDelete() {
         onSubmit={handleSubmit}
         render={(formRenderProps) => (
           <Dialog
-            title={"Editar"}
+           
             width={600}
             onClose={handleCloseAndCancel}
           >
-            {actionData?.status && (
-                <div style={{ color: 'red', marginBottom: '1rem' }}>
-                    {actionData.statusText}
-                </div>
-            )}
-        
-            <FormElement>
-             
-              <Field
-                id={"mimeType"}
-                name={"mimeType"}
-                label={"¿Esta seguro que desea eliminar la imagen?"}
-                component={FormCheckbox}
-              />
-             
-            </FormElement>
+          {actionData?.status && (
+            <div style={{ color: 'red', marginBottom: '1rem' }}>
+            {actionData.statusText}
+            </div>
+          )}
+          {"¿Esta seguro que desea eliminar la imagen?"}
             <DialogActionsBar layout="end">
               <Button
                 onClick={handleCloseAndCancel}
@@ -88,9 +78,9 @@ export default function CMSOtrosContenidosDelete() {
               </Button>
               <Button
                 themeColor={"primary"}
-                disabled={!formRenderProps.allowSubmit}
+
                 icon="save"
-                onClick={formRenderProps.onSubmit}
+                onClick={handleSubmit}
                 svgIcon={saveIcon}
               >
                 {"Eliminar"}

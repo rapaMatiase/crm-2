@@ -1,7 +1,7 @@
 //REACT
 import { useEffect, useState } from 'react';
 //REMIX
-import { Outlet, useNavigate, useSearchParams } from '@remix-run/react';
+import { isRouteErrorResponse, Outlet, useNavigate, useParams, useRouteError, useSearchParams } from '@remix-run/react';
 //TELERIK
 import { Chip, ChipList, ChipProps  } from '@progress/kendo-react-buttons';
 import { GridLayoutItem } from '@progress/kendo-react-layout';
@@ -22,6 +22,7 @@ const ChiptFilter = (props : ChipProps ) => {
 
 export default function ChiptsList() {
 
+    const {idView, idMenu} = useParams();
     const [url] = useSearchParams();
     const [list, setList] = useState([]);
     const navigate = useNavigate();
@@ -29,14 +30,14 @@ export default function ChiptsList() {
     useEffect(() => {
         const seleted = JSON.parse(url.get('filters') || '[]') || [];
         const justChipt =  seleted.filter((item: { tipo: string; }) => item.tipo === 'filtro');
-        setList((justChipt));
+        setList(justChipt);
     }, [url]);
 
     const handleDataChange = (event: any) => {
         const dataOption = event.value;
         setList(dataOption);
         navigate({
-            pathname: `/view/8/menu/1/template/listProduct2/breadcrumb/chiplist/filters/products`,
+            pathname: `/view/${idView}/menu/${idMenu}/template/listProduct2/breadcrumb/chiplist/filters/products`,
             search: `?filters=${JSON.stringify(dataOption).toString()}`
         })
     }
@@ -56,4 +57,17 @@ export default function ChiptsList() {
             <Outlet />
         </>
     )
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div className="cms-body-grid_main cms-body_main"> No hay filtros </div>
+
+    </>
 }

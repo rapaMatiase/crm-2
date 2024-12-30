@@ -51,6 +51,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     await postAtributo({ request, atributo });
+    
 
     return redirect(`${ROUTE_BASE_ATRIBUTOS}`);
 };

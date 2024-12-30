@@ -19,16 +19,16 @@ import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 import { postReglaDeValidacionAtributos } from "~/api/apiReglaDeValidacion";
 import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
 import { getAtributos } from "~/api/apiAtributos";
-import { getGruposProducto } from "~/api/apiGruposProducto";
-import { GetTiposProductos } from "~/api/apiAtributos";
+import { getGruposProducto } from "~/api/apiGruposProductos";
+
+import { getTiposProductos } from "~/api/apiTiposProductos";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
     
     //TIPOS DE PRODUCTO
-    const responseTiposProducto = await GetTiposProductos({ request });
+    const responseTiposProducto = await getTiposProductos({ request });
     const tiposProductoData = await responseTiposProducto
-    
     const tiposProductoCodigoNombreData = tiposProductoData.map((producto: { codigoNombre: any; }) => {
         return producto.codigoNombre;
     });
@@ -43,7 +43,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     //ATRIBUTOS
     const responseAtributos = await getAtributos({request});
-    const {atributosData} = await responseAtributos.json();
+    const {atributosData} = responseAtributos;
     const atributosNombresData = atributosData.map((atributo: { nombre: any; }) => {
         return atributo.nombre;
     });

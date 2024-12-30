@@ -105,15 +105,6 @@ export default function CMSDefinirAtributosProductosDelete(){
                                 readOnly
                             /> 
                         </FieldWrapper>
-                        {/*  <FieldWrapper>
-                            <Label>¿Está seguro que desea eliminar este atributo?</Label>
-                            <Field 
-                            name="confirmacion" 
-                            label="Confirmo que deseo eliminar este atributo"
-                            component={Checkbox}
-                            readOnly
-                            />
-                        </FieldWrapper> */} 
                     </FormElement>
                     <DialogActionsBar layout="end">
                         <Button
@@ -125,9 +116,8 @@ export default function CMSDefinirAtributosProductosDelete(){
                         </Button>
                         <Button
                             themeColor={"primary"}
-                            //disabled={!renderProps.allowSubmit}
                             icon="trash"
-                            onClick={renderProps.onSubmit}
+                            onClick={handleSubmit}
                             svgIcon={trashIcon}
                         >
                             Eliminar

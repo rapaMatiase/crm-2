@@ -20,11 +20,20 @@ export const meta: MetaFunction<typeof loader> = () => {
     return [{ title: "cms - BackOfiice - Atributos" }];
 };
 
+const ERROR_TEXT = `
+    Ocurrio un errro.
+    CMSDefinirAtributosProductosHome
+`;
+
 export const loader: LoaderFunction = async ({ request }) => {
-    const response = await getAtributos({ request });
-    const { atributosData } = response;
+
+    const {atributosData} = await getAtributos({ request, ERROR_TEXT });
+
+   
     return { atributosData };
 }
+
+
 
 const cellUnidadMedida = (props: any) => {
     const data = props.dataItem.strUniMeds.map((item: any) => { return { label: item, value: "" } });
@@ -148,7 +157,7 @@ export default function CMSDefinirAtributosProductosHome() {
                                 {props.dataItem.activo ? 'Si' : 'No'}
                             </td>
                         )}
-                    />                   
+                    />
                     <Column columnMenu={ColumnMenu} field="tipoValor" width={125} title="Tipo de valor" filter={'text'} />
                     <Column field="valorMinimo" width={125} title="Valor minimo" />
                     <Column field="valorMaximo" width={125} title="Valor maximo" />
@@ -164,7 +173,7 @@ export default function CMSDefinirAtributosProductosHome() {
 
 export function ErrorBoundary() {
     const error = useRouteError();
-    
+
     if (isRouteErrorResponse(error)) {
         return <div>{error.status} - {error.statusText}</div>
     }

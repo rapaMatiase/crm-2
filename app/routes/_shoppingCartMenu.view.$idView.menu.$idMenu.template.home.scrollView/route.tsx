@@ -5,10 +5,14 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import { isRouteErrorResponse, LoaderFunction, useNavigate, useRouteError } from 'react-router-dom';
 import { getImage, postCarruselConfig } from '~/api/apiContentSettings';
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
-
+import json from "~/api/apiWhatsapp";
 import { Button } from '@progress/kendo-react-buttons';
 
-
+/* falta la api de whatsapp */
+const whatsappData = {
+    url: "https://fakewhatsapp.com/chat",
+    image: json.whatsapp.icon
+};
 
 function removeFirstPartUntilPoint(str: string): string {
     const pointIndex = str.indexOf('.');
@@ -106,8 +110,12 @@ export default function ScrollViewComponent() {
                     zIndex: 1000,
                 }}
             >
-                <a href="www.leinte.com.ar" target="_blank" rel="noopener noreferrer">
-                    
+                <a href={whatsappData.url} target="_blank" rel="noopener noreferrer">
+                    <img
+                        src={whatsappData.image}
+                        alt="WhatsApp"
+                        style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                    />
                 </a>
             </div>
             <Outlet />
