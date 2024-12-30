@@ -59,6 +59,7 @@ export default function ScrollViewComponent() {
 
     const { dataWithImages, dataHtml } = useLoaderData<LoaderData>();
 
+    
     const sixsPrimary = dataWithImages.slice(0, 6);
 
     return (
@@ -67,13 +68,13 @@ export default function ScrollViewComponent() {
                 <h3 className='cms-home-body_productos-destacados-titulo'> Productos destacados </h3>
             </GridLayoutItem>
             <GridLayoutItem className='cms-home-body-grid_productos-destacados-lista'>
-                <StackLayout className='cms-home-body_productos-destacados-lista' orientation={'horizontal'}>
+                <StackLayout className='cms-home-body_productos-destacados-lista' orientation={'horizontal'} style={{overflow: 'auto'}}>
                     {sixsPrimary.map((item, index) => (
                         <Card
                             key={`productosdestacados-${index}`}
-                            style={{ height: "100%" }}
+                            style={{ width : 500, height: 500 }}
                             className='cms-home-body_productos-destacados-lista-card'>
-                            <CardImage src={item.image} />
+                            <CardImage src={item.image} style={{ width: "100%"}} />
                             <CardBody>
                                 {createComponent(dataHtml.body[0], item)}
                             </CardBody>

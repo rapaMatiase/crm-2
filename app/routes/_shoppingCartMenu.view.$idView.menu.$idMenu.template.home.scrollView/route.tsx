@@ -3,11 +3,16 @@ import { GridLayoutItem } from '@progress/kendo-react-layout';
 import { ScrollView } from '@progress/kendo-react-scrollview';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { isRouteErrorResponse, LoaderFunction, useNavigate, useRouteError } from 'react-router-dom';
-import { getImage,  postCarruselConfig } from '~/api/apiContentSettings';
+import { getImage, postCarruselConfig } from '~/api/apiContentSettings';
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
-import sinImagen from '/templateHome/ScrollView/images.jpeg';
+import json from "~/api/apiWhatsapp";
 import { Button } from '@progress/kendo-react-buttons';
 
+/* falta la api de whatsapp */
+const whatsappData = {
+    url: "https://fakewhatsapp.com/chat",
+    image: json.whatsapp.icon
+};
 
 function removeFirstPartUntilPoint(str: string): string {
     const pointIndex = str.indexOf('.');
@@ -18,32 +23,32 @@ function removeFirstPartUntilPoint(str: string): string {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const idVista = params.idView ?? ''; 
-  const data = await postCarruselConfig({ request, idVista, data: {} });
- 
-  const dataWithImages = await Promise.all(
-          data.Items.map(async (item: any) => {
-              const { IdItem } = item;
-              try{
-                const idSinPunto = removeFirstPartUntilPoint(IdItem);
-                  const image = await getImage({ request, id: idSinPunto });
-                  return { ...item, image };
-              }catch{
-                const image =   sinImagen
-                return { ...item, image };
-              }
-          })
-      );
-      data.Items = dataWithImages;
+    const idVista = params.idView ?? '';
+    const data = await postCarruselConfig({ request, idVista, data: {} });
 
-      return  {data} ;
+    const dataWithImages = await Promise.all(
+        data.Items.map(async (item: any) => {
+            const { IdItem } = item;
+            try {
+                const idSinPunto = removeFirstPartUntilPoint(IdItem);
+                const image = await getImage({ request, id: idSinPunto });
+                return { ...item, image };
+            } catch {
+                const image = sinImagen
+                return { ...item, image };
+            }
+        })
+    );
+    data.Items = dataWithImages;
+
+    return { data };
 }
 
 
 
 export default function ScrollViewComponent() {
 
-    const {data} = useLoaderData<{ data: any }>();
+    const { data } = useLoaderData<{ data: any }>();
     const navigate = useNavigate();
     const { idView, idMenu } = data;
     const {
@@ -54,9 +59,9 @@ export default function ScrollViewComponent() {
         Endless,
         Pageable,
         PagerOverlay,
-        Items 
+        Items
     } = data;
-    
+
     const handleSelectMenu = (action) => {
         const actionAnalyzer = new menuActionAnalyzer();
         console.log(action)
@@ -80,10 +85,10 @@ export default function ScrollViewComponent() {
                 >
                     {Items.map((item, index) => {
                         return (
-                            <div  className='cms-home-body_scrollView-detalle' style={{position : "relative", width: "100%", height: "100%"}} key={index}>
-                                <div style={{position : "absolute", backgroundColor : "", height : "40%", width : "35%", color : "white", background: "rgba(0,100,150,0.6)", top : "25%"}}>
+                            <div className='cms-home-body_scrollView-detalle' style={{ position: "relative", width: "100%", height: "100%" }} key={index}>
+                                <div style={{ position: "absolute", backgroundColor: "", height: "40%", width: "35%", color: "white", background: "rgba(0,100,150,0.6)", top: "25%" }}>
                                     {item.Content}
-                                    {item.Url === '' ? "" : <Button onClick={()=>handleSelectMenu(item.Url)} > Mas detalle </Button>}
+                                    {item.Url === '' ? "" : <Button onClick={() => handleSelectMenu(item.Url)} > Mas detalle </Button>}
                                 </div>
                                 <img
                                     src={item.image}
@@ -96,6 +101,23 @@ export default function ScrollViewComponent() {
                     })}
                 </ScrollView>
             </GridLayoutItem>
+            <div
+                className='cms-home-body_whatsapp'
+                style={{
+                    position: "fixed",
+                    bottom: "20px",
+                    right: "20px",
+                    zIndex: 1000,
+                }}
+            >
+                <a href={whatsappData.url} target="_blank" rel="noopener noreferrer">
+                    <img
+                        src={whatsappData.image}
+                        alt="WhatsApp"
+                        style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                    />
+                </a>
+            </div>
             <Outlet />
         </>
     )
