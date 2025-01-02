@@ -3,7 +3,7 @@ import { API_ENDPOINTS_ATRIBUTOS } from "~/config/apiConfig";
 //SERVICES
 import { getSession } from "~/servicies/session.server";
 
-export const getAtributos = async ({ request, errorMessage }: { request: Request, errorMessage : string }) => {
+export const getAtributos = async ({ request }: { request: Request }) => {
 
     const cookie = request.headers.get("Cookie");
     const session = await getSession(cookie);
@@ -16,16 +16,7 @@ export const getAtributos = async ({ request, errorMessage }: { request: Request
         }
     });
 
-    if (!response.ok) {
-        throw new Response("Error de carga", {
-            statusText: errorMessage,
-            status: 400,
-        });
-    }
-
-    const atributosData = await response.json();
-
-    return { atributosData };
+    return response;
 }
 
 export const postAtributo = async ({ request, atributo }: { request: Request, atributo: any }) => {

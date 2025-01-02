@@ -1,5 +1,5 @@
 //REMIX
-import { useNavigate, useLoaderData } from "@remix-run/react";
+import { useNavigate, useLoaderData, useRouteError, isRouteErrorResponse } from "@remix-run/react";
 import { LoaderFunction,  } from '@remix-run/node';
 
 //TELERIK
@@ -9,14 +9,26 @@ import { Field, Form, FormElement } from "@progress/kendo-react-form";
 import { FormComboBoxFilter } from "~/components/fm-components";
 //API
 import { getMarcas } from "~/api/apiMarcas";
+import { BackOfficeError } from "~/type/cmsBackOffice";
+import { createInternalError } from "~/utils/errorUtils";
+import { BackOfficeErrorAlert, BackOfficeUnExpectErrorAlert } from "~/components/alertError";
 
+const PROCESS_NAME = "Definir marcas productos";
+const ROUTE_NAME = "CMSDefinirMarcasProductos";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getMarcas({request})
-    if (!response.data) {
-        return new Error(`Fallo la conexión con getAtributrosMarcas`);
-    }
-    return {data : response.data};
+    if (!response.ok) {
+            const error: BackOfficeError = createInternalError(
+                PROCESS_NAME,
+                ROUTE_NAME,
+                response
+            );
+            throw new Response(JSON.stringify(error), { status: response.status });
+        }
+    
+        const data = await response.json();
+    return { data };
 }
 
 export default function CMSDefinirMarcasProductos() {
@@ -55,3 +67,18 @@ export default function CMSDefinirMarcasProductos() {
         </>
     );
 }   
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        const errorData = JSON.parse(error.data);
+        return <BackOfficeErrorAlert error={errorData} />
+    }
+
+    return <BackOfficeUnExpectErrorAlert error={{
+        PROCESS_NAME,
+        ROUTE_NAME,
+    }} />
+
+}

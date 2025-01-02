@@ -15,25 +15,34 @@ import { ColumnMenu } from './columnMenu';
 import { ROUTE_BASE_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getAtributos } from '~/api/apiAtributos';
+//UTILS
+import { createInternalError } from '~/utils/errorUtils';
+//TYPE
+import { BackOfficeError } from '~/type/cmsBackOffice';
+import { BackOfficeErrorAlert, BackOfficeUnExpectErrorAlert } from '~/components/alertError';
+
+const PROCESS_NAME = "Definir atributos producto";
+const ROUTE_NAME = "CMSDefinirAtributosProductos";
 
 export const meta: MetaFunction<typeof loader> = () => {
     return [{ title: "cms - BackOfiice - Atributos" }];
 };
 
-const ERROR_TEXT = `
-    Ocurrio un errro.
-    CMSDefinirAtributosProductosHome
-`;
-
 export const loader: LoaderFunction = async ({ request }) => {
+    const response = await getAtributos({ request });
 
-    const {atributosData} = await getAtributos({ request, ERROR_TEXT });
+    if (!response.ok) {
+        const error: BackOfficeError = createInternalError(
+            PROCESS_NAME,
+            ROUTE_NAME,
+            response
+        );
+        throw new Response(JSON.stringify(error), { status: response.status });
+    }
 
-   
+    const atributosData = await response.json();
     return { atributosData };
 }
-
-
 
 const cellUnidadMedida = (props: any) => {
     const data = props.dataItem.strUniMeds.map((item: any) => { return { label: item, value: "" } });
@@ -175,10 +184,13 @@ export function ErrorBoundary() {
     const error = useRouteError();
 
     if (isRouteErrorResponse(error)) {
-        return <div>{error.status} - {error.statusText}</div>
+        const errorData = JSON.parse(error.data);
+        return <BackOfficeErrorAlert error={errorData} />
     }
 
-    return <>
-        <div> Ocurrio un error. Comunique lo al sector de informatica </div>
-    </>
+    return <BackOfficeUnExpectErrorAlert error={{
+        PROCESS_NAME,
+        ROUTE_NAME,
+    }} />
+
 }

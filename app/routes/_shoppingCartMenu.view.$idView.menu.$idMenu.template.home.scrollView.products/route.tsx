@@ -13,6 +13,7 @@ import { getContenidoFichaItem, getImage, getItems } from '~/api/apiContentSetti
 import { LoaderFunction } from '@remix-run/node';
 import { createComponent } from '~/utils/ParseHtmlInjeccion';
 import sinImagen from '/templateHome/ScrollView/images.jpeg';
+import { ScrollViewComponent } from '~/components/scrollView-components';
 
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -51,7 +52,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 
-export default function ScrollViewComponent() {
+export default function Component() {
     interface LoaderData {
         dataWithImages: Array<{ image: string; ProductName: string; content: string }>;
         dataHtml: string;
@@ -59,28 +60,12 @@ export default function ScrollViewComponent() {
 
     const { dataWithImages, dataHtml } = useLoaderData<LoaderData>();
 
-    
-    const sixsPrimary = dataWithImages.slice(0, 6);
-
     return (
         <>
             <GridLayoutItem className='cms-home-body-grid_productos-destacados-titulo'>
                 <h3 className='cms-home-body_productos-destacados-titulo'> Productos destacados </h3>
             </GridLayoutItem>
-            <GridLayoutItem className='cms-home-body-grid_productos-destacados-lista'>
-                <StackLayout className='cms-home-body_productos-destacados-lista' orientation={'horizontal'} style={{overflow: 'auto'}}>
-                    {sixsPrimary.map((item, index) => (
-                        <Card
-                            key={`productosdestacados-${index}`}
-                            style={{ width : 500, height: 500 }}
-                            className='cms-home-body_productos-destacados-lista-card'>
-                            <CardImage src={item.image} style={{ width: "100%"}} />
-                            <CardBody>
-                                {createComponent(dataHtml.body[0], item)}
-                            </CardBody>
-                        </Card>))}
-                </StackLayout>
-            </GridLayoutItem>
+                        <ScrollViewComponent data={dataWithImages} dataHtml={dataHtml} />
             <Outlet />
         </>
     )

@@ -20,6 +20,8 @@ interface Imagen {
 const ID_ENTIDAD = 0;
 const TIPO_ENTIDAD = "OTROS";
 
+const PROCESS_NAME = "Definir otros contenidos";
+const ROUTE_NAME = "CMSOtrosContenidos";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const data = await getImagenesTipoEntidad({ request, tipoEntidad: TIPO_ENTIDAD, idEntidad: ID_ENTIDAD  });

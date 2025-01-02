@@ -14,13 +14,7 @@ export const getGruposProductos = async ({ request }: { request: Request }) => {
         }
     });
 
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to fetch data: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result;
+    return response ;
 };
 
 export const getGruposProducto = async ({ request }: { request: Request }) => {
