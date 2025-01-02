@@ -35,7 +35,11 @@ export const loader: LoaderFunction = async ({ request }) => {
         const error: BackOfficeError = createInternalError(
             PROCESS_NAME,
             ROUTE_NAME,
-            response
+            {
+                status: response.status.toString(),
+                statusText: response.statusText,
+                body: response.body?.message ? response.body.message : 'Sin mensaje especificado'
+            }
         );
         throw new Response(JSON.stringify(error), { status: response.status });
     }
@@ -191,6 +195,8 @@ export function ErrorBoundary() {
     return <BackOfficeUnExpectErrorAlert error={{
         PROCESS_NAME,
         ROUTE_NAME,
+        timestamp: new Date().toString(),
+        details: "Ocurrio un error inesperado."
     }} />
 
 }

@@ -60,11 +60,15 @@ export default function Component() {
 
     const { dataWithImages, dataHtml } = useLoaderData<LoaderData>();
 
+    
+    
+
     return (
         <>
             <GridLayoutItem className='cms-home-body-grid_productos-destacados-titulo'>
                 <h3 className='cms-home-body_productos-destacados-titulo'> Productos destacados </h3>
             </GridLayoutItem>
+
                         <ScrollViewComponent data={dataWithImages} dataHtml={dataHtml} />
             <Outlet />
         </>

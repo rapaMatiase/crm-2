@@ -14,5 +14,6 @@ export const getSegmentos = async ({ request }: { request: Request }) => {
         }
     });
 
-    return response;
+    const result = await response.json();
+    return result;
 };

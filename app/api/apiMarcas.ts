@@ -14,5 +14,6 @@ export const getMarcas = async ({ request }: { request: Request }) => {
         }
     });
 
-    return response;
+    const data = await response.json();
+    return { data };
 };

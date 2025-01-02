@@ -1,5 +1,5 @@
 //REMIX
-import { useNavigate, useLoaderData, useRouteError, isRouteErrorResponse } from "@remix-run/react";
+import { useNavigate, useLoaderData } from "@remix-run/react";
 import { LoaderFunction,  } from '@remix-run/node';
 
 //TELERIK
@@ -9,26 +9,15 @@ import { Field, Form, FormElement } from "@progress/kendo-react-form";
 import { FormComboBoxFilter } from "~/components/fm-components";
 //API
 import {getSegmentos} from "~/api/apiSegmentos";
-import { BackOfficeError } from "~/type/cmsBackOffice";
-import { createInternalError } from "~/utils/errorUtils";
-import { BackOfficeErrorAlert, BackOfficeUnExpectErrorAlert } from "~/components/alertError";
 
-const PROCESS_NAME = "Definir Segmentos";
-const ROUTE_NAME = "CMSDefinirSegmentos";
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const response = await getSegmentos({request})
-    if (!response.ok) {
-            const error: BackOfficeError = createInternalError(
-                PROCESS_NAME,
-                ROUTE_NAME,
-                response
-            );
-            throw new Response(JSON.stringify(error), { status: response.status });
-        }
-    
-        const data = await response.json();
-        return { data };
+    const data = await getSegmentos({request})
+    if (!data){
+        const errorText = await data.text()
+        throw new Error(`Failed to fetch data: ${errorText}`);
+    }
+    return { data };
     
 }
 
@@ -71,18 +60,3 @@ export default function CMSDefinirSegmentos() {
         </>
     );
 }   
-
-export function ErrorBoundary() {
-    const error = useRouteError();
-
-    if (isRouteErrorResponse(error)) {
-        const errorData = JSON.parse(error.data);
-        return <BackOfficeErrorAlert error={errorData} />
-    }
-
-    return <BackOfficeUnExpectErrorAlert error={{
-        PROCESS_NAME,
-        ROUTE_NAME,
-    }} />
-
-}

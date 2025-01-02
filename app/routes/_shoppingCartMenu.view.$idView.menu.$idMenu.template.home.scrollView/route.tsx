@@ -29,14 +29,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const dataWithImages = await Promise.all(
         data.Items.map(async (item: any) => {
             const { IdItem } = item;
-            try {
-                const idSinPunto = removeFirstPartUntilPoint(IdItem);
-                const image = await getImage({ request, id: idSinPunto });
-                return { ...item, image };
-            } catch {
-                const image = sinImagen
-                return { ...item, image };
-            }
+            const image = await getImage({ request, id: IdItem });
+            return { ...item, image };
         })
     );
     data.Items = dataWithImages;

@@ -9,7 +9,7 @@ import { filterIcon } from '@progress/kendo-svg-icons';
 import { ExcelExport } from "@progress/kendo-react-excel-export";
 import { Button } from '@progress/kendo-react-buttons';
 //REMIX
-import { isRouteErrorResponse, Outlet, useActionData, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
+import { Outlet, useActionData, useLoaderData, useNavigate } from '@remix-run/react';
 import { LoaderFunction } from '@remix-run/node';
 //COMPONENTS
 import { ColumnMenu } from './columnMenu';
@@ -17,29 +17,17 @@ import { ColumnMenu } from './columnMenu';
 import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getReglasDeValidacionAtributos } from '~/api/apiReglaDeValidacion';
-import { BackOfficeError } from '~/type/cmsBackOffice';
-import { createInternalError } from '~/utils/errorUtils';
-import { BackOfficeErrorAlert, BackOfficeUnExpectErrorAlert } from '~/components/alertError';
 
-const PROCESS_NAME = "Definir reglas de validacion de atributos";
-const ROUTE_NAME = "CMSDefinirReglasValidacionAtributos";
 
 export const loader: LoaderFunction = async ({request}) => {
     const response = await getReglasDeValidacionAtributos({request});
-
-if (!response.ok) {
-        const error: BackOfficeError = createInternalError(
-            PROCESS_NAME,
-            ROUTE_NAME,
-            response
-        );
-        throw new Response(JSON.stringify(error), { status: response.status });
+    const {reglasValidacionAtributoData} = await response.json();
+    
+    if (!response.ok) {
+        return( { statusText: response.statusText, status: response.status })
     }
 
-    const reglasValidacionAtributoData = await response.json();
-    return { reglasValidacionAtributoData };
-
-    
+    return {reglasValidacionAtributoData};
 };
 
 export default function CMSDefinirRelgasValidacionAtributos() {
@@ -126,6 +114,11 @@ export default function CMSDefinirRelgasValidacionAtributos() {
                     sortable={true}
                     columnMenuIcon={filterIcon}
                     >
+                    {actionData?.status && (
+                            <div style={{ color: 'red', marginBottom: '1rem' }}>
+                                {actionData.statusText}
+                            </div>
+                        )}
                     <GridToolbar>
                         <div >
                             <Button
@@ -159,18 +152,3 @@ export default function CMSDefinirRelgasValidacionAtributos() {
         </>
     );
 };
-
-export function ErrorBoundary() {
-    const error = useRouteError();
-
-    if (isRouteErrorResponse(error)) {
-        const errorData = JSON.parse(error.data);
-        return <BackOfficeErrorAlert error={errorData} />
-    }
-
-    return <BackOfficeUnExpectErrorAlert error={{
-        PROCESS_NAME,
-        ROUTE_NAME,
-    }} />
-
-}

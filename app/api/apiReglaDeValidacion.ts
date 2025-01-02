@@ -15,7 +15,13 @@ export const getReglasDeValidacionAtributos = async ({ request }: { request: Req
         }
     });
 
-    return response;
+    if (!response.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    const reglasValidacionAtributoData = await response.json();
+
+    return json({reglasValidacionAtributoData});
 }
 
 export const postReglaDeValidacionAtributos = async ({ request, reglaValidacionAtributo }: { request: Request, reglaValidacionAtributo : any }) => {
