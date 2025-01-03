@@ -15,38 +15,24 @@ import { ColumnMenu } from './columnMenu';
 import { ROUTE_BASE_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getAtributos } from '~/api/apiAtributos';
-//UTILS
-import { createInternalError } from '~/utils/errorUtils';
-//TYPE
-import { BackOfficeError } from '~/type/cmsBackOffice';
-import { BackOfficeErrorAlert, BackOfficeUnExpectErrorAlert } from '~/components/alertError';
-
-const PROCESS_NAME = "Definir atributos producto";
-const ROUTE_NAME = "CMSDefinirAtributosProductos";
 
 export const meta: MetaFunction<typeof loader> = () => {
     return [{ title: "cms - BackOfiice - Atributos" }];
 };
 
+
+
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getAtributos({ request });
-
-    if (!response.ok) {
-        const error: BackOfficeError = createInternalError(
-            PROCESS_NAME,
-            ROUTE_NAME,
-            {
-                status: response.status.toString(),
-                statusText: response.statusText,
-                body: response.body?.message ? response.body.message : 'Sin mensaje especificado'
-            }
-        );
-        throw new Response(JSON.stringify(error), { status: response.status });
+    
+    if (!response.atributosData) {
+        return new Response("El fetch fallo en getAtributos");
     }
-
-    const atributosData = await response.json();
+    const { atributosData } = response;
     return { atributosData };
 }
+
+
 
 const cellUnidadMedida = (props: any) => {
     const data = props.dataItem.strUniMeds.map((item: any) => { return { label: item, value: "" } });
@@ -170,7 +156,7 @@ export default function CMSDefinirAtributosProductosHome() {
                                 {props.dataItem.activo ? 'Si' : 'No'}
                             </td>
                         )}
-                    />
+                    />                   
                     <Column columnMenu={ColumnMenu} field="tipoValor" width={125} title="Tipo de valor" filter={'text'} />
                     <Column field="valorMinimo" width={125} title="Valor minimo" />
                     <Column field="valorMaximo" width={125} title="Valor maximo" />
@@ -186,17 +172,12 @@ export default function CMSDefinirAtributosProductosHome() {
 
 export function ErrorBoundary() {
     const error = useRouteError();
-
+    
     if (isRouteErrorResponse(error)) {
-        const errorData = JSON.parse(error.data);
-        return <BackOfficeErrorAlert error={errorData} />
+        return <div>{error.status} - {error.statusText}</div>
     }
 
-    return <BackOfficeUnExpectErrorAlert error={{
-        PROCESS_NAME,
-        ROUTE_NAME,
-        timestamp: new Date().toString(),
-        details: "Ocurrio un error inesperado."
-    }} />
-
+    return <>
+        <div> Ocurrio un error. Comunique lo al sector de informatica </div>
+    </>
 }

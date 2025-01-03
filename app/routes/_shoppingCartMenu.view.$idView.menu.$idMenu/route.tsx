@@ -2,10 +2,20 @@
 import { isRouteErrorResponse, Outlet, useLoaderData, useNavigate, useParams, useRouteError } from "@remix-run/react";
 import { useState } from "react";
 
+// Validator function for the input field
+const inputValidator = (value: string) => {
+    return value ? "" : "This field is required";
+};
+
 import { AppBar, AppBarSection, Drawer, DrawerContent, DrawerSelectEvent, GridLayout, Menu } from '@progress/kendo-react-layout';
 import { LoaderFunction } from "@remix-run/node";
 import { getMenu } from "~/api/apiContentSettings";
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
+import { Field, FieldWrapper, Form, FormElement } from "@progress/kendo-react-form";
+import { Hint, Label } from "@progress/kendo-react-labels";
+import { Input } from "@progress/kendo-react-inputs";
+import { Button } from "@progress/kendo-react-buttons";
+import { FormInput } from "~/components/fm-components";
 
 
 const items = [
@@ -53,6 +63,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 
 export default function TemplateBasic() {
+
     //REMIX
     const { idView, idMenu } = useParams();
     const { title, menuItems } = useLoaderData<{ title: string, menuItems: any[] }>();
@@ -84,6 +95,12 @@ export default function TemplateBasic() {
         }
     }
 
+    const handleNavigate = () => {
+        navigate(`/view/10/menu/1/template/home/scrollView/products/events`);
+    }
+
+    const max = 100; // Define the max variable
+
     return (
         <>
             <Drawer
@@ -98,19 +115,45 @@ export default function TemplateBasic() {
                 <DrawerContent>
 
                     <GridLayout className="cms-header-grid cms-header" >
-                        <div className="cms-header-grid_logo cms-header_logo"></div>
+                        <div className="cms-header-grid_logo cms-header_logo" onClick={handleNavigate} ></div>
                         <h1 className="cms-header-grid_titulo cms-header_titulo"> {title} </h1>
                     </GridLayout>
 
                     <AppBar className="cms-menu-grid cms-menu" >
-                        <AppBarSection className="cms-menu-grid_seccion-menu cms-menu_seccion-menu">
-                            <Menu className="cms-menu_menu" items={menuItems} onSelect={handleSelectMenu} />
-                        </AppBarSection>
                         <AppBarSection className="cms-menu-grid_seccion-carrito cms-menu_seccion-carrito">
                             <div className="cms-menu_carrito" onClick={handleClick}> </div>
                         </AppBarSection>
+                        <AppBarSection className="cms-menu-grid_seccion-menu cms-menu_seccion-menu">
+                            <Menu className="cms-menu_menu" items={menuItems} onSelect={handleSelectMenu} />
+                        </AppBarSection>
+                        <Form
+                            initialValues={{
+                                username: '',
+                            }}
+                            render={(formRenderProps) => (
+                                <FormElement style={{ position: "relative", marginLeft: 0, marginRight: "auto" }}>
+                                    <fieldset className={'k-form-fieldset'}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                            <Field
+                                                id={'username'}
+                                                name={'username'}
+                                                max={max}
+                                                value={formRenderProps.valueGetter('username')}
+                                                component={FormInput}
+                                                validator={inputValidator}
+                                                style={{ flex: 1 }}
+                                            />
+                                            <div onClick={formRenderProps.onSubmit} style={{ cursor: "pointer", background: "red" }} >
+                                                buscar
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </FormElement>
+                            )}
+                        />
+
                     </AppBar>
-                    
+
                     <Outlet />
 
 

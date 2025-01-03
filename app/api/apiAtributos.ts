@@ -16,7 +16,9 @@ export const getAtributos = async ({ request }: { request: Request }) => {
         }
     });
 
-    return response;
+    const atributosData = await response.json();
+
+    return { atributosData };
 }
 
 export const postAtributo = async ({ request, atributo }: { request: Request, atributo: any }) => {
