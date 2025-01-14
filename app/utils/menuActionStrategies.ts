@@ -30,7 +30,6 @@ interface MenuActionStrategy {
       //   attributeItemsSelected: {}
       // });
       window.open(`/view/${idView}/menu/${idMenu}/template/listProduct2/breadcrumb/chiplist/filters/products?${urlParamsManager.toString()}`, "_blank");
-
     }
   }
   

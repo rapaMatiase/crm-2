@@ -14,17 +14,25 @@ import { ColumnMenu } from './columnMenu';
 //CONFIG
 import { ROUTE_BASE_ATRIBUTOS } from '~/config/routesConfig';
 //API
-import { getAtributos } from '~/api/apiAtributos';
+import { getAtributos } from '~/api/ApiAtributos';
 
 export const meta: MetaFunction<typeof loader> = () => {
     return [{ title: "cms - BackOfiice - Atributos" }];
 };
 
+
+
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getAtributos({ request });
+    
+    if (!response.atributosData) {
+        return new Response("El fetch fallo en getAtributos");
+    }
     const { atributosData } = response;
     return { atributosData };
 }
+
+
 
 const cellUnidadMedida = (props: any) => {
     const data = props.dataItem.strUniMeds.map((item: any) => { return { label: item, value: "" } });
@@ -133,12 +141,22 @@ export default function CMSDefinirAtributosProductosHome() {
                         <Button onClick={excelExport}> Export to Excel </Button>
                         <Button themeColor={"primary"} onClick={handleNuevoAtributo}> Nuevo atributo </Button>
                     </GridToolbar>
-
                     <Column columnMenu={ColumnMenu} field="idAtributo" title="id" width={75} filter={'numeric'} />
                     <Column columnMenu={ColumnMenu} field="nombre" title="Nombre" width={250} filter={'text'} />
                     <Column columnMenu={ColumnMenu} field="nombreCorto" width={150} title="Nombre corto" filter={'text'} />
-                    <Column columnMenu={ColumnMenu} cell={cellUnidadMedida}  title="Unidadades de medida" />
-                    <Column columnMenu={ColumnMenu} field="activo" width={100} title="Activo" filter={'boolean'} />
+                    <Column columnMenu={ColumnMenu} cell={cellUnidadMedida} title="Unidadades de medida" />
+                    <Column
+                        columnMenu={ColumnMenu}
+                        field="activo"
+                        width={100}
+                        title="Activo"
+                        filter={'boolean'}
+                        cell={(props) => (
+                            <td>
+                                {props.dataItem.activo ? 'Si' : 'No'}
+                            </td>
+                        )}
+                    />                   
                     <Column columnMenu={ColumnMenu} field="tipoValor" width={125} title="Tipo de valor" filter={'text'} />
                     <Column field="valorMinimo" width={125} title="Valor minimo" />
                     <Column field="valorMaximo" width={125} title="Valor maximo" />

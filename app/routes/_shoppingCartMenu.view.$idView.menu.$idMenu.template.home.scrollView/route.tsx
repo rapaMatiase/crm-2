@@ -2,10 +2,21 @@
 import { GridLayoutItem } from '@progress/kendo-react-layout';
 import { ScrollView } from '@progress/kendo-react-scrollview';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { isRouteErrorResponse, LoaderFunction, useRouteError } from 'react-router-dom';
-import { getImage, getImagenesTipoEntidad, postCarruselConfig } from '~/api/apiContentSettings';
-import sinImagen from '/templateHome/ScrollView/images.jpeg';
+import { isRouteErrorResponse, LoaderFunction, useNavigate, useRouteError } from 'react-router-dom';
+import { getImage, postCarruselConfig } from '~/api/apiContentSettings';
+import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
+import json from "~/api/apiWhatsapp";
+import jsonYotube from '~/api/apiYoutube';
+import { Button } from '@progress/kendo-react-buttons';
+import jsonRedesSociales from '~/api/apiInstagram';
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from 'react';
+import ScrollViewCarrouselComponent from '~/components/scrollViewCarrousel-components';
 
+/* falta la api de whatsapp */
+const whatsappData = {
+    url: "https://fakewhatsapp.com/chat",
+    image: json.whatsapp.icon
+};
 
 function removeFirstPartUntilPoint(str: string): string {
     const pointIndex = str.indexOf('.');
@@ -16,33 +27,25 @@ function removeFirstPartUntilPoint(str: string): string {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const idVista = params.idView ?? ''; 
-  const data = await postCarruselConfig({ request, idVista, data: {} });
-  
-  const dataWithImages = await Promise.all(
-          data.Items.map(async (item: any) => {
-              const { IdItem } = item;
-              try{
-                const idSinPunto = removeFirstPartUntilPoint(IdItem);
-                  const image = await getImage({ request, id: idSinPunto });
-                  return { ...item, image };
-              }catch{
-                const image =   sinImagen
-                return { ...item, image };
-              }
-          })
-      );
-      data.Items = dataWithImages;
+    const idVista = params.idView ?? '';
+    const data = await postCarruselConfig({ request, idVista, data: {} });
 
-      return  {data} ;
+    const dataWithImages = await Promise.all(
+        data.Items.map(async (item: any) => {
+            const { IdItem } = item;
+            const image = await getImage({ request, id: IdItem });
+            return { ...item, image };
+        })
+    );
+    data.Items = dataWithImages;
+
+    return { data };
 }
 
-
-
 export default function ScrollViewComponent() {
-
-    const {data,} = useLoaderData<{ dataWithImages: any }>();
-
+    const { data } = useLoaderData<{ data: any }>();
+    const navigate = useNavigate();
+    const { idView, idMenu } = data;
     const {
         Arrows,
         ActiveView,
@@ -51,41 +54,62 @@ export default function ScrollViewComponent() {
         Endless,
         Pageable,
         PagerOverlay,
-        Items 
+        Items
     } = data;
 
+    const handleSelectMenu = (action: string) => {
+        const actionAnalyzer = new menuActionAnalyzer();
+        actionAnalyzer.analyze(action, navigate, "", idView, idMenu);
+    }
 
     return (
-
         <>
-            <GridLayoutItem row={1} col={1} colSpan={10} rowSpan={3} style={{ backgroundColor: "red" }}>
-                <ScrollView
-                    style={{ width: "100%", height: "100%" }}
-                    arrows={Arrows} //Determina si tengo flechas para moverme
-                    activeView={ActiveView} //Este determina en la posicion que arranca el scrollView
-                    automaticViewChange={AutomaticViewChange} //Este determina si se cambia automaticamente
-                    automaticViewChangeInterval={AutomaticViewChangeInterval} //El tiempo que tarda en cambiar 
-                    endless={Endless} //Determina si se puede volver al principio
-                    pageable={Pageable} //Determina si tengo o no los puntintos para moverme
-                    pagerOverlay={PagerOverlay} // [none, light, dark] Agrega sombreado a los puntos
-                >
-                    {Items.map((item, index) => {
-                        return (
-                            <div  style={{position : "relative", width: "100%", height: "100%"}} key={index}>
-                                <div style={{position : "absolute", backgroundColor : "", height : "40%", width : "35%", color : "white", background: "rgba(0,100,150,0.6)", top : "25%"}}>
-                                    Esto tendria que se un html injectable{item.Content} 
-                                </div>
-                                <img
-                                    src={item.image}
-                                    alt={`${item.Alt}`}
-                                    style={{ width: "100%", height: "100%" }}
-                                    draggable={false}
-                                />
-                            </div>
-                        );
-                    })}
-                </ScrollView>
+            <GridLayoutItem className='cms-home-body-grid_scrollView'>
+            <ScrollViewCarrouselComponent
+                    Arrows={Arrows}
+                    ActiveView={ActiveView}
+                    AutomaticViewChange={AutomaticViewChange}
+                    AutomaticViewChangeInterval={AutomaticViewChangeInterval}
+                    Endless={Endless}
+                    Pageable={Pageable}
+                    PagerOverlay={PagerOverlay}
+                    Items={Items}
+                />
             </GridLayoutItem>
+            <div
+                className='cms-home-body_whatsapp'
+                style={{
+                    position: "fixed",
+                    bottom: "20px",
+                    right: "20px",
+                    zIndex: 1000,
+                    display: "flex", flexDirection: "column", alignItems: "center", marginTop: "10px"
+                }}
+            >
+                <a href={whatsappData.url} target="_blank" rel="noopener noreferrer">
+                    <img
+                        src={whatsappData.image}
+                        alt="WhatsApp"
+                        style={{ width: "40px", height: "40px", borderRadius: "30%" }}
+                    />
+                </a>
+                <a href={jsonYotube[0].url} target="_blank" rel="noopener noreferrer">
+                    <img
+                        src={jsonYotube[0].iconoBase64}
+                        alt="YouTube"
+                        style={{ width: "40px", height: "40px", borderRadius: "30%" }}
+                    />
+                </a>
+                <a href={jsonRedesSociales[0].url} target="_blank" rel="noopener noreferrer">
+                    <img
+                        src={jsonRedesSociales[0].iconoBase64}
+                        alt="Instagram"
+                        style={{ width: "40px", height: "40px", borderRadius: "30%" }}
+                    />
+                </a>
+                
+            </div>
+            
             <Outlet />
         </>
     )
@@ -99,7 +123,7 @@ export function ErrorBoundary() {
     }
 
     return <>
-        <div> El error ersta en el scrollView </div>
+        <div> El error esta en el scrollView </div>
         <Outlet />
     </>
 }

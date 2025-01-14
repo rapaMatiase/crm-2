@@ -54,7 +54,7 @@ export default function CMSDefinirSegmentosDelete() {
         onSubmit={handleSubmit}
         render={(formRenderProps) => (
           <Dialog
-            title={"Editar"}
+            title={"¿Esta seguro que desea eliminar la imagen?"}
             width={600}
             onClose={handleCloseAndCancel}
           >
@@ -64,16 +64,7 @@ export default function CMSDefinirSegmentosDelete() {
                 </div>
             )}
         
-            <FormElement>
-             
-              <Field
-                id={"mimeType"}
-                name={"mimeType"}
-                label={"¿Esta seguro que desea eliminar la imagen?"}
-                component={FormCheckbox}
-              />
-             
-            </FormElement>
+            
             <DialogActionsBar layout="end">
               <Button
                 onClick={handleCloseAndCancel}
@@ -84,9 +75,8 @@ export default function CMSDefinirSegmentosDelete() {
               </Button>
               <Button
                 themeColor={"primary"}
-                disabled={!formRenderProps.allowSubmit}
                 icon="save"
-                onClick={formRenderProps.onSubmit}
+                onClick={handleSubmit}
                 svgIcon={saveIcon}
               >
                 {"Eliminar"}

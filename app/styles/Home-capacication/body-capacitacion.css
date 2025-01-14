@@ -1,0 +1,77 @@
+.cms-body-elemento{
+    margin : 0;
+}
+
+.cms-home-body{}
+
+.cms-home-body_scrollView{
+    
+    margin-bottom: 50px;
+}
+
+.cms-home-body_scrollView-detalle{}
+
+/* PRODUCTOS DESTACADOS */
+
+.cms-home-body_productos-destacados-titulo{
+
+}
+
+.cms-home-body_productos-destacados-lista{
+    height: 500px;
+    margin-bottom: 50px;
+}
+
+.cms-home-body_productos-destacados-lista-card{}
+
+/* VIDEOS */
+
+.cms-home-body_videos{}
+
+.cms-home-body_videos-titulo{}
+
+.cms-home-body_videos-principal{}
+
+.cms-home-body_videos-secundarios{}
+
+/* EVENTOS */
+
+.cms-home-body_eventos-contenedor{
+    height: 400px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 3fr;
+}
+
+.cms-home-body_eventos-titulo{
+    --grid-fila-inicio: 1;
+    --grid-fila-fin: 2;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 1;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;    
+
+}
+
+.cms-home-body_eventos-combobox{
+    --grid-fila-inicio: 2;
+    --grid-fila-fin: 3;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 1;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;    
+
+}
+
+.cms-home-body_eventos-combobox-input{}
+
+
+.cms-home-body_enventos-lista{
+    --grid-fila-inicio: 3;
+    --grid-fila-fin: 4;
+    --grid-columna-inicio: 1;
+    --grid-columna-fin: 1;
+    grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;    
+}
+
+.cms-home-body_enventos-lista-listview{}
+
+.cms-home-body_enventos-lista-listview-item{}
+

@@ -18,32 +18,32 @@ import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { postReglaDeValidacionAtributos } from "~/api/apiReglaDeValidacion";
 import { getUnidadesMedida } from "~/api/apiUnidadesMedida";
-import { getAtributos } from "~/api/apiAtributos";
-import { getGruposProducto } from "~/api/apiGruposProducto";
-import { GetTiposProductos } from "~/api/apiAtributos";
+import { getAtributos } from "~/api/ApiAtributos";
+import { getGruposProducto } from "~/api/apiGruposProductos";
+
+import { getTiposProductos } from "~/api/apiTiposProductos";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
     
     //TIPOS DE PRODUCTO
-    const responseTiposProducto = await GetTiposProductos({ request });
-    const tiposProductoData = await responseTiposProducto
-    
+    const responseTiposProducto = await getTiposProductos({ request });
+    const tiposProductoData = responseTiposProducto.result;
     const tiposProductoCodigoNombreData = tiposProductoData.map((producto: { codigoNombre: any; }) => {
         return producto.codigoNombre;
     });
     
     
     //PRODUCTOS
-    const responseGruposProducto = await getGruposProducto({request});
-    const {gruposProductosData} = await responseGruposProducto.json();
+    const responseGruposProducto = await getGruposProducto({ request });
+    const gruposProductosData = responseGruposProducto.gruposProductosData;
     const gruposProductoNombreData = gruposProductosData.map((producto: { codigoNombre: any; }) => {
         return producto.codigoNombre;
     });
 
     //ATRIBUTOS
     const responseAtributos = await getAtributos({request});
-    const {atributosData} = await responseAtributos.json();
+    const atributosData = await responseAtributos.atributosData;
     const atributosNombresData = atributosData.map((atributo: { nombre: any; }) => {
         return atributo.nombre;
     });
@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     
     //UNIDADES DE MEDIDA
     const responseUnidadesMedida = await getUnidadesMedida({request});
-    const {unidadesMedidaData} = await responseUnidadesMedida.json();
+    const unidadesMedidaData = await responseUnidadesMedida.unidadesMedidaData;
     const unidadesDeMedidaCodigoNombreData = unidadesMedidaData.map((unidad: {
         codigoNombre: any; codigo: string 
 }) => {

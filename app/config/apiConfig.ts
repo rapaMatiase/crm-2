@@ -66,6 +66,10 @@ export const API_ENDPOINTS_CONTENT_SETTEINGS = {
     POST_CARRUSEL: `${API_BASE_URL}/ContentSettings/GetCarruselConfig`,
     POST_VIDEOS: `${API_BASE_URL}/ContentSettings/GetVideosConfig`,
     GET_EVENTOS: `${API_BASE_URL}/ContentSettings/GetEventos`,
+    GET_TIPOS_CONTENIDO1: `${API_BASE_URL}/ContentSettings/GetTiposContenido1`,
+    SET_TIPO_CONTENIDO: `${API_BASE_URL}/ContentSettings/SetTipoContenido`,
+    DELETE_TIPO_CONTENIDO: `${API_BASE_URL}/ContentSettings/DeleteTipoContenido`,
+    GET_CONTENIDO_FICHA_SUCURSAL_ITEM : `${API_BASE_URL}/ContentSettings/GetContenidoFichaSucursalItem`,
 }
 
 export const API_ENDPOINTS_GET_MAIN_MENU = `${API_BASE_URL}/Contexto/Contexto/GetMainMenu`;

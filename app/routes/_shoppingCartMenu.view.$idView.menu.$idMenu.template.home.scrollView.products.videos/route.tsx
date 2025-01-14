@@ -1,42 +1,46 @@
-//REMIX
-import { Outlet } from '@remix-run/react';
-//TELERIK
+import { isRouteErrorResponse, Outlet, useLoaderData, useRouteError } from '@remix-run/react';
 import { GridLayoutItem, GridLayout } from '@progress/kendo-react-layout';
+import { LoaderFunction } from '@remix-run/node';
+import { postVideosConfig } from '~/api/apiContentSettings';
+import VideoGrid from '~/components/videoGrid-component'; 
+import { Params } from '@remix-run/react';
 
-
+export const loader: LoaderFunction = async ({ request, params }: { request: Request, params: Params }) => {
+    const { idView } = params;
+    if (!idView) {
+        throw new Error("idView is required");
+    }
+    const response = await postVideosConfig({ request, idView });
+    const { videosData } = response;
+    return { videosData };
+};
 
 export default function ScrollViewComponent() {
-
-
-const info = {"Videos":[{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":1},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":2},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":3},{"Url":"https://www.youtube.com/watch?v=KJH1M4MIwhU","IdItem":"","Orden":4}]}
-
-const firstVideo = info.Videos[0].Url.replace("watch?v=", "embed/")
-const secondVideo = info.Videos[1].Url.replace("watch?v=", "embed/")
-const thirdVideo = info.Videos[2].Url.replace("watch?v=", "embed/")
-const fourVideo = info.Videos[3].Url.replace("watch?v=", "embed/")
+    const { videosData } = useLoaderData<{ videosData: any }>();
 
     return (
         <>
-            <GridLayoutItem className='cms-home-body-grid_videos' >
+            <GridLayoutItem className='cms-home-body-grid_videos'>
                 <GridLayout className='cms-home-body_videos'>
-                    <GridLayoutItem className='cms-home-body_videos-principal' row={1} col={1} colSpan={1} rowSpan={3} style={{ backgroundColor: "black" }}>
-                    <iframe width="560" height="315" src={`${firstVideo}`} title="YouTube video player" ></iframe> 
+                    <GridLayoutItem className='cms-home-body_videos-titulo' row={1} col={1} colSpan={2}>
+                        <h2>Nuestros videos</h2>
                     </GridLayoutItem>
-                    <GridLayoutItem  row={1} col={2} colSpan={1} style={{ backgroundColor: "blue" }}>
-                    <iframe width="260" height="150" src={`${secondVideo}`} title="YouTube video player"  ></iframe>                     </GridLayoutItem>
-                    <GridLayoutItem row={2} col={2} colSpan={1} style={{ backgroundColor: "yellow" }}>
-                    <iframe width="260" height="150" src={`${thirdVideo}`} title="YouTube video player" ></iframe> 
-                    </GridLayoutItem>
-                    <GridLayoutItem row={3} col={2} colSpan={1} style={{ backgroundColor: "red" }}>
-                    <iframe width="260" height="150" src={`${fourVideo}`} title="YouTube video player" ></iframe> 
-                    </GridLayoutItem>
+                    <VideoGrid videos={videosData.Videos} />
                 </GridLayout>
             </GridLayoutItem>
             <Outlet />
         </>
-    )
+    );
 }
 
+export function ErrorBoundary() {
+    const error = useRouteError();
 
-// https://www.telerik.com/kendo-react-ui/components/scrollview/api/scrollviewprops
-// https://www.telerik.com/kendo-react-ui/components/layout/card
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>;
+    }
+
+    return <>
+        <div>El error está en videos</div>
+    </>;
+}

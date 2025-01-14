@@ -9,20 +9,12 @@ export const getAtributos = async ({ request }: { request: Request }) => {
     const session = await getSession(cookie);
     const { token } = session.get("user");
 
-    /* if (!session.has("user")) {
-        return new Response("La sesion se ha terminado", { status: 401 });
-    } */
-
     const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET}`, {
         method: "GET",
         headers: {
             "Authorization": token
         }
     });
-
-    if (!response.ok) {
-        return new Response("El fetch fallo", { status: response.status });
-    }
 
     const atributosData = await response.json();
 
@@ -51,7 +43,7 @@ export const postAtributo = async ({ request, atributo }: { request: Request, at
     });
 
     if (!response.ok) {
-        throw new Error(`Failed to update atributo: ${response.statusText}`);
+        throw new Error(`Fallo el update atributo en postAtributo: ${response.statusText}`);
     } 
 }
 
@@ -73,90 +65,10 @@ export const deleteAtributo = async ({ request, idAtributo }: { request: Request
     }
 };
 
-export const getAtributoMarcas = async ({ request }: { request: Request }) => {
-    const cookie = request.headers.get("Cookie");
-    const session = await getSession(cookie);
-    const { token } = session.get("user");
 
-    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET_MARCAS}`, {
-        method: 'GET',
-        headers: {
-            "Authorization": token
 
-        }
-    });
 
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to fetch data: ${errorText}`);
-    }
 
-    const data = await response.json();
-    return { data };
-};
 
-export const getAtributosGruposProductos = async ({ request }: { request: Request }) => {
-    const cookie = request.headers.get("Cookie");
-    const session = await getSession(cookie);
-    const { token } = session.get("user");
 
-    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET_GRUPOS_PRODUCTOS}`, {
-        method: 'GET',
-        headers: {
-            "Authorization": token
-        }
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to fetch data: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result;
-};
-
-export const GetSegmentos = async ({ request }: { request: Request }) => {
-    const cookie = request.headers.get("Cookie");
-    const session = await getSession(cookie);
-    const { token } = session.get("user");
-
-    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET_SEGMENTOS}`, {
-        method: 'GET',
-        headers: {
-            "Authorization": token
-
-        }
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to fetch data: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result;
-};
-
-export const GetTiposProductos = async ({ request }: { request: Request }) => {
-    const cookie = request.headers.get("Cookie");
-    const session = await getSession(cookie);
-    const { token } = session.get("user");
-
-    const response = await fetch(`${API_ENDPOINTS_ATRIBUTOS.GET_TIPOS_PRODUCTOS}`, {
-        method: 'GET',
-        headers: {
-            "Authorization": token
-
-        }
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to fetch data: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result;
-};
 

@@ -23,13 +23,13 @@ export default function SimularVista() {
     const { vistasData } = useLoaderData<{ vistasData: any[] }>();
 
     //REACT-HOOKS
-    const [vistasFilter, setVistaFilter] = useState<any>(vistasData);
+    const [vistasFilter, setVistaFilter] = useState<any>(vistasData.result);
     const [vistaSelected, setVistaSelected] = useState<{ codigo: string; templateName: keyof typeof ROUTE_TEMPLATE_CONFIG } | undefined>();
 
     //FUNCTIONS
     const handleVistaFilter = (event: ComboBoxFilterChangeEvent) => {
         const value = event.filter.value;
-        const filteredVistas = vistasData.filter((vista) =>
+        const filteredVistas = vistasData.result.filter((vista) =>
             vista.codigoNombre.toLowerCase().includes(value.toLowerCase())
         );
         setVistaFilter(filteredVistas);

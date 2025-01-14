@@ -54,7 +54,6 @@ export default function CMSDefinirGruposProductosDelete() {
         onSubmit={handleSubmit}
         render={(formRenderProps) => (
           <Dialog
-            title={"Editar"}
             width={600}
             onClose={handleCloseAndCancel}
           >
@@ -63,17 +62,7 @@ export default function CMSDefinirGruposProductosDelete() {
                     {actionData.statusText}
                 </div>
             )}
-        
-            <FormElement>
-             
-              <Field
-                id={"mimeType"}
-                name={"mimeType"}
-                label={"¿Esta seguro que desea eliminar la imagen?"}
-                component={FormCheckbox}
-              />
-             
-            </FormElement>
+{"¿Esta seguro que desea eliminar la imagen?"}
             <DialogActionsBar layout="end">
               <Button
                 onClick={handleCloseAndCancel}
@@ -84,9 +73,8 @@ export default function CMSDefinirGruposProductosDelete() {
               </Button>
               <Button
                 themeColor={"primary"}
-                disabled={!formRenderProps.allowSubmit}
                 icon="save"
-                onClick={formRenderProps.onSubmit}
+                onClick={handleSubmit}
                 svgIcon={saveIcon}
               >
                 {"Eliminar"}

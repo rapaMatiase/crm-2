@@ -67,13 +67,18 @@ export default function OtherModels() {
     return (
         <>
             <GridLayoutItem className="cms-body-grid_otros-modelos">
+              <div className="cms-body_otros-modelos-titulo">
+                <h3>Comparación de modelos</h3>
+              </div>
+              <div style={{ marginTop: '70px' }}>
                 <ListView
-                    data={data.data}
-                    item={MyItemRender}
-                    style={{ width: "100%" }}
-                    header={()=>MyHeader(data.header)}
-                    className="cms-body_otros-modelos"
+                  data={data.data}
+                  item={MyItemRender}
+                  style={{ width: "100%" }}
+                  header={() => MyHeader(data.header)}
+                  className="cms-body_otros-modelos"
                 />
+              </div>
             </GridLayoutItem>
             <Outlet />
             <style>

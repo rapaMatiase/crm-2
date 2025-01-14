@@ -33,7 +33,7 @@ const EditCommandCell = (props: EditCommandCellProps) => {
                 Edit
             </Button>
             <Button
-                themeColor={"warning"}
+                themeColor={"base"}
                 type="button"
                 onClick={() => props.enterDelete(props.dataItem)}
             >
@@ -150,6 +150,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     return response;
+
 };
 
 interface Atributo {
@@ -249,11 +250,12 @@ export default function CMSDefinirProductosGrillaAtributos() {
     );
 
     const handleSubmit = () => {
-        const formData = new FormData();
+       
+         const formData = new FormData();
         formData.append("idProductoBase", idProducto || "");
         formData.append("atributos", JSON.stringify(data));
         submit(formData, { method: 'POST' });
-        navigate(`${ROUTE_BASE_PRODUCTOS}`);
+        /*navigate(`${ROUTE_BASE_PRODUCTOS}`); */
     }
 
     return (

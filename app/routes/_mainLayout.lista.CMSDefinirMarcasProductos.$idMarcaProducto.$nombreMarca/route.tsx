@@ -31,12 +31,22 @@ export default function CMSDefinirMarcasProductosList() {
   const navigate = useNavigate();
   const { idMarcaProducto, nombreMarca } = useParams();
 
+  
   const cellAction = (props: any) => (
     <td {...props.tdProps}>
       <Button onClick={() => {
         const dataItem = props.dataItem;
         navigate(`/lista/CMSDefinirMarcasProductos/${idMarcaProducto}/${nombreMarca}/delete/${dataItem.idMediaEntity}`)
       }}>Borrar</Button>
+       <Button onClick={() => {
+      const dataItem = props.dataItem;
+      const link = document.createElement('a');
+      link.href = dataItem.rawMedia;
+      link.download = dataItem.nombre;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }}>Descargar imagen</Button>
     </td>
   )
 

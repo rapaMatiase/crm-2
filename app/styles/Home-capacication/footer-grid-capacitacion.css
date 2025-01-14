@@ -1,0 +1,7 @@
+.cms-footer-grid{}
+
+.cms-footer-grid_titulo{}
+
+/* Por cada sucursal en el footer, exite una clase 
+cms-footer-grid_item-${index} donde -${index} es un numero 
+segun el orden en el que aparece. */

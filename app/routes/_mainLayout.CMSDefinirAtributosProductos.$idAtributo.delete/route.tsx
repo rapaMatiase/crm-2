@@ -42,10 +42,10 @@ export default function CMSDefinirAtributosProductosDelete(){
     }, [atributoSeleccionado, loading]);
 
     const handleSubmit = (dataItem: { [name: string]: any }, event?: React.SyntheticEvent<any, Event>) => {
-        if (event) {
-            event.preventDefault();
-        }
-        submit(dataItem, { method: "POST" });
+        
+            event?.preventDefault();
+       
+        submit(dataItem, { method: "delete" });
     }
 
     if(loading){
@@ -64,7 +64,7 @@ export default function CMSDefinirAtributosProductosDelete(){
             render={(renderProps: FormRenderProps) => (
                 <Dialog
                     title={`Eliminar atributo`}
-                    onClose={()=>navigate(-1)}
+                    onClose={() => navigate(-1)}
                     width={500}
                     >
                     <FormElement>
@@ -104,15 +104,6 @@ export default function CMSDefinirAtributosProductosDelete(){
                                 readOnly
                             /> 
                         </FieldWrapper>
-                        <FieldWrapper>
-                            <Label>¿Está seguro que desea eliminar este atributo?</Label>
-                            <Field 
-                            name="confirmacion" 
-                            label="Confirmo que deseo eliminar este atributo"
-                            component={Checkbox}
-                            readOnly
-                            />
-                        </FieldWrapper>
                     </FormElement>
                     <DialogActionsBar layout="end">
                         <Button
@@ -124,9 +115,8 @@ export default function CMSDefinirAtributosProductosDelete(){
                         </Button>
                         <Button
                             themeColor={"primary"}
-                            disabled={!renderProps.allowSubmit}
-                            icon="save"
-                            onClick={renderProps.onSubmit}
+                            icon="trash"
+                            onClick={handleSubmit}
                             svgIcon={trashIcon}
                         >
                             Eliminar

@@ -8,11 +8,15 @@ import { Field, Form, FormElement } from "@progress/kendo-react-form";
 //COMPONENTS
 import { FormComboBoxFilter } from "~/components/fm-components";
 //API
-import { GetSegmentos} from "~/api/apiAtributos";
+import {getSegmentos} from "~/api/apiSegmentos";
 
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const data = await GetSegmentos({request})
+    const data = await getSegmentos({request})
+    if (!data){
+        const errorText = await data.text()
+        throw new Error(`Failed to fetch data: ${errorText}`);
+    }
     return { data };
     
 }

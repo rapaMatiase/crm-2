@@ -18,6 +18,9 @@ export default function simularVistaTesting() {
                 <li>
                     <Link to="/view/8/menu/1/template/videos/breadcrumb/list/video" target="_blank">videos </Link>
                 </li>
+                <li>
+                    <Link to="/footer/view/23/menu/1/locations/search/template/home/scrollview/products" target="_blank">Nuevo home </Link>
+                </li>
             </ul>
         </>
     )

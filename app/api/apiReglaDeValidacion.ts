@@ -42,3 +42,4 @@ export const postReglaDeValidacionAtributos = async ({ request, reglaValidacionA
 
     return response
 }
+

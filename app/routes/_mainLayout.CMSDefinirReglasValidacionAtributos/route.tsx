@@ -18,6 +18,8 @@ import { ROUTE_BASE_REGLAS_VALIDACION_ATRIBUTOS } from '~/config/routesConfig';
 //API
 import { getReglasDeValidacionAtributos } from '~/api/apiReglaDeValidacion';
 
+const PROCESS_NAME = "Definir atributos producto";
+const ROUTE_NAME = "CMSDefinirAtributosProductos";
 
 export const loader: LoaderFunction = async ({request}) => {
     const response = await getReglasDeValidacionAtributos({request});
@@ -27,7 +29,9 @@ export const loader: LoaderFunction = async ({request}) => {
         return( { statusText: response.statusText, status: response.status })
     }
 
-    return {reglasValidacionAtributoData};
+    return  {reglasValidacionAtributoData };
+
+    
 };
 
 export default function CMSDefinirRelgasValidacionAtributos() {

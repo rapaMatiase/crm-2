@@ -23,7 +23,7 @@ const tipoDeValores = ["Texto", "Numerico", "Fecha", "Entero"];
 export const loader: LoaderFunction = async ({ request }) => {
     const response = await getUnidadesMedida({ request });
 
-    const {unidadesMedidaData} = await response.json();
+    const { unidadesMedidaData } = response;
 
     const unidadesDeMedidaCodigoNombre = unidadesMedidaData.map((unidad: { codigo: string }) => {
         return unidad.codigo;
@@ -51,6 +51,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     await postAtributo({ request, atributo });
+    
 
     return redirect(`${ROUTE_BASE_ATRIBUTOS}`);
 };
@@ -90,7 +91,10 @@ export default function CMSDefinirAtributosProductosEditCreate() {
     if (loading) {
         return <div>Loading...</div>
     }
-
+    const dialogStyle: React.CSSProperties = {
+        overflowY: "auto",
+        maxHeight: "100vh"
+    };
     return (
         <>
             <Form
@@ -108,7 +112,8 @@ export default function CMSDefinirAtributosProductosEditCreate() {
                 }}
                 onSubmit={handleSubmit}
                 render={(formRenderProps: FormRenderProps) => (
-                    <Dialog
+                    <Dialog 
+                        style={dialogStyle}
                         title={Number(idAtributo) === 0 ? "Crear Atributo" : "Editar Atributo"}
                         onClose={handleCloseAndCancel}
                         width={600}
@@ -143,6 +148,7 @@ export default function CMSDefinirAtributosProductosEditCreate() {
                                 data={unidadesDeMedidaCodigoNombre}
                                 validator={(value) => { return !value ? "El campo nombre es requerido" : "" }}
                             />
+                            
                             <Field
                                 name={"activo"}
                                 component={FormCheckbox}
