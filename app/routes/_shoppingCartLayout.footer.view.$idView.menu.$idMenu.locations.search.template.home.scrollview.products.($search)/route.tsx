@@ -55,7 +55,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 const MyItemRender = (props: ListViewItemProps, dataHtml: string) => {
     let item = props.dataItem;
     return (
-        <ListViewItemWrapper style={{ flex: 1, padding: 10, borderRight: '1px solid lightgrey' }}>
+        <ListViewItemWrapper className='cms-tarjetas' style={{ flex: 1, padding: 10, borderRight: '1px solid lightgrey' }}>
             <Card>
                 <CardImage
                     src={props.dataItem.image}
@@ -63,13 +63,13 @@ const MyItemRender = (props: ListViewItemProps, dataHtml: string) => {
                         height: 150,
                         width: 180,
                     }}
-                    className="cms-body_tarjeta-imagen"
+                    className="cms-tarjetas_imagen"
                 />
                 <CardTitle
                     style={{
                         fontSize: 14,
                     }}
-                    className="cms-body_tarjeta-cuerpo"
+                    className="cms-tarjetas_cuerpo"
                 >
                     {createComponent(dataHtml.body[0], props.dataItem)}
                 </CardTitle>
@@ -84,10 +84,10 @@ export default function Component() {
 
     return (
         <>
-            <GridLayoutItem id='component-productos-destacados-titulo' row={5} col={1} colSpan={15} style={{ backgroundColor: "red", placeItems: "center", placeContent: "center" }}>
+            <GridLayoutItem className='cms-productos-destacados_titulo' id='component-productos-destacados-titulo' row={5} col={1} colSpan={15} style={{ backgroundColor: "red", placeItems: "center", placeContent: "center" }}>
                 <h3> Productos destacados </h3>
             </GridLayoutItem>
-            <GridLayoutItem id='component-productos-destacados-lista' row={6} col={1} colSpan={12} rowSpan={3} style={{ backgroundColor: "yellow" }}>
+            <GridLayoutItem className='cms-productos-destacados_lista' id='component-productos-destacados-lista' row={6} col={1} colSpan={12} rowSpan={3} style={{ backgroundColor: "yellow" }}>
                 <ListView
                     data={dataWithImages}
                     item={(props) => MyItemRender(props, dataHtml)}
