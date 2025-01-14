@@ -1,3 +1,4 @@
+import { data } from "@remix-run/node";
 import React from "react";
 
 function parseStyle(style: string): React.CSSProperties {
@@ -11,23 +12,50 @@ function parseStyle(style: string): React.CSSProperties {
     }, {} as React.CSSProperties);
 }
 
-function convertAttributes(attributes) {
+function convertAttributes(attributes, additionalAttributes = "") {
     const { style, class: className, ...rest } = attributes;
     const styleObject = style ? parseStyle(style) : {};
     return {
         ...rest,
         style: styleObject,
-        className: className ? className : '',
+        className: className ? `${className} ${additionalAttributes}` : `${additionalAttributes}`,
     };
 }
 
+
 function createComponentLeaf(dataHtml, dataItem) {
     const { Tag, Attributes, Text } = dataHtml;
+    if (Tag === "a" && Text.includes("#comprar#") && dataItem.esVendible === true) {
+        const contenido = "Comprar"
+        return React.createElement(
+            Tag,
+            convertAttributes(Attributes, "cms-boton-comprar"),
+            contenido
+        );
+    }
+
+    if (Tag === "a" && Text.includes("#alquilar#") && dataItem.esAlquilable === true) {
+        const contenido = "Alquilar"
+        return React.createElement(
+            Tag,
+            convertAttributes(Attributes, "cms-boton-alquilar"),
+            contenido
+        );
+    }
+
+    if (Tag === "a" && Text.includes("#oferta#") && dataItem.esOferta === true) {
+        const contenido = "Oferta"
+        return React.createElement(
+            Tag,
+            convertAttributes(Attributes, "cms-boton-oferta"),
+            contenido
+        );
+    }
 
     const contenido = Text.replace(/#(\w+)#/g, (_: string, key: string) => {
-
         return dataItem[key] !== undefined ? dataItem[key] : `#${key}#`;
     })
+
     return React.createElement(
         Tag,
         convertAttributes(Attributes),
@@ -47,7 +75,8 @@ function createComponentContainer(dataHtml, dataItems) {
 }
 
 export function createComponent(dataHtml, dataItem) {
-    
+    const { Tag, Attributes, Text } = dataHtml;
+
     if (dataHtml?.Text) {
         return createComponentLeaf(dataHtml, dataItem);
     }

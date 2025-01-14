@@ -1,70 +1,86 @@
 //REMIX
 import { ActionFunction, json } from "@remix-run/node";
 import {  useActionData, useNavigate, useSubmit } from "@remix-run/react";
-import {  isRouteErrorResponse, LoaderFunction, redirect, useRouteError } from "react-router";
+import {  isRouteErrorResponse, LoaderFunction, redirect, useOutletContext, useRouteError } from "react-router";
 //TELERIK 
 import { Button } from "@progress/kendo-react-buttons";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import { Field, Form, FormElement } from "@progress/kendo-react-form";
-import { cancelIcon, saveIcon } from "@progress/kendo-svg-icons";
-import { FormCheckbox } from "~/components/fm-components";
+import { cancelIcon, saveIcon, trashIcon } from "@progress/kendo-svg-icons";
 //API
-import { deleteImagenes, getMimeType, getTipoContenido } from "~/api/apiContentSettings";
+import { deleteImagenes, deleteTipoContenido, getMimeType, getTipoContenido } from "~/api/apiContentSettings";
 import { Loader, LoaderType } from "@progress/kendo-react-indicators";
-import { useState } from "react";
-
-
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const dataMimeType = await getMimeType({ request })
-  const dataTipoContenido = await getTipoContenido({ request });
-  return { dataMimeType, dataTipoContenido };
-}
+import { useEffect, useState } from "react";
+import { ROUTE_BASE_TIPOS_CONTENIDO } from "~/config/routesConfig";
 
 
 export const action: ActionFunction = async ({ request, params }) => {
-    const { idSegmento, nombreSegmento, idMediaEntity } = params;
-    const response = await deleteImagenes({ request, idMediaEntity});
+    const { idTipoContenido } = params;
+    if (!idTipoContenido) {
+        return json({ statusText: "idTipoContenido is required", status: 400 });
+    }
+    const response = await deleteTipoContenido({ request, idTipoContenido });
     if (!response.ok) {
       return json({ statusText: response.statusText, status: response.status });
 
   }
-    return redirect(`/lista/CMSDefinirSegmentos/${idSegmento}/${nombreSegmento}`);
+    return redirect(`${ROUTE_BASE_TIPOS_CONTENIDO}`);
 }
 
-export default function CMSDefinirSegmentosDelete() {
+interface ActionData {
+  statusText?: string;
+  status?: number;
+}
+export default function CMSOtrosContenidosDelete() {
+  const { tipoContenidoSeleccionado } = useOutletContext<any>();
 
   const navigate = useNavigate();
   const submit = useSubmit();
-  const actionData = useActionData();
+  const actionData = useActionData<ActionData | null>();
 
+  const [atributo, setAtributo] = useState<any>();
+  const [loading, setLoading] = useState(true);
+
+ useEffect(() => {
+        setAtributo(tipoContenidoSeleccionado);
+        setLoading(false);
+    }, [tipoContenidoSeleccionado, loading]);
 
   const handleCloseAndCancel = () => {
     navigate(-1);
   }
 
   const handleSubmit = async () => {
+    event?.preventDefault();
     submit({}, { method: "POST" });
   }
+
+  if(loading){
+    return <div>Loading...</div>   
+}
 
   return (
     <>
       <Form
-        
+        initialValues={{
+          idTipoContenido: atributo.idTipoContenido,
+          nombre: atributo.nombre,
+          comentario: atributo.comentario,
+          activo: atributo.activo,
+        }}
         onSubmit={handleSubmit}
         render={(formRenderProps) => (
           <Dialog
-            title={"¿Esta seguro que desea eliminar la imagen?"}
-            width={600}
+           
+            width={500}
             onClose={handleCloseAndCancel}
           >
-            {actionData?.status && (
-                <div style={{ color: 'red', marginBottom: '1rem' }}>
-                    {actionData.statusText}
-                </div>
-            )}
-        
-            
+          {actionData?.status && (
+            <div style={{ color: 'red', marginBottom: '1rem' }}>
+            {actionData.statusText}
+            </div>
+          )}
+          {"¿Esta seguro que desea eliminar la imagen?"}
             <DialogActionsBar layout="end">
               <Button
                 onClick={handleCloseAndCancel}
@@ -75,9 +91,10 @@ export default function CMSDefinirSegmentosDelete() {
               </Button>
               <Button
                 themeColor={"primary"}
-                icon="save"
+
+                icon="trash"
                 onClick={handleSubmit}
-                svgIcon={saveIcon}
+                svgIcon={trashIcon}
               >
                 {"Eliminar"}
               </Button>

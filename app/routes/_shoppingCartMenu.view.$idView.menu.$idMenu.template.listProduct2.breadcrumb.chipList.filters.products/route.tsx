@@ -55,14 +55,7 @@ const MyItemRender = (props, dataHtml) => {
 
     return (
         <div className="k-listview-item cms-body_lista-productos-item">
-            <Card
-                /* style={{
-                    flex: "0 0 25.33%",
-                    margin: 25,
-                    maxWidth : 200
-                }} */
-                className="cms-body_tarjeta"
-            >
+            <Card className="cms-body_tarjeta">
                 <CardImage
                     src={props.dataItem.image}
                     style={{

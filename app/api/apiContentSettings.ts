@@ -72,6 +72,24 @@ export const getDefinirProductos = async ({ request, params }: { request: Reques
     return productosData;
 }
 
+export const getDefinirProductosaAction = async ({ request, search }: { request: Request, search : any }) => {
+    const session = await getSession(request.headers.get("Cookie"));
+    const token = session.get("user")?.token;
+    
+
+    const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.SEARCH}/PatronBusqueda/${search}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: token
+            }
+        }
+    );
+
+    const productosData = await response.json();
+    return productosData;
+}
+
 
 export const getVistas = async ({ request }: { request: Request }) => {
     const cookie = request.headers.get("Cookie");
@@ -268,7 +286,7 @@ export const getItems = async ( request, idView, arrayFilterJson  ) => {
     return data;
 }
 
-export const getContenidoFichaItem = async ( request, idView) => {
+export const getContenidoFichaItem = async (request, idView) => {
     const cookie = request.headers.get("Cookie");
     const session = await getSession(cookie);
     const { token } = session.get("user");
@@ -279,15 +297,17 @@ export const getContenidoFichaItem = async ( request, idView) => {
 
     const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_CONTENIDO_FICHA_ITEM}?IdVista=${idView}`,
         {
-            method: "POST",
+            method: "GET",
             headers: {
-                Authorization: token
+                "Content-Type": "application/json",
+                "Authorization": token
             }
         }
     );
 
-    const data = await response.json();
-    return data;
+    const data = await response.text();
+    const json = JSON.parse(data);
+    return json;
 }
 
 export const postSetImagen = async ({ request, tipoEntidad, idEntidad, data }: { request: Request, tipoEntidad: string, idEntidad: string, data: any }) => {
@@ -310,7 +330,25 @@ export const postSetImagen = async ({ request, tipoEntidad, idEntidad, data }: {
 
 };
 
+export const postSetTipoContenido = async ({ request, data }: { request: Request, data: any }) => {
 
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const { token } = session.get("user");
+
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.SET_TIPO_CONTENIDO}`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        },
+        body: JSON.stringify(data)
+        
+    });
+
+    return response;
+
+};
 
 export const getMimeType = async ({ request}: { request: Request}) => {
 
@@ -347,7 +385,7 @@ export const getTipoContenido = async ({ request}: { request: Request}) => {
         }
     );
 
-    return response.json()
+    return  response.json();
 };
 
 export const getTipoTexto = async ({ request}: { request: Request}) => {
@@ -374,7 +412,6 @@ export const postSetTexto = async ({ request, idProducto, data }: { request: Req
     const cookie = request.headers.get("Cookie");
     const session = await getSession(cookie);
     const { token } = session.get("user");
-    console.log("adentro", data)
     const response = await fetch(`${API_ENDPOINTS_PRODUCTOS.SET_TEXTO}?IdProductoBase=${Number(idProducto)}`, {
         method: 'POST',
         headers: {
@@ -484,3 +521,61 @@ export const deleteProductoTexto = async ({request, idProductoTexto}: {request: 
     return response 
   }
   
+export const getTiposContenido1 = async ({ request }: { request: Request }) => {
+
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const { token } = session.get("user");
+
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_TIPOS_CONTENIDO1}`, {
+        method: "GET",
+        headers: {
+            "Authorization": token
+        }
+    });
+
+    
+    return response.json();
+
+}
+
+export const deleteTipoContenido = async ({request, idTipoContenido}: {request: Request, idTipoContenido: string}) => {
+    
+    
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const {token} = session.get("user");
+  
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.DELETE_TIPO_CONTENIDO}?idTipoContenido=${idTipoContenido}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+    });
+  
+    return response 
+  }
+
+  export const getContenidoFichaSucursalItem = async ({request, idView}) => {
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const { token } = session.get("user");
+
+    if (token === undefined) {
+        redirect(`${ROUTE_LOGIN}`);
+    }
+
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_CONTENIDO_FICHA_SUCURSAL_ITEM}?IdVista=${idView}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: token
+            }
+        }
+    );
+
+    const data = await response.text();
+    const json = JSON.parse(data);
+    return json;
+}

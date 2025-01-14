@@ -45,7 +45,6 @@ export default function CMSDefinirAtributosProductosDelete(){
         
             event?.preventDefault();
        
-        console.log("Datos enviados:", dataItem);
         submit(dataItem, { method: "delete" });
     }
 

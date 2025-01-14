@@ -1,0 +1,71 @@
+{
+
+    "components" : [
+        {
+            "id" : 1,
+            "item" : "<p>A</p>",
+            "style" : {
+                "backgroundColor" : "red",
+                "height" : "100px",
+                "userSelect": "none"
+            },
+            "defaultPosition" : {
+                "row" : 1,
+                "column" : 1,
+                "rowSpan" : 1,
+                "columnSpan" : 3,
+                "order" : 1
+            }
+            
+        },
+        {
+            "id" : 2,
+            "item" : "<p>B</p>",
+            "style" : {
+                "backgroundColor" : "blue",
+                "height" : "150px",
+                "userSelect": "none"
+            },
+            "defaultPosition" : {
+                "row" : 2,
+                "column" : 1,
+                "rowSpan" : 1,
+                "columnSpan" : 3,
+                "order" : 2
+            }  
+        },
+        {
+            "id" : 3,
+            "item" : "<p>C</p>",
+            "style" : {
+                "backgroundColor" : "green",
+                "height" : "250px",
+                "userSelect": "none"
+            },
+            "defaultPosition" : {
+                "row" : 3,
+                "column" : 1,
+                "rowSpan" : 1,
+                "columnSpan" : 3,
+                "order" : 3
+            }  
+        },
+        {
+            "id" : 4,
+            "item" : "<p>C</p>",
+            "style" : {
+                "backgroundColor" : "pink",
+                "height" : "50px",
+                "userSelect": "none"
+            },
+            "defaultPosition" : {
+                "row" : 4,
+                "column" : 1,
+                "rowSpan" : 1,
+                "columnSpan" : 3,
+                "order" : 4
+            }
+
+        }
+    ]
+}

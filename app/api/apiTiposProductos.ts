@@ -20,6 +20,7 @@ export const getTiposProductos = async ({ request }: { request: Request }) => {
         throw new Error(`Failed to fetch data: ${errorText}`);
     }
 
-    const result = await response.json();
-    return result;
+    return response.json();
+    
+   
 };

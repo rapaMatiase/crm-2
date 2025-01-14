@@ -19,6 +19,6 @@ export const getUnidadesMedida = async ({ request }: { request: Request }) => {
 
     const unidadesMedidaData = await response.json();
 
-    return json({unidadesMedidaData});
+    return {unidadesMedidaData};
 
 }

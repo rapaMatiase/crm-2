@@ -41,5 +41,5 @@ export const getGruposProducto = async ({ request }: { request: Request }) => {
 
     const gruposProductosData = await response.json();
 
-    return json({gruposProductosData});
+    return {gruposProductosData};
 }

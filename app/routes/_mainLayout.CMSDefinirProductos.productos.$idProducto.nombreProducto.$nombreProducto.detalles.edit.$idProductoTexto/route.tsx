@@ -38,7 +38,6 @@ export const action: ActionFunction = async ({ request, params }) => {
     tipoTexto,
     texto
   }
-  console.log(data)
   const response = await postSetTexto({ request, idProducto, data });
 
  /*  if (!response.ok) {

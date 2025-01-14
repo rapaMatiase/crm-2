@@ -6,3 +6,4 @@ export const ROUTE_LOGIN = "/login";
 export const ROUTE_LOGOUT = "/logout";
 export const ROUTE_BASE_MARCAS = "/CMSDefinirMarcasProductos";
 export const ROUTE_BASE_OTROS = "/CMSOtrosContenidos";
+export const ROUTE_BASE_TIPOS_CONTENIDO = "/CMSTiposContenidos";

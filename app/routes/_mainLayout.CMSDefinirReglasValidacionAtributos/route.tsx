@@ -29,7 +29,9 @@ export const loader: LoaderFunction = async ({request}) => {
         return( { statusText: response.statusText, status: response.status })
     }
 
-    return {reglasValidacionAtributoData};
+    return  {reglasValidacionAtributoData };
+
+    
 };
 
 export default function CMSDefinirRelgasValidacionAtributos() {

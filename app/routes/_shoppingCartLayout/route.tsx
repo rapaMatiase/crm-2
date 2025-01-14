@@ -1,69 +1,52 @@
 //REMIX
-import {  LoaderFunction } from "@remix-run/node";
-import {  Outlet, useLoaderData } from "@remix-run/react";
+import { LoaderFunction } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
 //API
 import { getStyles } from "~/api/apiStyles";
 import { GridLayout, GridLayoutItem } from "@progress/kendo-react-layout";
 import { getCentrosOperaciones } from "~/api/apiCentrosOperaciones";
-//JSON HARCODEADO
-import jsonRedesSociales from "~/api/apiRedesSociales";
+
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stylessData = await getStyles({ request, params });
-    const centrosDeOperacion = await getCentrosOperaciones({ request });
-    return { stylessData,  centrosDeOperacion };
+    return { stylessData};
 }
 
 export default function TemplateBasic() {
-    const { stylessData, centrosDeOperacion } = useLoaderData<{ stylessData: any }>();
+    const { stylessData } = useLoaderData<{ stylessData: any }>();
 
     return (
         <>
-        <GridLayout 
-            cols={[
-                {width : "1fr"},{width : "1fr"},{width : "1fr"},{width : "1fr"},
-                {width : "1fr"},{width : "1fr"},{width : "1fr"},{width : "1fr"},
-                {width : "1fr"},{width : "1fr"},{width : "1fr"},{width : "1fr"}]}
-            rows={[ {height : "auto"}, {height : "auto"}, {height : "auto"}]}
-            style={{ width: "100%"}}
-        >
-
-        </GridLayout>
+            <GridLayout
+                className="cms-main-grid"
+                cols={[{width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"},
+                    {width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"},
+                    {width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"}
+                ]}
+            >
+                <Outlet />  
+                <div id="div-1" className="cms-div-1"></div>
+                <div id="div-2" className="cms-div-2"></div>
+                <div id="div-3" className="cms-div-3"></div>
+                <div id="div-4" className="cms-div-4"></div>
+                <div id="div-5" className="cms-div-5"></div>
+                <div id="div-6" className="cms-div-6"></div>
+                <div id="div-7" className="cms-div-7"></div>
+                <div id="div-8" className="cms-div-8"></div>
+                <div id="div-9" className="cms-div-9"></div>
+                <div id="div-10" className="cms-div-10"></div>
+                <div id="div-11" className="cms-div-11"></div>
+                <div id="div-12" className="cms-div-12"></div>
+                <div id="div-13" className="cms-div-13"></div>
+                <div id="div-14" className="cms-div-14"></div>
+                <div id="div-15" className="cms-div-15"></div>
+                <div id="div-16" className="cms-div-16"></div>
+                <div id="div-17" className="cms-div-17"></div>
+                <div id="div-18" className="cms-div-18"></div>
+                <div id="div-19" className="cms-div-19"></div>
+                <div id="div-20" className="cms-div-20"></div>
+            </GridLayout>
             <style dangerouslySetInnerHTML={{ __html: stylessData }} />
-            <Outlet />
-            <footer >
-                <GridLayout className="cms-footer-grid cms-footer">
-                    <GridLayoutItem className="cms-footer-grid_titulo cms-footer_titulo" >
-                            <h1>Titulo </h1>
-                    </GridLayoutItem>
-                    {centrosDeOperacion.map((item, index) => {
-                        return (
-                            <GridLayoutItem key={`footer-${index}`} className={`cms-footer-grid_item-${index}  cms-footer_item-todos`}  >
-                                    <span> {item.idCentrosOperaciones} </span>
-                                    <span> {item.nombre} </span>
-                                    <span> {item.activo} </span>
-                            </GridLayoutItem>)
-                    })}
-                 
-                </GridLayout>
-            </footer>
-        <div className='cms-home-body_redesSociales'>
-        <GridLayout >
-            <GridLayoutItem  >
-                <h1>Conoce nuestras redes! </h1>
-            </GridLayoutItem>
-            {jsonRedesSociales.map((red, index) => (
-                <a key={index} href={red.url} target="_blank" rel="noopener noreferrer">
-                    <img
-                        src={red.iconoBase64}
-                        alt={red.nombre}
-                        style={{ width: "30px", height: "30px", marginRight: "10px" }}
-                    />
-                    
-                </a>
-            ))}
-        </GridLayout>
-        </div>
         </>
     )
 }
