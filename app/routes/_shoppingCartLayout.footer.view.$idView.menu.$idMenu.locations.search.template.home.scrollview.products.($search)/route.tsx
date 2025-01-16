@@ -71,7 +71,7 @@ const MyItemRender = (props: ListViewItemProps, dataHtml: string) => {
                     }}
                     className="cms-tarjetas_cuerpo"
                 >
-                    {createComponent(dataHtml.body[0], props.dataItem)}
+                    {createComponent(dataHtml.div[0], props.dataItem)}
                 </CardTitle>
             </Card>
         </ListViewItemWrapper>

@@ -67,9 +67,6 @@ export default function Component() {
         </div>
         </a>
       </GridLayoutItem>
-
-
-
       <Outlet />
     </>
   );

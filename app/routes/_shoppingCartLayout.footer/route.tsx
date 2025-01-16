@@ -1,6 +1,6 @@
 //REMIX
 import { LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { isRouteErrorResponse, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
 import { ListView, ListViewItemProps } from "@progress/kendo-react-listview";
 //API
 import { getStyles } from "~/api/apiStyles";
@@ -21,7 +21,7 @@ const itemRender = (props: ListViewItemProps, dataHtml: string) => {
     const item = props.dataItem;
     return (
         <div className="cms-centros-operaciones_lista-item" >
-            {createComponent(dataHtml.body[0], props.dataItem)}
+            {createComponent(dataHtml.div[0], props.dataItem)}
             {/* <span> {item.nombre} </span>
             <span> {item.calle} {item.numero}- {item.localidad} - {item.nombreProvincia} </span> */}
         </div>
@@ -54,3 +54,14 @@ export default function TemplateBasic() {
     )
 }
 
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return <div>{error.status} - {error.statusText}</div>
+    }
+
+    return <>
+        <div> Si estas viendo este texto, no hay datos para la lista de sucursales. 22</div>
+    </>
+}

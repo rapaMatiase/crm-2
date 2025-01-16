@@ -1,9 +1,23 @@
+:root{
+
+}
+
+.cms-html{
+
+}
+
+
+.cms-body-elemento{
+--margen : 0;
+margin: var(--margen);
+}
+
+
 .cms-main-grid {
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 0;
     width: 100%;
 }
-
 
 
 /* HEADER  */
@@ -13,8 +27,16 @@
     --grid-fila-fin: 2;
     --grid-columna-inicio: 1;
     --grid-columna-fin: 3;
+    --altura : 100px;
     grid-area: var(--grid-fila-inicio) / var(--grid-columna-inicio) / var(--grid-fila-fin) / var(--grid-columna-fin) !important;
-    height: 100px;
+    height: var(--altura);
+    --color-fondo: transparent;
+    background-color: var(--color-fondo) !important;
+}
+
+.cms-header_logo div{
+    --imagen : "";
+    background-image: var(--imagen);
 
 }
 

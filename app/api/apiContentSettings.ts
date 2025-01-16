@@ -100,7 +100,32 @@ export const getVistas = async ({ request }: { request: Request }) => {
         redirect(`${ROUTE_LOGIN}`);
     }
 
-    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.VISTA}`,
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_VISTAS}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: token
+            }
+        }
+    );
+
+    const vistasData = await response.json();
+
+    return vistasData;
+}
+
+export const getVista = async ({ request, params }: { request: Request, params: any}) => {
+    const cookie = request.headers.get("Cookie");
+    const session = await getSession(cookie);
+    const { token } = session.get("user");
+
+    const {idView} = params;
+
+    if (token === undefined) {
+        redirect(`${ROUTE_LOGIN}`);
+    }
+
+    const response = await fetch(`${API_ENDPOINTS_CONTENT_SETTEINGS.GET_VISTA}/IdVista/${idView}`,
         {
             method: "GET",
             headers: {

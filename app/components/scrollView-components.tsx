@@ -27,6 +27,7 @@ const Card = ({ item, dataHtml }: { item: { image: string; ProductName: string; 
                 draggable={false}
             />
             <div style={{ padding: "10px" }}>
+                //
                 {createComponent(dataHtml.body[0], item)}
                 {isHovered && <Button style={{ width: "100%", marginTop: "10px" }}>Comprar</Button>}
             </div>

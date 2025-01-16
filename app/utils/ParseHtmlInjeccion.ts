@@ -52,8 +52,16 @@ function createComponentLeaf(dataHtml, dataItem) {
         );
     }
 
+    const listaDeKeys =  Object.keys(dataItem) ;
+    
+
+    const upperCaseKeys = listaDeKeys.map(key => key.toUpperCase());
+
     const contenido = Text.replace(/#(\w+)#/g, (_: string, key: string) => {
-        return dataItem[key] !== undefined ? dataItem[key] : `#${key}#`;
+
+        const position  = upperCaseKeys.indexOf(key.toUpperCase());
+
+        return position === -1 ? `#${key}#` : dataItem[listaDeKeys[position]]  ;
     })
 
     return React.createElement(
@@ -73,7 +81,7 @@ function createComponentContainer(dataHtml, dataItems) {
     );
     return elemento
 }
-
+ 
 export function createComponent(dataHtml, dataItem) {
     const { Tag, Attributes, Text } = dataHtml;
 

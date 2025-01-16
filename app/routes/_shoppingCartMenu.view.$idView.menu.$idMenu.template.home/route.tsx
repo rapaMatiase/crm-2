@@ -1,11 +1,12 @@
 //REMIX
-import { Outlet } from "@remix-run/react";
+import { Outlet, Link } from "@remix-run/react";
 //TELERIK
 import { GridLayout } from '@progress/kendo-react-layout';
 
 export default function Home() {
     return (
         <>
+        <Link to="/redirect/view/17/menu/1"> ir a lista de productos</Link>
             <GridLayout className="cms-home-body-grid cms-home-body" >
                 {/* <div className="cms-div-1" ></div>
                 <div className="cms-div-2"></div>

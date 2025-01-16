@@ -54,7 +54,8 @@ export const API_ENDPOINTS_LOGIN = {
 export const API_ENDPOINTS_CONTENT_SETTEINGS = {
     IMAGE : `${API_BASE_URL}/ContentSettings/GetImagen`,
     MENU : `${API_BASE_URL}/ContentSettings/ContentSettings/GetMenu`, 
-    VISTA : `${API_BASE_URL}/ContentSettings/ContentSettings/GetVistas`,
+    GET_VISTAS : `${API_BASE_URL}/ContentSettings/ContentSettings/GetVistas`,
+    GET_VISTA : `${API_BASE_URL}/ContentSettings/ContentSettings/GetVista`,
     GET_ATRIBUTOS_CMS : `${API_BASE_URL}/ContentSettings/GetAtributosCMS`,
     SET_IMAGEN : `${API_BASE_URL}/ContentSettings/SetImagen`,
     GET_ITEMS: `${API_BASE_URL}/ContentSettings/GetItems`,

@@ -5,9 +5,6 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import { isRouteErrorResponse, LoaderFunction, useNavigate, useRouteError } from 'react-router-dom';
 import { getImage, postCarruselConfig } from '~/api/apiContentSettings';
 import menuActionAnalyzer from "~/utils/menuActionAnalyzer";
-import { Button } from '@progress/kendo-react-buttons';
-
-
 
 function removeFirstPartUntilPoint(str: string): string {
     const pointIndex = str.indexOf('.');
@@ -32,8 +29,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     return { data };
 }
-
-
 
 export default function Component() {
 
@@ -74,10 +69,7 @@ export default function Component() {
                     {Items.map((item, index) => {
                         return (
                             <div className='cms-home-body_scrollView-detalle' style={{ position: "relative", width: "100%", height: "100%" }} key={index}>
-                                <div style={{ position: "absolute", backgroundColor: "", height: "40%", width: "35%", color: "white", background: "rgba(0,100,150,0.6)", top: "25%" }}>
-                                    {item.Content}
-                                    {item.Url === '' ? "" : <Button onClick={() => handleSelectMenu(item.Url)} > Mas detalle </Button>}
-                                </div>
+                                
                                 <img
                                     src={item.image}
                                     alt={`${item.Alt}`}

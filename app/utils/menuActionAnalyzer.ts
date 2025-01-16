@@ -17,7 +17,7 @@ class ActionAnalyzer {
         this.strategy = strategy;
     }
 
-    analyze(action: string, navigate: Function, urlParamsManager: any, idVista: string, idMenu: string): void {
+    analyze(action: string, navigate: Function, urlParamsManager: any, idVista: string, idMenu: string, templateName: undefined): void {
 
         if (action === "") {
             this.setStrategy(new EmptyMenuActionStrategy());
@@ -29,7 +29,7 @@ class ActionAnalyzer {
             this.setStrategy(new DefaultMenuActionStrategy());
         }
 
-        this.strategy.execute(action, navigate, urlParamsManager, idVista, idMenu);
+        this.strategy.execute(action, navigate, urlParamsManager, idVista, idMenu, templateName);
     }
 }
 

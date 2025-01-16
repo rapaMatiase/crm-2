@@ -19,10 +19,10 @@ export default function TemplateBasic() {
         <>
             <GridLayout
                 className="cms-main-grid"
-                cols={[{width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"},
+                /* cols={[{width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"},
                     {width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"},
                     {width : "1fr"}, {width : "1fr"}, {width : "1fr"}, {width : "1fr"}
-                ]}
+                ]} */
             >
                 <Outlet />  
                 <div id="div-1" className="cms-div-1"></div>
