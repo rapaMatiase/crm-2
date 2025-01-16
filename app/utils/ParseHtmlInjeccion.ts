@@ -25,29 +25,29 @@ function convertAttributes(attributes, additionalAttributes = "") {
 
 function createComponentLeaf(dataHtml, dataItem) {
     const { Tag, Attributes, Text } = dataHtml;
-    if (Tag === "a" && Text.includes("#comprar#") && dataItem.esVendible === true) {
-        const contenido = "Comprar"
+    if (Tag === "a" && Text.includes("#BOTONCARRITO#") && dataItem.esVendible === true) {
+        const contenido = "carrito"
         return React.createElement(
             Tag,
-            convertAttributes(Attributes, "cms-boton-comprar"),
+            convertAttributes(Attributes, "cms-botoncarrito"),
             contenido
         );
     }
 
-    if (Tag === "a" && Text.includes("#alquilar#") && dataItem.esAlquilable === true) {
-        const contenido = "Alquilar"
+    if (Tag === "a" && Text.includes("#BOTONVTA#") && dataItem.esAlquilable === true) {
+        const contenido = "venta o compra"
         return React.createElement(
             Tag,
-            convertAttributes(Attributes, "cms-boton-alquilar"),
+            convertAttributes(Attributes, "cms-botonvta"),
             contenido
         );
     }
 
-    if (Tag === "a" && Text.includes("#oferta#") && dataItem.esOferta === true) {
-        const contenido = "Oferta"
+    if (Tag === "a" && Text.includes("#BOTONALQ#") && dataItem.esOferta === true) {
+        const contenido = "alquiler"
         return React.createElement(
             Tag,
-            convertAttributes(Attributes, "cms-boton-oferta"),
+            convertAttributes(Attributes, "cms-botonalq"),
             contenido
         );
     }
