@@ -141,6 +141,7 @@ export const Header: React.FC<HeaderProps> = ({ title, menuItems, sucursales }) 
                                             alignItems: "center",
                                             gap: "10px",
                                         }}
+                                       
                                     >
                                         <Field
                                             id={"username"}

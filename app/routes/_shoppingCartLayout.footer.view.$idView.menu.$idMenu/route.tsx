@@ -114,7 +114,7 @@ export default function Component() {
             <GridLayoutItem row={2} col={1} colSpan={3} className="cms-menu">
                 <AppBar>
                     <AppBarSection >
-                        <Menu className="cms-menu_seccion-menu" items={menuItems} onSelect={handleSelectMenu} />
+                        <Menu className="cms-menu_seccion-menu" items={menuItems} id="cms-menu-id" onSelect={handleSelectMenu} />
                     </AppBarSection>
                 </AppBar>
             </GridLayoutItem>
