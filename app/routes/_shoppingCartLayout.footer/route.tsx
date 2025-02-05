@@ -21,7 +21,7 @@ const itemRender = (props: ListViewItemProps, dataHtml: string) => {
     const item = props.dataItem;
     return (
         <div className="cms-centros-operaciones_lista-item" >
-            {createComponent(dataHtml.body[0], props.dataItem)}
+            {createComponent(dataHtml.div[0], props.dataItem)}
             {/* <span> {item.nombre} </span>
             <span> {item.calle} {item.numero}- {item.localidad} - {item.nombreProvincia} </span> */}
         </div>

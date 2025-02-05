@@ -75,7 +75,7 @@ const MyItemRender = (props, dataHtml) => {
                         }}
                         className="cms-body_tarjeta-cuerpo"
                     >
-                        {createComponent(dataHtml.body[0], props.dataItem)}
+                        {createComponent(dataHtml.div[0], props.dataItem)}
 
                     </CardTitle>
                 </div>
